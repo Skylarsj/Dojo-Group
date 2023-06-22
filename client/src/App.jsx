@@ -12,7 +12,7 @@ function App() {
       <div className="absolute w-[61.5%] h-[35.7%] top-[44.2%] left-[52%] transform -translate-x-1/2 -translate-y-1/2">
         <BrowserRouter>
           <Routes>
-            <Route element={<LogIn />} path="/" />
+            <Route element={<LogIn />} path="/"/>
           </Routes>
         </BrowserRouter>
       </div>
