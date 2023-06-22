@@ -1,7 +1,5 @@
 import React from 'react'
 import { useState } from 'react'
-import map from '../img/map.png'
-
 
 const Map = () => {
 
