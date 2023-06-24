@@ -4,13 +4,31 @@ import { useState } from 'react'
 
 const Map = () => {
 
+const [pokemon, setPokemon] = useState({});
+
     //Handling logic to get random pokemon
 const getPokemonData = async (pokemonType) => {
 try {
-    const response = await axios.get(`https://pokeapi.co/api/v2/type/${pokemonType}`);
-    const pokemonData = response.data;
-    console.log(pokemonData);
-    console.log(pokemonData.pokemon.length)
+    //call API w/ pokemonType as the perameter
+
+        const response = await axios.get(`https://pokeapi.co/api/v2/type/${pokemonType}`);
+
+    //store the data from the API call
+        const pokemonData = response.data;
+
+    //get a random pokemon from the data, this will return an ID number
+        const randomPokemon = Math.floor(Math.random() * pokemonData.pokemon.length);
+
+    //get the name of the random pokemon using the ID number from the previous step
+        const pokemonName = pokemonData.pokemon[randomPokemon].pokemon.name;
+
+    //call the API again with the random pokemon name to get all the data of said pokemon
+        const pokemonResponse = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+
+    //store the data from the API call
+        const pokemon = pokemonResponse.data;
+    setPokemon(pokemon);
+
 } catch (error) {
     console.error(error);
 }
