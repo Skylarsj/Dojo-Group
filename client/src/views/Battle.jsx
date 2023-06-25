@@ -1,18 +1,17 @@
 import React from "react";
 import { useState, useEffect } from "react";
 // components
-import Map from "../components/map.jsx";
+import Battle from "../components/CapturePokemon.jsx";
 
 
-const PokemonSearch = () => {
+const BattlePokemon = () => {
 
     return (
         <>
         <div className="w-full h-full">
-            <Map/>
-
+            <Battle/>
         </div>
         </>
 )
 }
-export default PokemonSearch
+export default BattlePokemon

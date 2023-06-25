@@ -1,9 +1,9 @@
 import React from 'react'
 import axios from 'axios'
-import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-const Map = ({getPokemon}) => {
-
+const Map = () => {
+const Navigate = useNavigate();
 const getPokemonData = async (pokemonType) => {
 try {
     const response = await axios.get(`https://pokeapi.co/api/v2/type/${pokemonType}`);
@@ -19,7 +19,7 @@ try {
         getPokemonData(pokemonType);
     } else {
 //send the pokemon data to the parent component if it has a sprite
-    getPokemon(pokemon);
+    Navigate(`/battle`);
     }
 } catch (error) {
     console.error(error);

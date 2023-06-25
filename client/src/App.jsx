@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
 //component imports
 import LogIn from './components/LogIn'
+import Navbar from './components/navbar'
 //view imports
 import PokemonSearch from './views/PokemonSearch'
 
@@ -18,8 +19,10 @@ function App() {
           <Routes>
             <Route element={<LogIn />} path="/"/>
             <Route element={<PokemonSearch />} path="/map"/>
+            <Route element={<PokemonSearch />} path="/battle"/>
           </Routes>
         </BrowserRouter>
+        <Navbar/>
       </div>
     </div>
   );
