@@ -19,7 +19,7 @@ try {
         getPokemonData(pokemonType);
     } else {
 //send the pokemon data to the parent component if it has a sprite
-    Navigate(`/battle`);
+    Navigate(`/battle`, { state: { pokemon } });
     }
 } catch (error) {
     console.error(error);
