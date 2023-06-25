@@ -2,26 +2,24 @@ import React from 'react'
 import axios from 'axios'
 import { useState } from 'react'
 
-const Map = () => {
-
-const [pokemon, setPokemon] = useState({});
+const Map = ({getPokemon}) => {
 
 const getPokemonData = async (pokemonType) => {
 try {
-    //call API w/ pokemonType as the perameter
-
-        const response = await axios.get(`https://pokeapi.co/api/v2/type/${pokemonType}`);
-
-    //store the data from the API call
-        const pokemonData = response.data;
+    const response = await axios.get(`https://pokeapi.co/api/v2/type/${pokemonType}`);
+//store the data from the API call
+    const pokemonData = response.data;
             const randomPokemon = Math.floor(Math.random() * pokemonData.pokemon.length);
             const pokemonName = pokemonData.pokemon[randomPokemon].pokemon.name;
-                pokemonResponse = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
-
-    //store the data from the API call
-        const pokemon = pokemonResponse.data;
-    setPokemon(pokemon);
-
+            const pokemonResponse = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+    const pokemon = pokemonResponse.data;
+//login to see if the pokemon has a sprite
+    if (pokemon.sprites === null) {
+        getPokemonData(pokemonType);
+    } else {
+//send the pokemon data to the parent component if it has a sprite
+    getPokemon(pokemon);
+    }
 } catch (error) {
     console.error(error);
 }
