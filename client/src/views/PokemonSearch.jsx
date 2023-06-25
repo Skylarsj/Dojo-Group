@@ -10,7 +10,6 @@ const PokemonSearch = () => {
         <>
         <div className="w-full h-full">
             <Map/>
-
         </div>
         </>
 )

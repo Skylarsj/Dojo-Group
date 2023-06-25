@@ -3,9 +3,9 @@ import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
 //component imports
-import LogIn from './components/LogIn'
 import Navbar from './components/navbar'
 //view imports
+import LogIn from './views/LogIn'
 import PokemonSearch from './views/PokemonSearch'
 import Battle from './views/Battle'
 
