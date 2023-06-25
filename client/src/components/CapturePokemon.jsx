@@ -5,13 +5,22 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const Battle = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const { pokemon } = location.state || {};
-//if there is no pokemon, redirect to the map
+    const { pokemon } = location.state || "";
+    const [isLoading, setIsLoading] = useState(true);
+    const 
+
     useEffect(() => {
-        if(!pokemon){
+        if (pokemon === null || pokemon === undefined) {
             navigate('/map');
+        } else {
+            setIsLoading(false);
         }
     }, [pokemon, navigate]);
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
 
     return(
         <>
@@ -24,15 +33,15 @@ const Battle = () => {
                 alt={pokemon.name}/>
         </div>
 {/* BATTLE TAG */}
-    <div>
-        <p className="absolute left-4 top-10 z-50 font-mono text-black">{pokemon.name}</p>
-        <div className="absolute left-[-120px] top-[-80px] z-[-30px] bg-no-repeat overflow-auto">
-            <img
-                className="w-[500px] h-full object-contain"
-                src='./src/img/BattleTag.png'
-                alt={pokemon.name}/>
+        <div>
+            <p className=" w-[110px] h-6 absolute left-4 top-10 z-50 font-mono text-black">{pokemon.name}</p>
+            <div className="absolute left-[-120px] top-[-80px] z-[-30px] bg-no-repeat overflow-auto">
+                <img
+                    className="w-[500px] h-full object-contain"
+                    src='./src/img/BattleTag.png'
+                    alt={pokemon.name}/>
+            </div>
         </div>
-    </div>
 {/* ASH SPRITE */}
         <div className="absolute left-[-30px] top-[90px] z-5 bg-no-repeat overflow-auto">
             <img
