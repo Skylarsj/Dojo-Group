@@ -6,7 +6,6 @@ const Map = () => {
 
 const [pokemon, setPokemon] = useState({});
 
-    //Handling logic to get random pokemon
 const getPokemonData = async (pokemonType) => {
 try {
     //call API w/ pokemonType as the perameter
@@ -15,15 +14,9 @@ try {
 
     //store the data from the API call
         const pokemonData = response.data;
-
-    //get a random pokemon from the data, this will return an ID number
-        const randomPokemon = Math.floor(Math.random() * pokemonData.pokemon.length);
-
-    //get the name of the random pokemon using the ID number from the previous step
-        const pokemonName = pokemonData.pokemon[randomPokemon].pokemon.name;
-
-    //call the API again with the random pokemon name to get all the data of said pokemon
-        const pokemonResponse = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+            const randomPokemon = Math.floor(Math.random() * pokemonData.pokemon.length);
+            const pokemonName = pokemonData.pokemon[randomPokemon].pokemon.name;
+                pokemonResponse = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
 
     //store the data from the API call
         const pokemon = pokemonResponse.data;
