@@ -16,14 +16,24 @@ const Battle = () => {
     return(
         <>
         <div className="absolute flex flex-col w-full h-full justify-center items-center inset-0 z-[-10] bg-no-repeat bg-cover" style={{ backgroundImage: `url('./src/img/NormalBattleBackground.jpeg')` }}/>
-
+{/* POKEMON SPRITE */}
         <div className="absolute left-[200px] top-12 z-5 bg-no-repeat overflow-auto">
             <img
                 className="w-[150px] h-[150px] object-contain"
                 src={pokemon.sprites.front_default}
                 alt={pokemon.name}/>
         </div>
-
+{/* BATTLE TAG */}
+    <div>
+        <p className="absolute left-4 top-10 z-50 font-mono text-black">{pokemon.name}</p>
+        <div className="absolute left-[-120px] top-[-80px] z-[-30px] bg-no-repeat overflow-auto">
+            <img
+                className="w-[500px] h-full object-contain"
+                src='./src/img/BattleTag.png'
+                alt={pokemon.name}/>
+        </div>
+    </div>
+{/* ASH SPRITE */}
         <div className="absolute left-[-30px] top-[90px] z-5 bg-no-repeat overflow-auto">
             <img
                 className="w-[250px] h-full object-contain"
