@@ -14,7 +14,8 @@ try {
             const pokemonResponse = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
     const pokemon = pokemonResponse.data;
 //login to see if the pokemon has a sprite
-    if (pokemon.sprites === null) {
+    if (pokemon.sprites.front_default === null) {
+        console.log("no sprite")
         getPokemonData(pokemonType);
     } else {
 //send the pokemon data to the parent component if it has a sprite
