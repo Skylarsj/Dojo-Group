@@ -12,6 +12,9 @@ import Battle from './views/Battle'
 import Register from './views/Register'
 
 function App() {
+  const [showMap, setShowMap] = useState(false)
+  const [showBattle, setShowBattle] = useState(true)
+
   return (
     //Pokedex
     <div className="bg-cover bg-center h-[950px] w-[550px] relative" style={{ backgroundImage: `url('./src/img/pokedex.png')` }}>
@@ -26,10 +29,10 @@ function App() {
             <Route element={<Battle />} path="/battle"/>
           </Routes>
         </BrowserRouter>
-        <Navbar/>
+        <Navbar showNavMap={showMap} showNavBattle={showBattle}/>
       </div>
     <div className="absolute bottom-[114px] rounded left-[162px] w-[169px] h-[81px]">
-      <PokedexData/>
+      <PokedexData />
     </div>
     </div>
   );

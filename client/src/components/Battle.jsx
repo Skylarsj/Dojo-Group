@@ -51,7 +51,7 @@ const Battle = () => {
             </div>
         </div>
 {/* ASH SPRITE */}
-        <div className="absolute left-[-30px] top-[90px] z-5 bg-no-repeat overflow-auto">
+        <div className="absolute left-[-30px] bottom-[11px] z-5 bg-no-repeat overflow-auto">
             <img
                 className="w-[250px] h-full object-contain"
                 src='./src/img/Ash_Battle.png'
