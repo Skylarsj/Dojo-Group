@@ -8,6 +8,7 @@ import Navbar from './components/navbar'
 import Login from './views/LogIn'
 import PokemonSearch from './views/PokemonSearch'
 import Battle from './views/Battle'
+import Register from './views/Register'
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route element={<Login />} path="/"/>
+            <Route element={<Register />} path="/register"/>
             <Route element={<PokemonSearch />} path="/map"/>
             <Route element={<Battle />} path="/battle"/>
           </Routes>
