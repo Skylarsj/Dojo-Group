@@ -1,5 +1,6 @@
 from server.config.mysqlconnection import connectToMySQL, jsonify
 
+import bcrypt
 from server.models import pokemonModel
 
 db = 'pokemon'
@@ -12,6 +13,7 @@ class User:
     self.username = db_data['username']
     self.email = db_data['email']
     self.password = db_data['password']
+    self.pokeballs = db_data['pokeballs']
     self.created_at = db_data['created_at']
     self.updated_at = db_data['updated_at']
     self.pokemon = []
@@ -54,8 +56,9 @@ class User:
           n = {
                 'id': row['pokemon.id'],
                 'user_id' : row['user_id'],
-                'name': row['name'],
+                'username': row['name'],
                 'SpriteURL': row['SpriteURL'],
+                'pokeballs': row['pokeballs'],
                 'created_at': row['pokemon.created_at'],
                 'updated_at': row['pokemon.updated_at']
             }
@@ -72,15 +75,11 @@ class User:
       is_valid = False
       return jsonify({'error': True, 'message': error_message})
      
-    if len(user['first_name']) < 2:
-      error_message = "First Name must be at least 2 characters."
+    if len(user['username']) < 3:
+      error_message = "Username must be at least 3 characters."
       is_valid = False
       return jsonify({'error': True, 'message': error_message})
      
-    if len(user['last_name']) < 2:
-      error_message = "Last Name must be at least 2 characters."
-      is_valid = False
-      return jsonify({'error': True, 'message': error_message})
       
     if not EMAIL_REGEX.match(user['email']): 
       error_message ="Invalid email address!" 

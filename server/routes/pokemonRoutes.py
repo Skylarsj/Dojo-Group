@@ -1,4 +1,4 @@
-from flask_app import app
+from server import app
 
 from flask import  redirect, request, session
 

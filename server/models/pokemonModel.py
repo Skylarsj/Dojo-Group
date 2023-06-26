@@ -1,4 +1,6 @@
-from server.config.mysqlconnection import connectToMySQL, jsonify, validators 
+from server.config.mysqlconnection import connectToMySQL
+
+import jsonify, validators 
 
 from server.models import userModel
 
@@ -14,6 +16,8 @@ class Pokemon:
       self.updated_at = db_data['updated_at']
       self.user = None
 
+
+    
     @classmethod
     def save_pokemon(cls, form_data):
       query = 'INSERT INTO pokemon(user_id, name, SpriteURL) VALUES(%(user_id)s, %(name)s, %(SpriteURL)s);'
@@ -62,33 +66,35 @@ class Pokemon:
       return this_pokemon
 
       
-    
+    #This will only update the name of the pokemon
+    #nickname pokemon
     @classmethod
     def update(cls, data):
-      query = "UPDATE pokemon SET name = %(name)s, SpriteURL = %(SpriteURL)s WHERE id = %(id)s;"
+      query = "UPDATE pokemon SET name = %(name)s WHERE id = %(id)s;"
       return connectToMySQL(db).query_db(query, data)
     
+    #release pokemon
     @classmethod
     def delete(cls, data):
       query = "DELETE FROM pokemon WHERE id = %(id)s;"
       return connectToMySQL(db).query_db(query, data)
     
 
-    # Not sure if we need this
+ 
 
-    # @staticmethod
-    # def validate_pokemon(form_data):
-    #   is_valid = True
-    #   if len(form_data['name']) < 3:
-    #     error_message = "Name must be at least 3 characters."
-    #     is_valid = False
-    #     return jsonify({'error': True, 'message': error_message})
-      
-    #check if url is valid
+    @staticmethod
+    def validate_pokemon(form_data):
+      is_valid = True
+      if len(form_data['name']) < 2:
+        error_message = "Name must be at least 2 characters."
+        is_valid = False
+        return jsonify({'error': True, 'message': error_message})
+  
 
-    #   if validators.url(form_data['SpriteURL']) != True:
-    #     error_message = "SpriteURL must be a valid URL."
-    #     is_valid = False
-    #     return jsonify({'error': True, 'message': error_message})
-    #   return is_valid
+      if validators.url(form_data['SpriteURL']) != True:
+        error_message = "SpriteURL must be a valid URL."
+        is_valid = False
+        return jsonify({'error': True, 'message': error_message})
+      return is_valid
+
     
