@@ -1,3 +1,5 @@
-from flask import Flask
+from flask_app import app
 
-server = Flask(__name__)
+if __name__ == "__main__":
+  app.run(debug=True)
+
