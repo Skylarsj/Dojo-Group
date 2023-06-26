@@ -1,5 +1,5 @@
 from flask import redirect, render_template, request, session, jsonify
-from server import app
+from launch import app
 from server.controllers.userController import create_user, login, logout
 
 @app.route('/register', methods=['POST'])
