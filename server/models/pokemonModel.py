@@ -80,8 +80,6 @@ class Pokemon:
       return connectToMySQL(db).query_db(query, data)
     
 
- 
-
     @staticmethod
     def validate_pokemon(form_data):
       is_valid = True

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Battle = () => {
     const navigate = useNavigate();
@@ -15,8 +15,7 @@ const Battle = () => {
         } else {
             setPokemonFontSize(20);
         }
-    }
-
+    };
     useEffect(() => {
         if (pokemon === null || pokemon === undefined) {
             navigate('/map');
