@@ -1,11 +1,11 @@
 import React from "react";
-import RegistrationForm from "../components/Register.jsx";
+import RegisterForm from "../components/RegisterForm.jsx";
 
 const Register = () => {
 
     return (
         <>
-            <RegistrationForm/>
+            <RegisterForm/>
         </>
     )
 }
