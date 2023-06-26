@@ -1,6 +1,6 @@
 import os
 from flask import Flask
-from __init__ import app
+from server import app
 # from server.routes.userRoutes import register, login, logout
 # from server.routes.pokemonRoutes import all_pokemon
 
