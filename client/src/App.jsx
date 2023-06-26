@@ -10,10 +10,19 @@ import Login from './views/LogIn'
 import PokemonSearch from './views/PokemonSearch'
 import Battle from './views/Battle'
 import Register from './views/Register'
+import Captured from './components/Captured'
 
 function App() {
   const [showMap, setShowMap] = useState(false)
   const [showBattle, setShowBattle] = useState(true)
+
+    const changeNavBar = () => {
+      const navMap = showMap
+      const navBattle = showBattle
+      console.log("changeNavBar");
+      setShowMap(prevShowMap => !prevShowMap);
+      setShowBattle(prevShowBattle => !prevShowBattle);
+  }
 
   return (
     //Pokedex
@@ -25,11 +34,12 @@ function App() {
           <Routes>
             <Route element={<Login />} path="/"/>
             <Route element={<Register />} path="/register"/>
-            <Route element={<PokemonSearch />} path="/map"/>
+            <Route element={<PokemonSearch changeNavBar={changeNavBar}/>} path="/map"/>
             <Route element={<Battle />} path="/battle"/>
+            <Route element={<Captured />} path="/captured"/>
           </Routes>
         </BrowserRouter>
-        <Navbar showNavMap={showMap} showNavBattle={showBattle}/>
+        <Navbar showMap={showMap} showNavBattle={showBattle}/>
       </div>
     <div className="absolute bottom-[114px] rounded left-[162px] w-[169px] h-[81px]">
       <PokedexData />

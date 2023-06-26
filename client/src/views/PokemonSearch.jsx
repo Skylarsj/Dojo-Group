@@ -4,7 +4,13 @@ import { useState, useEffect } from "react";
 import Map from "../components/map.jsx";
 
 
-const PokemonSearch = () => {
+const PokemonSearch = ({changeNavBar}) => {
+
+    if(changeNavBar){
+        changeNavBar(false);
+    } else {
+        changeNavBar(true);
+    }
 
     return (
         <>
