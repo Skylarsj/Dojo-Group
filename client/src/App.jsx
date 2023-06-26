@@ -3,11 +3,12 @@ import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
 //component imports
-import LogIn from './components/LogIn'
 import Navbar from './components/navbar'
 //view imports
+import Login from './views/LogIn'
 import PokemonSearch from './views/PokemonSearch'
 import Battle from './views/Battle'
+import Register from './views/Register'
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
     {/* This is where the different views will go for the pokedex */}
         <BrowserRouter>
           <Routes>
-            <Route element={<LogIn />} path="/"/>
+            <Route element={<Login />} path="/"/>
+            <Route element={<Register />} path="/register"/>
             <Route element={<PokemonSearch />} path="/map"/>
             <Route element={<Battle />} path="/battle"/>
           </Routes>
