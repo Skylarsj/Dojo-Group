@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const NavBattle = () => {
     return(
@@ -8,7 +9,7 @@ const NavBattle = () => {
                 <p className="font-mono text-black text-[20px] ml-[-10px] pt-6">x</p>
                 <p className="font-mono text-black text-[20px] pt-6">1</p>
             <a className="w-18 border rounded-md border-black h-auto m-4 ml-auto text-xs p-1.5 font-mono text-black bg-[#00C247]">Capture!</a>
-            <a className="w-18 border rounded-md border-black h-auto m-4 ml-auto text-xs p-1.5 font-mono text-black bg-[#00C247]">Go back</a>
+            <div className="w-18 border rounded-md border-black h-auto m-4 ml-auto text-xs p-1.5 font-mono text-black bg-[#00C247]">Go back</div>
         </div>
     );
 }
