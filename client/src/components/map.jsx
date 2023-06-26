@@ -27,7 +27,7 @@ try {
 };
 
     return (
-        <div className="flex flex-wrap bg-cover w-[340px] h-[290px]" style={{ backgroundImage: `url('./src/img/map2.png')` }}>
+        <div className="flex flex-wrap bg-cover w-[340px] h-[290px] overflow-hidden" style={{ backgroundImage: `url('./src/img/map2.png')` }}>
         {/* Upper Left */}
             <div className="w-1/3 h-1/2" onClick={() => getPokemonData('normal')}/>
         {/* Upper Middle */}
