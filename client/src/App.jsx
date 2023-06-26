@@ -5,7 +5,7 @@ import './App.css'
 //component imports
 import Navbar from './components/navbar'
 //view imports
-import LogIn from './views/LogIn'
+import Login from './views/LogIn'
 import PokemonSearch from './views/PokemonSearch'
 import Battle from './views/Battle'
 
@@ -18,7 +18,7 @@ function App() {
     {/* This is where the different views will go for the pokedex */}
         <BrowserRouter>
           <Routes>
-            <Route element={<LogIn />} path="/"/>
+            <Route element={<Login />} path="/"/>
             <Route element={<PokemonSearch />} path="/map"/>
             <Route element={<Battle />} path="/battle"/>
           </Routes>

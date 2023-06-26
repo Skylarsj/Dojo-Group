@@ -1,6 +1,33 @@
 import React from 'react'
+import { useState } from 'react'
 
-const LogIn = () => {
+const LoginForm = () => {
+    const [account, setAccount] = useState({
+        username: "",
+        password: ""
+    });
+
+const [errors, setErrors] = useState({});
+
+    const handleAccountChange = (e) => {
+        const { name, value } = e.target;
+        
+        setAccount((prevFormInput) => ({
+            ...prevFormInput,
+            [name]: value
+        }));
+    };
+//T O D O: Add handleSubmit function for backend
+    const handleSubmit = (e) => {
+        e.preventDefault();
+    
+        const payload = {
+            email: account.email,
+            password: account.password
+        };
+    }
+
+
     return (
         <div>
             <div className="bg-[#626466]">
@@ -12,19 +39,19 @@ const LogIn = () => {
                             type="text"
                             id="username"
                             name="username"
-                            value=""
-                            onChange=""
+                            value={account.username}
+                            onChange={handleAccountChange}
                         />
                     </div>
                     <div>
                         <input
-                            className="border rounded-md border-gray-500 h-10 w-[150px] bg-[#00C247] font-mono placeholder-black text-lg pl-1"
+                            className="border rounded-md border-gray-500 h-10 w-[150px] bg-[#00C247] font-mono  placeholder-black text-lg pl-1"
                             placeholder="password"
                             type="password"
                             id="password"
                             name="password"
-                            value=""
-                            onChange=""
+                            value={account.password}
+                            onChange={handleAccountChange}
                         />
                     </div>
                         <button className="flex items-center border rounded-md border-gray-500 h-10 w-10 bg-[#00C247] font-mono placeholder-black text-lg pl-2">Go</button>
@@ -34,4 +61,4 @@ const LogIn = () => {
     )
 }
 
-export default LogIn
+export default LoginForm

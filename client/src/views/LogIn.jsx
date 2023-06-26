@@ -1,18 +1,19 @@
 import React from "react";
 import { useState, useEffect } from "react";
 // components
-import LogIn from "../components/LogIn.jsx";
+import LoginForm from "../components/LogInForm.jsx";
 
 
-const BattlePokemon = () => {
+const Login = () => {
 
     return (
         <>
         <div className="flex flex-col w-full h-full items-center justify-center">
-            <img className="w-[300px] h-auto py-14" src="./src/img/PokeAPI.png" alt="Logo"/>
-            <LogIn/>
+            <img className="w-[300px] h-auto py-[77px]" src="./src/img/PokeAPI.png" alt="Logo"/>
+            <a href="#">Don't have an account?</a>
+            <LoginForm/>
         </div>
         </>
 )
 }
-export default BattlePokemon
+export default Login
