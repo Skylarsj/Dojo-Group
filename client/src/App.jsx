@@ -1,6 +1,6 @@
 //standard imports
 import { useState } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import './App.css'
 //component imports
 import Navbar from './views/navbar'
@@ -16,6 +16,8 @@ function App() {
   const [showMap, setShowMap] = useState(false)
   const [showBattle, setShowBattle] = useState(true)
 
+  const location = useLocation();
+
     const changeNavBar = () => {
       const navMap = showMap
       const navBattle = showBattle
@@ -23,6 +25,11 @@ function App() {
       setShowMap(prevShowMap => !prevShowMap);
       setShowBattle(prevShowBattle => !prevShowBattle);
   }
+
+
+  const isMapView = location.pathname === '/map';
+  const isBattleView = location.pathname === '/battle';
+
 
   return (
     //Pokedex
@@ -39,7 +46,7 @@ function App() {
             <Route element={<Captured />} path="/captured"/>
           </Routes>
         </BrowserRouter>
-        <Navbar showMap={showMap} showNavBattle={showBattle}/>
+        {isMapView && <Navbar showMap={showMap} showNavBattle={showBattle} />}
       </div>
     <div className="absolute bottom-[114px] rounded left-[162px] w-[169px] h-[81px]">
       <PokedexData />
