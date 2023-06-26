@@ -36,7 +36,7 @@ const Battle = () => {
 {/* POKEMON SPRITE */}
         <div className="absolute right-[2px] top-[60px] z-5 bg-no-repeat overflow-auto">
             <img
-                className="w-[150px] h-[150px] object-contain"
+                className="w-[150px] h-[140px] object-contain"
                 src={pokemon.sprites.front_default}
                 alt={pokemon.name}/>
         </div>
@@ -60,7 +60,7 @@ const Battle = () => {
 
         <div className="bg-cover w-[340px] h-[290px] flex justify-center items-end">
             <img 
-                className="w-[350px] h-[250px] pt-11 object-contain"
+                className="w-[350px] h-[249px] pt-11 object-contain"
                 src="./src/img/PokemonBattleFloor.png"
                 alt="battle floor"
             />
