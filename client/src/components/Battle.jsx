@@ -34,7 +34,7 @@ const Battle = () => {
         <>
         <div className="absolute flex flex-col w-full h-full justify-center items-center inset-0 z-[-10] bg-no-repeat bg-cover" style={{ backgroundImage: `url('./src/img/NormalBattleBackground.jpeg')` }}/>
 {/* POKEMON SPRITE */}
-        <div className="absolute left-[200px] top-12 z-5 bg-no-repeat overflow-auto">
+        <div className="absolute right-[2px] top-[60px] z-5 bg-no-repeat overflow-auto">
             <img
                 className="w-[150px] h-[150px] object-contain"
                 src={pokemon.sprites.front_default}

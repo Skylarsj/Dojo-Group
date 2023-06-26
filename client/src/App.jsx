@@ -3,7 +3,8 @@ import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
 //component imports
-import Navbar from './components/navbar'
+import Navbar from './views/navbar'
+import PokedexData from './views/PokedexData'
 //view imports
 import Login from './views/LogIn'
 import PokemonSearch from './views/PokemonSearch'
@@ -27,6 +28,9 @@ function App() {
         </BrowserRouter>
         <Navbar/>
       </div>
+    <div className="absolute bottom-[114px] rounded left-[162px] w-[169px] h-[81px]">
+      <PokedexData/>
+    </div>
     </div>
   );
 }

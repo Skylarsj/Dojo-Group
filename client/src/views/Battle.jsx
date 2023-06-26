@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 // components
-import Battle from "../components/CapturePokemon.jsx";
+import Battle from "../components/Battle.jsx";
 
 
 const BattlePokemon = () => {
