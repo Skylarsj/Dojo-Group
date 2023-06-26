@@ -1,17 +1,17 @@
-from server.models import userModel
+from server.models.userModel import User
 from flask_bcrypt import Bcrypt
 
 bcrypt = Bcrypt()
 
 def create_user(data):
-  if not user.User.validate_User(data):
+  if not User.validate_User(data):
     return {'error': True, 'message': 'Invalid user data'}, False
 
   pw_hash = bcrypt.generate_password_hash(data['password'])
   print(pw_hash)
 
   data['password'] = pw_hash
-  user_id = user.User.save_user(data)
+  user_id = User.validate_User(data)
   if not user_id:
     return {'error': True, 'message': 'Failed to create user'}, False
 
@@ -19,7 +19,7 @@ def create_user(data):
 
 def login(email, password):
   data = {"email": email}
-  user_in_db = user.User.get_email(data)
+  user_in_db = User.get_email(data)
 
   if not user_in_db:
     return {'error': True, 'message': 'Email does not exist'}, False
