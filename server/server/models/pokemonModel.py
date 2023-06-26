@@ -1,8 +1,10 @@
 from server.config.mysqlconnection import connectToMySQL
 
-import jsonify, validators 
+from flask import jsonify
+import validators
 
 from server.models import userModel
+import re
 
 db = 'pokemon'
 
@@ -17,7 +19,6 @@ class Pokemon:
       self.user = None
 
 
-    
     @classmethod
     def save_pokemon(cls, form_data):
       query = 'INSERT INTO pokemon(user_id, name, SpriteURL) VALUES(%(user_id)s, %(name)s, %(SpriteURL)s);'
