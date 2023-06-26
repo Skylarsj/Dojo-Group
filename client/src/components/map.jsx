@@ -9,6 +9,7 @@ try {
     const response = await axios.get(`https://pokeapi.co/api/v2/type/${pokemonType}`);
 //store the data from the API call
     const pokemonData = response.data;
+    console.log(pokemonData);
             const randomPokemon = Math.floor(Math.random() * pokemonData.pokemon.length);
             const pokemonName = pokemonData.pokemon[randomPokemon].pokemon.name;
             const pokemonResponse = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
