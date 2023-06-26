@@ -50,7 +50,7 @@ const RegisterForm = () => {
                     <div>
                     {errors.username ? <p className="absolute top-[84px] left-[60px] text-xs text-black placeholder-black">{errors.username}</p> : null}
                         <input
-                            className="mb-5 border rounded border-gray-500 h-10 bg-[#00C247] placeholder-black text-lg pl-1"
+                            className="mb-2 border rounded border-gray-500 h-10 bg-[#00C247] placeholder-black text-lg pl-1"
                             placeholder="username"
                             type="text"
                             id="lastName"
@@ -60,7 +60,7 @@ const RegisterForm = () => {
                         />
                         {errors.email ? <p className="absolute top-[144px] left-[60px] text-xs text-black placeholder-black">{errors.email}</p> : null}
                         <input
-                            className="mb-5 border rounded border-gray-500 h-10 bg-[#00C247] placeholder-black text-lg pl-1"
+                            className="mb-2 border rounded border-gray-500 h-10 bg-[#00C247] placeholder-black text-lg pl-1"
                             placeholder="e-mail"
                             type="text"
                             id="email"
@@ -70,7 +70,7 @@ const RegisterForm = () => {
                         />
                         {errors.password ? <p className="absolute top-[204px] left-[60px] text-xs text-black placeholder-black">{errors.password}</p> : null}
                         <input
-                            className="mb-5 border rounded border-gray-500 h-10 bg-[#00C247] placeholder-black text-lg pl-1"
+                            className="mb-2 border rounded border-gray-500 h-10 bg-[#00C247] placeholder-black text-lg pl-1"
                             placeholder="password"
                             type="password"
                             id="password"
@@ -92,7 +92,7 @@ const RegisterForm = () => {
                         />
                     </div>
                     <button
-                        className="w-1/2 h-10 bg-gray text-md font-ligh pb-8 mt-2 font-mono"
+                        className="w-1/2 h-10 bg-gray text-md font-ligh mt-2 font-mono"
                         type="submit">register</button>
                 </form>
                 <a
