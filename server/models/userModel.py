@@ -1,15 +1,15 @@
-from flask_app.config.mysqlconnection import connectToMySQL
+from server.config.mysqlconnection import connectToMySQL, jsonify
 
+from server.models import pokemonModel
 
-
-db = 'dojo_group'
+db = 'pokemon'
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$') 
 
 class User:
   def __init__( self , db_data ):
     self.id = db_data['id']
-    self.Username = db_data['Username']
+    self.username = db_data['username']
     self.email = db_data['email']
     self.password = db_data['password']
     self.created_at = db_data['created_at']
@@ -18,17 +18,17 @@ class User:
 
   @classmethod
   def save_user(cls, form_data):
-    query= 'INSERT INTO user(Username, email, password) VALUES( %(Username)s, %(email)s, %(password)s );'
+    query= 'INSERT INTO user(username, email, password) VALUES( %(username)s, %(email)s, %(password)s );'
     return connectToMySQL(db).query_db(query, form_data)
   
   @classmethod
   def get_all(cls):
     query = 'SELECT * FROM user;'
     results = connectToMySQL(db).query_db(query)
-    users = []
+    user = []
     for user in results:
-      users.append(cls(user))
-    return users
+      user.append(cls(user))
+    return user
 
   @classmethod
   def get_email(cls, form_data):
@@ -46,22 +46,20 @@ class User:
 
   @classmethod
   def get_one_with_pokemon(cls, data ):
-      query = "SELECT * FROM user LEFT JOIN tree on user.id = tree.user_id WHERE user.id = %(id)s;"
+      query = "SELECT * FROM user LEFT JOIN pokemon on user.id = pokemon.user_id WHERE user.id = %(id)s;"
       results = connectToMySQL(db).query_db(query,data)
       print(results)
       user = cls(results[0])
       for row in results:
           n = {
-                'id': row['tree.id'],
+                'id': row['pokemon.id'],
                 'user_id' : row['user_id'],
-                'species': row['species'],
-                'location': row['location'],
-                'reason': row['reason'],
-                'date_planted': row['date_planted'],
-                'created_at': row['tree.created_at'],
-                'updated_at': row['tree.updated_at']
+                'name': row['name'],
+                'SpriteURL': row['SpriteURL'],
+                'created_at': row['pokemon.created_at'],
+                'updated_at': row['pokemon.updated_at']
             }
-          user.trees.append( tree.Tree(n) )
+          user.pokemon.append( pokemon.pokemon(n) )
       return user
 
   @staticmethod
@@ -70,38 +68,51 @@ class User:
     query = "SELECT * FROM user WHERE email = %(email)s;"
     results = connectToMySQL(db).query_db(query,user)
     if len(results) >= 1:
-      flash("Email already taken.","register")
+      error_message = "Email already taken." 
       is_valid = False
+      return jsonify({'error': True, 'message': error_message})
+     
     if len(user['first_name']) < 2:
-      flash("First Name must be at least 2 characters." ,"register")
+      error_message = "First Name must be at least 2 characters."
       is_valid = False
+      return jsonify({'error': True, 'message': error_message})
+     
     if len(user['last_name']) < 2:
-      flash("Last Name must be at least 2 characters." ,"register")
+      error_message = "Last Name must be at least 2 characters."
       is_valid = False
+      return jsonify({'error': True, 'message': error_message})
+      
     if not EMAIL_REGEX.match(user['email']): 
-      flash("Invalid email address!" ,"register")
+      error_message ="Invalid email address!" 
       is_valid = False
+      return jsonify({'error': True, 'message': error_message})
+      
     if len(user['password']) < 8:
-      flash("Password must be at least 8 characters." ,"register")
+      error_message = "Password must be at least 8 characters." 
       is_valid = False
+      return jsonify({'error': True, 'message': error_message})
+      
     if (user['password']) != user['confirm_password']:
-      flash("Passwords do not match." ,"register")
+      error_message = "Passwords do not match." ,"register"
       is_valid = False
+      return jsonify({'error': True, 'message': error_message})
+      
     return is_valid
 
   @staticmethod
   def validate_login(form_data):
     if not EMAIL_REGEX.match(form_data['email']):
-      flash("Invalid email/password.","login")
-      return False
+      error_message = "Invalid email/password."
+      return jsonify({'error': True, 'message': error_message}), False
+    
 
     user = User.get_by_email(form_data)
     if not user:
-      flash("Invalid email/password.","login")
-      return False
+     error_message = "Invalid email/password."
+     return jsonify({'error': True, 'message': error_message}), False
         
     if not bcrypt.check_password_hash(user.password, form_data['password']):
-      flash("Invalid email/password.","login")
-      return False
+      error_message = "Invalid email/password."
+      return jsonify({'error': True, 'message': error_message}), False
         
     return user
