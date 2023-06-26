@@ -10,7 +10,7 @@ const Login = () => {
         <>
         <div className="flex flex-col w-full h-full items-center justify-center">
             <img className="w-[300px] h-auto py-[77px]" src="./src/img/PokeAPI.png" alt="Logo"/>
-            <a href="#">Don't have an account?</a>
+            <a href="/register">Don't have an account?</a>
             <LoginForm/>
         </div>
         </>
