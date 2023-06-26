@@ -36,7 +36,7 @@ class Pokemon:
           'updated_at': row['user.updated_at']
         }
 
-        user = user.User(one_pokemon_user_data)
+        user = userModel.User(one_pokemon_user_data)
         one_pokemon.user = user
         pokemon.append(one_pokemon)
       return pokemon
@@ -58,7 +58,7 @@ class Pokemon:
         'created_at': result['user.created_at'],
         'updated_at': result['user.updated_at']
       }
-      this_pokemon.user = user.User(user_data)
+      this_pokemon.user = userModel.User(user_data)
       return this_pokemon
 
       

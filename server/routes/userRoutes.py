@@ -14,7 +14,7 @@ def register():
     return jsonify(result), 201  # Return success response with status code 201
 
 @app.route('/login', methods=['POST'])
-def user_login_post():
+def user_login():
     data = request.get_json()
     
     email = data.get('email')

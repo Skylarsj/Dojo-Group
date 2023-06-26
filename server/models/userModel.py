@@ -59,7 +59,7 @@ class User:
                 'created_at': row['pokemon.created_at'],
                 'updated_at': row['pokemon.updated_at']
             }
-          user.pokemon.append( pokemon.pokemon(n) )
+          user.pokemon.append( pokemonModel.Pokemon(n) )
       return user
 
   @staticmethod
