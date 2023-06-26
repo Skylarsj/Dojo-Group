@@ -1,17 +1,16 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 // components
-import Battle from "../components/CapturePokemon.jsx";
-
+import Battle from "../components/Battle.jsx";
 
 const BattlePokemon = () => {
 
-    return (
-        <>
-        <div className="w-full h-full">
-            <Battle/>
-        </div>
-        </>
-)
-}
-export default BattlePokemon
+return (
+    <>
+    <div className="w-full h-full">
+        <Battle />
+    </div>
+    </>
+);
+};
+
+export default BattlePokemon;

@@ -34,9 +34,9 @@ const Battle = () => {
         <>
         <div className="absolute flex flex-col w-full h-full justify-center items-center inset-0 z-[-10] bg-no-repeat bg-cover" style={{ backgroundImage: `url('./src/img/NormalBattleBackground.jpeg')` }}/>
 {/* POKEMON SPRITE */}
-        <div className="absolute left-[200px] top-12 z-5 bg-no-repeat overflow-auto">
+        <div className="absolute right-[2px] top-[60px] z-5 bg-no-repeat overflow-auto">
             <img
-                className="w-[150px] h-[150px] object-contain"
+                className="w-[150px] h-[140px] object-contain"
                 src={pokemon.sprites.front_default}
                 alt={pokemon.name}/>
         </div>
@@ -51,7 +51,7 @@ const Battle = () => {
             </div>
         </div>
 {/* ASH SPRITE */}
-        <div className="absolute left-[-30px] top-[90px] z-5 bg-no-repeat overflow-auto">
+        <div className="absolute left-[-30px] bottom-[11px] z-5 bg-no-repeat overflow-auto">
             <img
                 className="w-[250px] h-full object-contain"
                 src='./src/img/Ash_Battle.png'
@@ -60,7 +60,7 @@ const Battle = () => {
 
         <div className="bg-cover w-[340px] h-[290px] flex justify-center items-end">
             <img 
-                className="w-[350px] h-[250px] pt-11 object-contain"
+                className="w-[350px] h-[249px] pt-11 object-contain"
                 src="./src/img/PokemonBattleFloor.png"
                 alt="battle floor"
             />
