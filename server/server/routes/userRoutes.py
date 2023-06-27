@@ -6,6 +6,7 @@ from server.controllers.userController import create_user, login, logout
 @app.route('/')
 def index():
     print("hello world")
+    return jsonify({"message": "Hello World"})
 
 
 @app.route('/register', methods=['POST'])
