@@ -45,7 +45,7 @@ const RegisterForm = () => {
 
     return (
         <>
-            <div className="relative bg-[#626466] h-auto w-full mt-16 font-mono">
+            <div className="relative bg-[#626466] h-auto w-full mt-20 font-mono">
                 <form onSubmit={handleSubmit} className="txt-center pb-1">
                     <div>
                     {errors.username ? <p className="absolute top-[84px] left-[60px] text-xs text-black placeholder-black">{errors.username}</p> : null}
