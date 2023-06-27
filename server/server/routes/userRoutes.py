@@ -2,6 +2,12 @@ from flask import redirect, render_template, request, session, jsonify
 from server import app
 from server.controllers.userController import create_user, login, logout
 
+
+@app.route('/')
+def index():
+    print("hello world")
+
+
 @app.route('/register', methods=['POST'])
 def register():
     data = request.get_json()

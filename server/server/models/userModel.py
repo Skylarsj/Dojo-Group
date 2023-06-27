@@ -1,7 +1,8 @@
-from server.config.mysqlconnection import connectToMySQL, jsonify
+from server.config.mysqlconnection import connectToMySQL
 
 import bcrypt
 from server.models import pokemonModel
+import re
 
 db = 'pokemon'
 

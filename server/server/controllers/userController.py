@@ -28,6 +28,7 @@ def login(email, password):
     return {'error': True, 'message': 'Incorrect password'}, False
 
   return {'error': False, 'user_id': user_in_db.id}
-
-
-
+# I ADDED THIS IN LOL
+def logout():
+  session.clear()
+  return {'message': 'Logged out successfully'}

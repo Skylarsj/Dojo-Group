@@ -1,8 +1,8 @@
 import os
 from flask import Flask
 from server import app
-# from server.routes.userRoutes import register, login, logout
-# from server.routes.pokemonRoutes import all_pokemon
+from server.routes import userRoutes
+
 
 if __name__ == "__main__":
   app.run(debug=True)
