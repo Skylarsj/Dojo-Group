@@ -12,6 +12,7 @@ import Login from './views/LogIn'
 import PokemonSearch from './views/PokemonSearch'
 import Battle from './views/Battle'
 import Register from './views/Register'
+import Inventory from './views/Inventory'
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
             <Route element={<Login />} path="/" />
             <Route element={<Register />} path="/register" />
             <Route element={<PokemonSearch />} path="/map" />
+            <Route element={<Inventory />} path="/inventory" />
             <Route element={<Battle />} path="/battle" />
             <Route element={<Captured />} path="/captured" />
           </Routes>
