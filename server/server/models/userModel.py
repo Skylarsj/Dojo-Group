@@ -69,36 +69,43 @@ class User:
 
   @staticmethod
   def validate_User(user):
-      print("Validating user...")
-      is_valid = True  # we assume this is true
-      query = "SELECT * FROM user WHERE email = %(email)s;"
-      results = connectToMySQL(db).query_db(query, user)
-      if len(results) >= 1:
-          error_message = "Email already taken."
-          is_valid = False
-          return {'error': True, 'message': error_message}
+    print("Validating user...")
+  
+    query = "SELECT * FROM user WHERE email = %(email)s;"
+    results = connectToMySQL(db).query_db(query, user)
+    if len(results) >= 1:
+      error_message = "Email already taken."
+      print(error_message)
+      
+      return {'error': True, 'message': error_message}
+    print("email is valid")
 
-      if len(user['username']) < 3:
-          error_message = "Username must be at least 3 characters."
-          is_valid = False
-          return {'error': True, 'message': error_message}
+    if len(user['username']) < 3:
+      error_message = "Username must be at least 3 characters."
+      print(error_message)
+     
+      return {'error': True, 'message': error_message}
+      
+    if not EMAIL_REGEX.match(user['email']):
+      error_message = "Invalid email address!"
+      print(error_message)
+      
+      return {'error': True, 'message': error_message}
 
-      if not EMAIL_REGEX.match(user['email']):
-          error_message = "Invalid email address!"
-          is_valid = False
-          return {'error': True, 'message': error_message}
+    if len(user['password']) < 8:
+      error_message = "Password must be at least 8 characters."
+      print(error_message)
+   
+      return {'error': True, 'message': error_message}
 
-      if len(user['password']) < 8:
-          error_message = "Password must be at least 8 characters."
-          is_valid = False
-          return {'error': True, 'message': error_message}
+    if user['password'] != user['confirmPassword']:
+      error_message = "Passwords do not match."
+      print(error_message)
+   
+      return {'error': True, 'message': error_message}
 
-      if user['password'] != user['confirmPassword']:
-          error_message = "Passwords do not match."
-          is_valid = False
-          return {'error': True, 'message': error_message}
-
-      return is_valid
+    print("validation complete")
+    return {'error': False}
 
   @staticmethod
   def validate_login(form_data):
