@@ -48,29 +48,24 @@ const renderPokemonSprites = () => {
 };
 
 return (
-    <div className="flex flex-col w-full h-full overflow-hidden">
-    <div className="border h-1/2 w-full">
-        <div className="flex justify-between">
-        <button
-            className="bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-l"
-            onClick={goToPreviousPage}
-            hidden={currentPage === 0}
-        >
-            Previous
-        </button>
-        <button
-            className="bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-r"
-            onClick={goToNextPage}
-            disabled={currentPage === Math.ceil(pokemonSprites.length / 1) - 1} // Adjust the number of Pokémon per page here
-        >
-            Next
-        </button>
+    <div className="flex flex-col w-full h-full overflow-hidden bg-[#00C247]">
+        <div className="relative flex h-1/2 w-full">
+            <div className="absolute border rounded-xl w-12 h-1/2 right-1 top-9 flex items-center active:bg-green-500" onClick={goToNextPage} disabled={currentPage === Math.ceil(pokemonSprites.length / 1) - 1}>
+                <img src="./src/img/arrow.png" alt="arrow" />
+            </div>
+
+            <div className="absolute border rounded-xl w-12 h-1/2 left-1 top-9 flex items-center " onClick={goToPreviousPage} disabled={currentPage === Math.ceil(pokemonSprites.length / 1) - 1}>
+                <img className="rotate-180" src="./src/img/arrow.png" alt="arrow" />
+            </div>
+            <div className="ml-16">
+                <ul className="">
+                    {renderPokemonSprites()}
+                </ul>
+            </div>
         </div>
-        <ul className="flex flex-wrap justify-center">
-        {renderPokemonSprites()}
-        </ul>
+    <div className="h-1/2 w-full bg-slate-600">
+        <p>Pokeball logic will go here</p>
     </div>
-    <div className="border border-red-600 h-1/2 w-full"></div>
     </div>
 );
 };
