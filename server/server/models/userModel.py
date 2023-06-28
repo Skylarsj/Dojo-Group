@@ -70,29 +70,37 @@ class User:
   @staticmethod
   def validate_User(user):
       print("Validating user...")
+      print(user)
       error_message = None
+
+      error_messages = []
 
       query = "SELECT * FROM user WHERE email = %(email)s;"
       results = connectToMySQL(db).query_db(query, user)
-      if len(results) >= 1:
+      if results:
           error_message = "Email already taken."
+          error_messages.append({'error': True, 'email': error_message})
 
-      elif len(user['username']) < 3:
+      if len(user['username']) < 3:
           error_message = "Username must be at least 3 characters."
+          error_messages.append({'error': True, 'username': error_message})
 
-      elif not EMAIL_REGEX.match(user['email']):
+      if not EMAIL_REGEX.match(user['email']):
           error_message = "Invalid email address!"
+          error_messages.append({'error': True, 'email': error_message})
 
-      elif len(user['password']) < 8:
+      if len(user['password']) < 8:
           error_message = "Password must be at least 8 characters."
+          error_messages.append({'error': True, 'passowrd': error_message})
 
-      elif user['password'] != user['confirmPassword']:
+      if user['password'] != user['confirmPassword']:
           error_message = "Passwords do not match."
+          error_messages.append({'error': True, 'confirmPassword': error_message})
 
-      if error_message:
-          return {'error': True, 'message': error_message}
-
-      return {'error': False, 'message': "User is valid."}
+      if error_messages:
+          return {'error': True, 'message': error_messages}
+      else:
+        return {'error': False, 'message': "User is valid."}
 
 
   @staticmethod

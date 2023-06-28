@@ -6,19 +6,17 @@ bcrypt = Bcrypt()
 
 def create_user(data):
   print("create_user")
-  if not User.validate_User(data):
+  new_user = User.validate_User(data)
+  if not new_user:
     return {'error': True, 'message': 'Invalid user data'}
 
   pw_hash = bcrypt.generate_password_hash(data['password'])
 
   data['password'] = pw_hash
-  user_id = User.validate_User(data)
-  if not user_id:
-    return {'error': True, 'password': 'Failed to create user'}
   
   User.save_user(data)
 
-  return user_id
+  return new_user
 
 def login(email, password):
   data = {"email": email}
