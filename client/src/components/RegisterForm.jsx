@@ -26,9 +26,9 @@ const RegisterForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
 //ADD IN THE ROUTE FOR THE BACKEND
-        axios.post('TO BE ADDED IN AT A LATER TIME', register)
+        axios.post('http://localhost:5000/api/register/', register)
         .then(res=>{
-            navigate("/dashboard")
+            navigate("/map")
         })
         .catch(err => {
             const errorResponse = err.response.data.errors;

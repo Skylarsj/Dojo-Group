@@ -9,7 +9,7 @@ def index():
     return jsonify({"message": "Hello World"})
 
 
-@app.route('/register', methods=['POST'])
+@app.route('/api/register', methods=['POST'])
 def register():
     data = request.get_json()
     

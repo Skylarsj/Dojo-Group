@@ -4,19 +4,19 @@ from server.models.pokemonModel import Pokemon
 from server.models.userModel import User
 
 def all_pokemon():
-  # make a function that will return a json error if the user is not logged in
-  if 'user_id' not in session:
-    return {'error': True, 'message': 'You must be logged in to view this page'}, False
-  user = User.get_id({'id': session['user_id']})
-  if not user:
-    return {'error': True, 'message': 'Failed to get user'}, False
-  pokemon = Pokemon.get_all()
-  if not pokemon:
-    return {'error': True, 'message': 'Failed to get pokemon'}, False
-  return {'error': False, user: user, pokemon: Pokemon.get_all()}
+    # make a function that will return a json error if the user is not logged in
+    if 'user_id' not in session:
+        return {'error': True, 'message': 'You must be logged in to view this page'}, False
+    user = User.get_id({'id': session['user_id']})
+    if not user:
+        return {'error': True, 'message': 'Failed to get user'}, False
+    pokemon = Pokemon.get_all()
+    if not pokemon:
+        return {'error': True, 'message': 'Failed to get pokemon'}, False
+    return {'error': False, user: user, pokemon: Pokemon.get_all()}
 
 def get_pokemon_info(pokemon_name):
-    url = f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}"
+    url = f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}"   
     response = requests.get(url)
     if response.status_code == 200:
         return response.json()
