@@ -38,12 +38,12 @@ const RegisterForm = () => {
             };
     return (
         <>
-            <div className="relative bg-[#626466] h-auto w-full mt-20 font-mono">
+            <div className="relative bg-[#626466] h-auto w-full mt-20 font-mono z-50">
                 <form onSubmit={handleSubmit} className="txt-center pb-1">
                     <div>
-                    {errors.username ? <p className="absolute top-[84px] left-[60px] text-xs text-black placeholder-black">{errors.username}</p> : null}
+                    {errors.message.username ? <p className="absolute top-[-17px] left-8 text-xs text-black placeholder-black">{errors.message.username}</p> : null}
                         <input
-                            className="mb-2 border rounded border-gray-500 h-10 bg-[#00C247] placeholder-black text-lg pl-1"
+                            className="mb-3 border rounded border-gray-500 h-10 bg-[#00C247] placeholder-black text-lg pl-1"
                             placeholder="username"
                             type="text"
                             id="lastName"
@@ -51,9 +51,10 @@ const RegisterForm = () => {
                             value={register.username}
                             onChange={handleRegisterChange}
                         />
-                        {errors.message.oldEmail ? <p className="absolute top-[144px] left-[60px] text-xs text-black placeholder-black">{errors.message.oldEmail}</p> : null}
+                        {errors.message.oldEmail ? <p className="absolute top-10 left-8 text-xs text-black placeholder-black">{errors.message.oldEmail}</p> : null}
+                        {errors.message.email ? <p className="absolute top-10 left-8 text-xs text-black placeholder-black">{errors.message.email}</p> : null}
                         <input
-                            className="mb-2 border rounded border-gray-500 h-10 bg-[#00C247] placeholder-black text-lg pl-1"
+                            className="mb-3 border rounded border-gray-500 h-10 bg-[#00C247] placeholder-black text-lg pl-1"
                             placeholder="e-mail"
                             type="text"
                             id="email"
@@ -61,9 +62,9 @@ const RegisterForm = () => {
                             value={register.email}
                             onChange={handleRegisterChange}
                         />
-                        {errors.password ? <p className="absolute top-[204px] left-[60px] text-xs text-black placeholder-black">{errors.password}</p> : null}
+                        {errors.message.password ? <p className="absolute top-[90px] left-8 text-xs text-black placeholder-black">{errors.message.password}</p> : null}
                         <input
-                            className="mb-2 border rounded border-gray-500 h-10 bg-[#00C247] placeholder-black text-lg pl-1"
+                            className="mb-3 border rounded border-gray-500 h-10 bg-[#00C247] placeholder-black text-lg pl-1"
                             placeholder="password"
                             type="password"
                             id="password"
@@ -72,7 +73,7 @@ const RegisterForm = () => {
                             value={register.password}
                             onChange={handleRegisterChange}
                         />
-                        {errors.message.confirmPassword ? <p className="absolute bottom-[173px] left-[60px] text-xs text-logoColor">{errors.message.confirmPassword}</p> : null}
+                        {errors.message.confirmPassword ? <p className="absolute bottom-[114px] left-8 text-xs text-black">{errors.message.confirmPassword}</p> : null}
                         <input
                             className="border rounded border-gray-500 h-10 bg-[#00C247] placeholder-black text-lg pl-1"
                             placeholder="confirm password"
