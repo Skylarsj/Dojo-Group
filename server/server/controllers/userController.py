@@ -15,6 +15,8 @@ def create_user(data):
   user_id = User.validate_User(data)
   if not user_id:
     return {'error': True, 'message': 'Failed to create user'}, False
+  
+  User.save_user(data)
 
   return {'error': False, 'user_id': user_id}
 

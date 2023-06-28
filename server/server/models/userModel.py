@@ -5,7 +5,7 @@ import bcrypt
 from server.models import pokemonModel
 import re
 
-db = 'pokemon'
+db = 'Pokemon'
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$') 
 
@@ -69,6 +69,7 @@ class User:
 
   @staticmethod
   def validate_User(user):
+      print("Validating user...")
       is_valid = True  # we assume this is true
       query = "SELECT * FROM user WHERE email = %(email)s;"
       results = connectToMySQL(db).query_db(query, user)
