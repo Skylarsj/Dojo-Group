@@ -35,8 +35,10 @@ const RegisterForm = () => {
                 console.log("error", errorResponse); // Check the value of errorResponse
                 const errorObj = {};
     
-                for (const key of Object.keys(errorResponse)) {
-                    errorObj[key] = errorResponse[key].message;
+                if (errorResponse) { // Add null or undefined check
+                    for (const key of Object.keys(errorResponse)) {
+                        errorObj[key] = errorResponse[key].message;
+                    }
                 }
                 console.log("Error", errorObj); // Check the value of errorObj
                 setErrors(errorObj);

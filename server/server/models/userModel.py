@@ -71,12 +71,15 @@ class User:
   def validate_User(user):
       print("Validating user...")
       is_valid = True  # we assume this is true
+      print(is_valid)
       query = "SELECT * FROM user WHERE email = %(email)s;"
       results = connectToMySQL(db).query_db(query, user)
       if len(results) >= 1:
+          print("Email already taken.")
           error_message = "Email already taken."
+          print(error_message)  
           is_valid = False
-          return {'error': True, 'message': error_message}
+          return {'is_valid': is_valid, 'error': True, 'message': error_message}
 
       if len(user['username']) < 3:
           error_message = "Username must be at least 3 characters."
@@ -97,8 +100,10 @@ class User:
           error_message = "Passwords do not match."
           is_valid = False
           return {'error': True, 'message': error_message}
-
-      return is_valid
+      if is_valid == True:
+        return {'error': False, 'message': "User is valid."}
+      
+      return {'is_valid': is_valid, 'error': True, 'message': "Unknown validation error."}
 
   @staticmethod
   def validate_login(form_data):
