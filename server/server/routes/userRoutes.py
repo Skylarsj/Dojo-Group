@@ -18,8 +18,8 @@ def register():
 
     if result['error']:
         return jsonify(result), 400  # Return error response with status code 400
-
-    return jsonify(result), 201  # Return success response with status code 201
+    else :
+        return jsonify(result), 201  # Return success response with status code 201
 
 @app.route('/login', methods=['POST'])
 def login():
