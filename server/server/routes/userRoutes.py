@@ -13,9 +13,8 @@ def index():
 def register():
     print("registration route")
     data = request.get_json()
-    print(data)
     result = create_user(data)
-
+    print(result)
     if result['error']:
         print(result)
         return jsonify(result), 400  # Return error response with status code 400

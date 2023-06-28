@@ -5,20 +5,20 @@ from flask import session
 bcrypt = Bcrypt()
 
 def create_user(data):
+  print("create_user")
   if not User.validate_User(data):
     return {'error': True, 'message': 'Invalid user data'}
 
   pw_hash = bcrypt.generate_password_hash(data['password'])
-  print(pw_hash)
 
   data['password'] = pw_hash
   user_id = User.validate_User(data)
   if not user_id:
-    return {'error': True, 'message': 'Failed to create user'}
+    return {'error': True, 'password': 'Failed to create user'}
   
   User.save_user(data)
 
-  return {'error': False, 'user_id': user_id}
+  return user_id
 
 def login(email, password):
   data = {"email": email}
