@@ -1,3 +1,4 @@
+from flask import jsonify
 from server.config.mysqlconnection import connectToMySQL
 
 import bcrypt
@@ -55,13 +56,13 @@ class User:
       user = cls(results[0])
       for row in results:
           n = {
-                'id': row['pokemon.id'],
-                'user_id' : row['user_id'],
-                'username': row['name'],
-                'SpriteURL': row['SpriteURL'],
-                'pokeballs': row['pokeballs'],
-                'created_at': row['pokemon.created_at'],
-                'updated_at': row['pokemon.updated_at']
+            'id': row['pokemon.id'],
+            'user_id': row['user_id'],
+            'name': row['name'],
+            'SpriteURL': row['SpriteURL'],
+            'pokeballs': row['pokeballs'],
+            'created_at': row['created_at'],
+            'updated_at': row['updated_at']
             }
           user.pokemon.append( pokemonModel.Pokemon(n) )
       return user
@@ -106,7 +107,7 @@ class User:
       return jsonify({'error': True, 'message': error_message}), False
     
 
-    user = User.get_by_email(form_data)
+    user = User.get_email(form_data)
     if not user:
      error_message = "Invalid email/password."
      return jsonify({'error': True, 'message': error_message}), False

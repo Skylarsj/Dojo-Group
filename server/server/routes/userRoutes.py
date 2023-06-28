@@ -38,3 +38,4 @@ def login():
 def logout():
     session.clear()
     return jsonify({'message': 'Logged out successfully'}), 200  # Return success response with status code 200
+
