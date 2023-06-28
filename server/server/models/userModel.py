@@ -92,7 +92,7 @@ class User:
           is_valid = False
           return {'error': True, 'message': error_message}
 
-      if user['password'] != user['confirm_password']:
+      if user['password'] != user['confirmPassword']:
           error_message = "Passwords do not match."
           is_valid = False
           return {'error': True, 'message': error_message}

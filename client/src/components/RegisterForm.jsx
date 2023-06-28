@@ -26,7 +26,7 @@ const RegisterForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(register)
-        axios.post('http://127.0.0.1:5000/api/register', JSON.stringify(register))
+        axios.post('http://127.0.0.1:5000/api/register', register)
             .then(res => {
                 navigate("/map");
             })
