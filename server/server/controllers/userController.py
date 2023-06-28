@@ -1,5 +1,6 @@
 from server.models.userModel import User
 from flask_bcrypt import Bcrypt
+from flask import session
 
 bcrypt = Bcrypt()
 
