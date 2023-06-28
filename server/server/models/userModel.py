@@ -66,7 +66,8 @@ class User:
             }
           user.pokemon.append( pokemonModel.Pokemon(n) )
       return user
-
+  
+# validations work, no touchey! lol -sky
   @staticmethod
   def validate_User(user):
       print("Validating user...")
