@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from "axios";
 import { useState } from 'react'
 
 const LoginForm = () => {
@@ -20,18 +21,28 @@ const [errors, setErrors] = useState({});
 //T O D O: Add handleSubmit function for backend
     const handleSubmit = (e) => {
         e.preventDefault();
-    
-        const payload = {
-            email: account.email,
-            password: account.password
-        };
-    }
-
+        console.log("log in intiaed front end")
+        axios.post('http://127.0.0.1:5000/api/login', account)
+            .then(res => {
+                navigate("/map");
+            })
+            .catch(err => {
+                const errorResponse = err.response.data.errors;
+                console.log("error", errorResponse); // Check the value of errorResponse
+                const errorObj = {};
+            
+                for (const key of Object.keys(errorResponse)) {
+                    errorObj[key] = errorResponse[key].message;
+                }
+                console.log("Error", errorObj); // Check the value of errorObj
+                setErrors(errorObj);
+            });
+    };
 
     return (
         <div>
             <div className="bg-[#626466]">
-                <form className="flex pb-1">
+                <form className="flex pb-1" onSubmit={handleSubmit}>
                     <div>
                         <input
                             className="border rounded-md h-10 w-[149px] border-gray-500 bg-[#00C247] font-mono placeholder-black text-lg pl-1"
