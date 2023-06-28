@@ -17,6 +17,7 @@ def register():
     result = create_user(data)
 
     if result['error']:
+        print(result)
         return jsonify(result), 400  # Return error response with status code 400
     else :
         return jsonify(result), 201  # Return success response with status code 201
