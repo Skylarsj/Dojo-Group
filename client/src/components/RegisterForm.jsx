@@ -24,25 +24,24 @@ const RegisterForm = () => {
     };
 
     const handleSubmit = (e) => {
-        e.preventDefault()
-//ADD IN THE ROUTE FOR THE BACKEND
-        axios.post('http://localhost:5000/api/register/', register)
-        .then(res=>{
-            navigate("/map")
-        })
-        .catch(err => {
-            const errorResponse = err.response.data.errors;
-            const errorObj ={};
-
-            for ( const key of Object.keys(errorResponse)) {
-                errorObj[key] = errorResponse[key].message;
-            }
-            console.log(errorObj);
-            setErrors(errorObj);
-        });
-
+        e.preventDefault();
+        console.log(register)
+        axios.post('http://127.0.0.1:5000/api/register', JSON.stringify(register))
+            .then(res => {
+                navigate("/map");
+            })
+            .catch(err => {
+                const errorResponse = err.response.data.errors;
+                console.log("error", errorResponse); // Check the value of errorResponse
+                const errorObj = {};
+    
+                for (const key of Object.keys(errorResponse)) {
+                    errorObj[key] = errorResponse[key].message;
+                }
+                console.log("Error", errorObj); // Check the value of errorObj
+                setErrors(errorObj);
+            });
     };
-
     return (
         <>
             <div className="relative bg-[#626466] h-auto w-full mt-20 font-mono">

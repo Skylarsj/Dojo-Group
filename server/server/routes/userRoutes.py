@@ -11,8 +11,9 @@ def index():
 
 @app.route('/api/register', methods=['POST'])
 def register():
+    print("registration route")
     data = request.get_json()
-    
+    print(data)
     result = create_user(data)
 
     if result['error']:

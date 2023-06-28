@@ -69,36 +69,35 @@ class User:
 
   @staticmethod
   def validate_User(user):
-    is_valid = True # we assume this is true
-    query = "SELECT * FROM user WHERE email = %(email)s;"
-    results = connectToMySQL(db).query_db(query,user)
-    if len(results) >= 1:
-      error_message = "Email already taken." 
-      is_valid = False
-      return jsonify({'error': True, 'message': error_message})
-     
-    if len(user['username']) < 3:
-      error_message = "Username must be at least 3 characters."
-      is_valid = False
-      return jsonify({'error': True, 'message': error_message})
-     
-      
-    if not EMAIL_REGEX.match(user['email']): 
-      error_message ="Invalid email address!" 
-      is_valid = False
-      return jsonify({'error': True, 'message': error_message})
-      
-    if len(user['password']) < 8:
-      error_message = "Password must be at least 8 characters." 
-      is_valid = False
-      return jsonify({'error': True, 'message': error_message})
-      
-    if (user['password']) != user['confirm_password']:
-      error_message = "Passwords do not match." ,"register"
-      is_valid = False
-      return jsonify({'error': True, 'message': error_message})
-      
-    return is_valid
+      is_valid = True  # we assume this is true
+      query = "SELECT * FROM user WHERE email = %(email)s;"
+      results = connectToMySQL(db).query_db(query, user)
+      if len(results) >= 1:
+          error_message = "Email already taken."
+          is_valid = False
+          return {'error': True, 'message': error_message}
+
+      if len(user['username']) < 3:
+          error_message = "Username must be at least 3 characters."
+          is_valid = False
+          return {'error': True, 'message': error_message}
+
+      if not EMAIL_REGEX.match(user['email']):
+          error_message = "Invalid email address!"
+          is_valid = False
+          return {'error': True, 'message': error_message}
+
+      if len(user['password']) < 8:
+          error_message = "Password must be at least 8 characters."
+          is_valid = False
+          return {'error': True, 'message': error_message}
+
+      if user['password'] != user['confirm_password']:
+          error_message = "Passwords do not match."
+          is_valid = False
+          return {'error': True, 'message': error_message}
+
+      return is_valid
 
   @staticmethod
   def validate_login(form_data):
@@ -109,8 +108,8 @@ class User:
 
     user = User.get_email(form_data)
     if not user:
-     error_message = "Invalid email/password."
-     return jsonify({'error': True, 'message': error_message}), False
+      error_message = "Invalid email/password."
+      return jsonify({'error': True, 'message': error_message}), False
         
     if not bcrypt.check_password_hash(user.password, form_data['password']):
       error_message = "Invalid email/password."
