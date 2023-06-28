@@ -31,11 +31,11 @@ const RegisterForm = () => {
                 navigate("/register");
             })
             .catch(err => {
-                const errors = err.response.data;
-                setErrors(errors);
+                const errors = err.response.data; // Array of error objects
+                setErrors(errors); // Assuming you have a state variable to store errors
                 console.log(errors);
-            });
-    };
+                });
+            };
     return (
         <>
             <div className="relative bg-[#626466] h-auto w-full mt-20 font-mono">
@@ -51,7 +51,7 @@ const RegisterForm = () => {
                             value={register.username}
                             onChange={handleRegisterChange}
                         />
-                        {errors.email ? <p className="absolute top-[144px] left-[60px] text-xs text-black placeholder-black">{errors.email}</p> : null}
+                        {errors.message.oldEmail ? <p className="absolute top-[144px] left-[60px] text-xs text-black placeholder-black">{errors.message.oldEmail}</p> : null}
                         <input
                             className="mb-2 border rounded border-gray-500 h-10 bg-[#00C247] placeholder-black text-lg pl-1"
                             placeholder="e-mail"
@@ -72,7 +72,7 @@ const RegisterForm = () => {
                             value={register.password}
                             onChange={handleRegisterChange}
                         />
-                        {errors.confirmPassword ? <p className="absolute bottom-[173px] left-[60px] text-xs text-logoColor">{errors.confirmPassword}</p> : null}
+                        {errors.message.confirmPassword ? <p className="absolute bottom-[173px] left-[60px] text-xs text-logoColor">{errors.message.confirmPassword}</p> : null}
                         <input
                             className="border rounded border-gray-500 h-10 bg-[#00C247] placeholder-black text-lg pl-1"
                             placeholder="confirm password"

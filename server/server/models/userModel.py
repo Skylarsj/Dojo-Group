@@ -68,41 +68,39 @@ class User:
       return user
   
 # validations work, no touchey! lol -sky
-  @staticmethod
   def validate_User(user):
       print("Validating user...")
       print(user)
       error_message = None
 
-      error_messages = []
+      error_messages = {}
 
       query = "SELECT * FROM user WHERE email = %(email)s;"
       results = connectToMySQL(db).query_db(query, user)
       if results:
           error_message = "Email already taken."
-          error_messages.append({'error': True, 'email': error_message})
+          error_messages['oldEmail'] = error_message
 
       if len(user['username']) < 3:
           error_message = "Username must be at least 3 characters."
-          error_messages.append({'error': True, 'username': error_message})
+          error_messages['username'] = error_message
 
       if not EMAIL_REGEX.match(user['email']):
           error_message = "Invalid email address!"
-          error_messages.append({'error': True, 'email': error_message})
+          error_messages['email'] = error_message
 
       if len(user['password']) < 8:
           error_message = "Password must be at least 8 characters."
-          error_messages.append({'error': True, 'passowrd': error_message})
+          error_messages['password'] = error_message
 
       if user['password'] != user['confirmPassword']:
           error_message = "Passwords do not match."
-          error_messages.append({'error': True, 'confirmPassword': error_message})
+          error_messages['confirmPassword'] = error_message
 
       if error_messages:
           return {'error': True, 'message': error_messages}
       else:
-        return {'error': False, 'message': "User is valid."}
-
+          return {'error': False, 'message': "User is valid."}
 
   @staticmethod
   def validate_login(form_data):
