@@ -22,7 +22,6 @@ const [errors, setErrors] = useState({});
 //T O D O: Add handleSubmit function for backend
 const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(account)
     axios.post('http://127.0.0.1:5000/api/login', account)
         .then(res => {
             navigate("/map");

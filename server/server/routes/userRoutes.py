@@ -1,13 +1,20 @@
 from flask import redirect, render_template, request, session, jsonify
+from flask_session import Session
 from server import app
 from server.controllers.userController import create_user, login, logout
-
 
 @app.route('/')
 def index():
     print("hello world")
     return jsonify({"message": "Hello World"})
 
+@app.route("/api/check-login")
+def check_login():
+    print("checking login")
+    if 'username' in session:
+        return jsonify({'logged_in': True, 'username': session['username']})
+    else:
+        return jsonify({"logged_in": False})
 
 @app.route('/api/register', methods=['POST'])
 def register():
@@ -25,10 +32,14 @@ def register():
 def loginRoute():
     data = request.get_json()
     result = login(data)
-    if result['error']:
-        return jsonify(result), 401  # Return unauthorized response with status code 401
+    if 'error' in result and result['error']:
+        return jsonify(result), 401 
     print("HERE ARE THE RESULTS", result)
-    return jsonify(result), 200  # Return success response with status code 200
+    if 'error' in result and not result['error']:
+        session['username'] = data['username']
+        print("session is:", session['username'])
+        session['logged_in'] = True
+        return jsonify(result), 200 
 
 @app.route('/logout')
 def logout():

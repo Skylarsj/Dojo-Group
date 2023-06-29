@@ -1,9 +1,29 @@
-import React from 'react'
+import {React, useEffect} from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
 const Map = () => {
 const Navigate = useNavigate();
+
+    useEffect(() => {
+    axios.get('http://127.0.0.1:5000/api/check-login')
+        .then(response => response.data)
+        .then(data => {
+            console.log(data);
+        if (data.logged_in) {
+            // User is logged in, perform necessary actions
+            console.log("Logged in as:", data.username);
+        } else {
+            // User is not logged in, redirect to login page or perform other actions
+            console.log("User is not logged in");
+        }
+        })
+        .catch(error => {
+        // Handle error if the request fails
+        console.error("An error occurred:", error);
+        });
+    }, []);
+
 const getPokemonData = async (pokemonType) => {
 try {
     const response = await axios.get(`https://pokeapi.co/api/v2/type/${pokemonType}`);
