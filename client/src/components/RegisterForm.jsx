@@ -28,7 +28,7 @@ const RegisterForm = () => {
         console.log(register)
         axios.post('http://127.0.0.1:5000/api/register', register)
             .then(res => {
-                navigate("/register");
+                navigate("/map");
             })
             .catch(err => {
                 const errors = err.response.data; // Array of error objects

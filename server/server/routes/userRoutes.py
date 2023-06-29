@@ -25,9 +25,9 @@ def register():
 def loginRoute():
     data = request.get_json()
     result = login(data)
-    print(result)
     if result['error']:
         return jsonify(result), 401  # Return unauthorized response with status code 401
+    print("HERE ARE THE RESULTS", result)
 
     return jsonify(result), 200  # Return success response with status code 200
 

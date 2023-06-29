@@ -24,11 +24,13 @@ const [errors, setErrors] = useState({});
         console.log("log in intiaed front end")
         axios.post('http://127.0.0.1:5000/api/login', account)
             .then(res => {
+                const response = res.data;
                 navigate("/map");
             })
             .catch(err => {
-                const errors = err.response.data; // Array of error objects
-                setErrors(errors); // Assuming you have a state variable to store errors
+                console.log("There is an error");
+                const errors = err.response.data;
+                setErrors(errors);
                 console.log(errors);
                 });
     };
