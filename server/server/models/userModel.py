@@ -113,5 +113,5 @@ class User:
       return jsonify({'error': True, 'message': error_message})
     if valid_user:
       if not bcrypt.check_password_hash(valid_user['password'], data['password']):
-        return jsonify({'error': True, 'message': "Invalid email/password."})
+        return {'error': True, 'message': "Invalid email/password."}
     return {'error': False, 'message': "User is valid."}
