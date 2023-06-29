@@ -3,6 +3,7 @@ from flask_session import Session
 from server import app
 from server.controllers.userController import create_user, validate_login
 
+
 @app.route('/')
 def index():
     username = session.get('username')
