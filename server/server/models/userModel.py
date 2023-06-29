@@ -35,12 +35,12 @@ class User:
     return user
 
   @classmethod
-  def get_email(cls, form_data):
-    query = "SELECT * FROM user WHERE email = %(email)s;"
-    results = connectToMySQL(db).query_db(query, form_data)
-    if len(results) < 1:
-        return False
-    return cls(results[0])
+  def get_username(cls, data):
+    query = "SELECT * FROM user WHERE username = %r;"
+    results = connectToMySQL(db).query_db(query % data)
+    if not results:
+        return None
+    return results[0]
   
   @classmethod
   def get_id(cls,form_data):
@@ -106,16 +106,19 @@ class User:
   def validate_login(form_data):
     if not EMAIL_REGEX.match(form_data['email']):
       error_message = "Invalid email/password."
-      return jsonify({'error': True, 'message': error_message}), False
+      return jsonify({'error': True, 'message': error_message})
     
 
-    user = User.get_email(form_data)
+    user = User.get_username(form_data)
+    query = "SELECT * FROM user WHERE username = %(username)s;"
+    results = connectToMySQL(db).query_db(query, user)
+
     if not user:
       error_message = "Invalid email/password."
-      return jsonify({'error': True, 'message': error_message}), False
+      return jsonify({'error': True, 'message': error_message})
         
     if not bcrypt.check_password_hash(user.password, form_data['password']):
       error_message = "Invalid email/password."
-      return jsonify({'error': True, 'message': error_message}), False
+      return jsonify({'error': True, 'message': error_message})
         
     return user

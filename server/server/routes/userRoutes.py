@@ -21,14 +21,11 @@ def register():
     else :
         return jsonify(result), 201  # Return success response with status code 201
 
-@app.route('/login', methods=['POST'])
-def login():
+@app.route('/api/login', methods=['POST'])
+def loginRoute():
     data = request.get_json()
-    
-    email = data.get('email')
-    password = data.get('password')
 
-    result = login(email, password)
+    result = login(data)
 
     if result['error']:
         return jsonify(result), 401  # Return unauthorized response with status code 401
