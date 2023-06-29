@@ -1,13 +1,14 @@
 import React from 'react'
 import axios from "axios";
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
     const [account, setAccount] = useState({
         username: "",
         password: ""
     });
-
+    const navigate = useNavigate();
 const [errors, setErrors] = useState({});
 
     const handleAccountChange = (e) => {
@@ -19,25 +20,18 @@ const [errors, setErrors] = useState({});
         }));
     };
 //T O D O: Add handleSubmit function for backend
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log("log in intiaed front end")
-        axios.post('http://127.0.0.1:5000/api/login', account)
-            .then(res => {
-                navigate("/map");
-            })
-            .catch(err => {
-                const errorResponse = err.response.data.errors;
-                console.log("error", errorResponse); // Check the value of errorResponse
-                const errorObj = {};
-            
-                for (const key of Object.keys(errorResponse)) {
-                    errorObj[key] = errorResponse[key].message;
-                }
-                console.log("Error", errorObj); // Check the value of errorObj
-                setErrors(errorObj);
+const handleSubmit = (e) => {
+    e.preventDefault();
+    axios.post('http://127.0.0.1:5000/api/login', account)
+        .then(res => {
+            navigate("/map");
+        })
+        .catch(err => {
+            const errors = err.response.data; // Array of error objects
+            setErrors(errors); // Assuming you have a state variable to store errors
+            console.log(errors);
             });
-    };
+        };
 
     return (
         <div>
