@@ -18,15 +18,9 @@ def create_user(data):
 
   return new_user
 
-def login(data):
+def validate_login(data):
   valid_user = User.validate_login(data)
   if not valid_user:
     return {'error': True, 'message': 'Username does not exist'}
 
   return valid_user
-
-
-# I ADDED THIS IN LOL
-def logout():
-  session.clear()
-  return {'message': 'Logged out successfully'}

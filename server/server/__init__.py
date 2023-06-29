@@ -2,14 +2,15 @@ from flask import Flask
 from flask_session import Session
 from dotenv import load_dotenv
 from flask_cors import CORS
+import os
 
 
 load_dotenv()
 app = Flask(__name__)
-app.config['SESSION_TYPE'] = 'filesystem'
-app.config['SESSION_COOKIE_SECURE'] = True  # Enable secure session cookie (HTTPS only)
-app.config['SESSION_COOKIE_HTTPONLY'] = True  # Restrict cookie access to HTTP only
-app.config['SESSION_COOKIE_SAMESITE'] = 'Lax' # Set SameSite attribute for session cookie
+app.config['SECRET_KEY'] = 'secret secret, I got a secret'
+app.config['SESSION_TYPE'] = 'mysql'
+app.config['SESSION_SQLALCHEMY'] = f"mysql://root:${os.environ.get('DB_PASSWORD')}@localhost/pokemon"
+Session(app)
 Session(app)
 CORS(app, supports_credentials = True, origins = ["http://localhost:5173"])
 

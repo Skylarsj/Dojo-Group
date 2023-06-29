@@ -1,4 +1,3 @@
-from flask import jsonify
 from server.config.mysqlconnection import connectToMySQL
 import validators
 

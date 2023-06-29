@@ -1,7 +1,5 @@
-from flask import jsonify
 from server.config.mysqlconnection import connectToMySQL
 from flask_bcrypt import Bcrypt
-from server.models import pokemonModel
 import re
 
 bcrypt = Bcrypt()
