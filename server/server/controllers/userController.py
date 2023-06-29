@@ -19,15 +19,13 @@ def create_user(data):
   return new_user
 
 def login(data):
-  user_in_db = User.get_username(data['username'])
-  if not user_in_db:
+  valid_user = User.validate_login(data)
+  if not valid_user:
     return {'error': True, 'message': 'Username does not exist'}
-  
-  if not bcrypt.check_password_hash(user_in_db['password'], data['password']):
-    print("passwords don't match")
-    return {'error': True, 'message': 'Incorrect password'}
 
-  return {'error': False, 'user_id': user_in_db['id']}
+  return valid_user
+
+
 # I ADDED THIS IN LOL
 def logout():
   session.clear()

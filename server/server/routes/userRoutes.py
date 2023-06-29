@@ -24,9 +24,8 @@ def register():
 @app.route('/api/login', methods=['POST'])
 def loginRoute():
     data = request.get_json()
-
     result = login(data)
-
+    print(result)
     if result['error']:
         return jsonify(result), 401  # Return unauthorized response with status code 401
 

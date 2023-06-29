@@ -27,16 +27,10 @@ const [errors, setErrors] = useState({});
                 navigate("/map");
             })
             .catch(err => {
-                const errorResponse = err.response.data.errors;
-                console.log("error", errorResponse); // Check the value of errorResponse
-                const errorObj = {};
-            
-                for (const key of Object.keys(errorResponse)) {
-                    errorObj[key] = errorResponse[key].message;
-                }
-                console.log("Error", errorObj); // Check the value of errorObj
-                setErrors(errorObj);
-            });
+                const errors = err.response.data; // Array of error objects
+                setErrors(errors); // Assuming you have a state variable to store errors
+                console.log(errors);
+                });
     };
 
     return (

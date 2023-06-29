@@ -1,9 +1,10 @@
 from flask import jsonify
 from server.config.mysqlconnection import connectToMySQL
-
-import bcrypt
+from flask_bcrypt import Bcrypt
 from server.models import pokemonModel
 import re
+
+bcrypt = Bcrypt()
 
 db = 'Pokemon'
 
@@ -36,8 +37,9 @@ class User:
 
   @classmethod
   def get_username(cls, data):
-    query = "SELECT * FROM user WHERE username = %r;"
-    results = connectToMySQL(db).query_db(query % data)
+    username = {'username': data['username']}
+    query = "SELECT * FROM user WHERE username = %(username)s;"
+    results = connectToMySQL(db).query_db(query, username)
     if not results:
         return None
     return results[0]
@@ -103,22 +105,13 @@ class User:
           return {'error': False, 'message': "User is valid."}
 
   @staticmethod
-  def validate_login(form_data):
-    if not EMAIL_REGEX.match(form_data['email']):
+  def validate_login(data):
+    valid_user = User.get_username(data)
+    print("in validate_login", valid_user)
+    if not valid_user:
       error_message = "Invalid email/password."
       return jsonify({'error': True, 'message': error_message})
-    
-
-    user = User.get_username(form_data)
-    query = "SELECT * FROM user WHERE username = %(username)s;"
-    results = connectToMySQL(db).query_db(query, user)
-
-    if not user:
-      error_message = "Invalid email/password."
-      return jsonify({'error': True, 'message': error_message})
-        
-    if not bcrypt.check_password_hash(user.password, form_data['password']):
-      error_message = "Invalid email/password."
-      return jsonify({'error': True, 'message': error_message})
-        
-    return user
+    if valid_user:
+      if not bcrypt.check_password_hash(valid_user['password'], data['password']):
+        return jsonify({'error': True, 'message': "Invalid email/password."})
+    return {'error': False, 'message': "User is valid."}
