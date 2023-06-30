@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import './App.css'
 //component imports
-
+import ChangeName from './components/ChangeNickname'
 //view imports
 import Captured from './views/Captured'
 import PokedexData from './views/PokedexData'
@@ -27,6 +27,7 @@ function App() {
             <Route element={<Inventory />} path="/inventory" />
             <Route element={<Battle />} path="/battle" />
             <Route element={<Captured />} path="/captured" />
+            <Route element={<ChangeName />} path="/change-nickname" />
           </Routes>
           <Navbar/>
         </div>

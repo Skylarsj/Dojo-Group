@@ -1,7 +1,7 @@
 from flask import  redirect, request, session, jsonify
 from server import app
 
-from server.controllers.pokemonController import save_pokemon, validate_all, delete_one
+from server.controllers.pokemonController import save_pokemon, validate_all, delete_one, update_one
 from server.models.pokemonModel import Pokemon
 
 @app.route('/index')
@@ -29,11 +29,11 @@ def save_captured_pokemon():
 
     return jsonify(result), 200  # Return success response with status code 200
 
-@app.route('/pokemon/update/nickname', methods=['POST'])
+@app.route('/api/pokemon/update/nickname', methods=['POST'])
 def update_pokemon_nickname_route():
     data = request.get_json()
-
-    result = Pokemon.update(data)
+    newData = {'nickname': data['nickname'], 'id': data['id']}
+    result = update_one(newData)
 
     if result['error']:
         return jsonify(result), 400

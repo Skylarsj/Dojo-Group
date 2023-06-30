@@ -6,7 +6,6 @@ const Bag = () => {
 const Navigate = useNavigate();
 const [pokemonObjects, setPokemonObjects] = useState([]);
 const [currentPage, setCurrentPage] = useState(0);
-const [currentPokemonId, setCurrentPokemonId] = useState(0);
 
 useEffect(() => {
     const getPokemonData = async () => {
@@ -77,16 +76,21 @@ const renderPokemonSprites = () => {
                     <p className="mt-2">Name:</p>
                     <p>{pokemonObjects.name}</p>
                     <p className="mt-1">Nickanme:</p>
+                
                     <p>{pokemonObjects.nickname}</p>
                 </div>
             </div>
             <div className="flex h-1/2 items-center justify-center">
                 <button onClick={() => DeletePokemon(pokemonObjects.id)} className="w-20 h-10 text-xs mr-2 font-mono">release</button>
-                <button className="w-20 h-10 text-xs pl-2.5 font-mono">nickname</button>
+                <button onClick={() => goToChangeNickname(pokemonObjects)} className="w-20 h-10 text-xs pl-2.5 font-mono">nickname</button>
             </div>
         </div>
     </li>
     ));
+};
+
+const goToChangeNickname = (pokemon) => {
+    Navigate("/change-nickname", { state: { pokemon: pokemon } });
 };
 
 

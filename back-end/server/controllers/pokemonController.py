@@ -10,6 +10,13 @@ def delete_one(data):
 
     return {'error': False, 'message': 'Pokemon deleted'}
 
+def update_one(data):
+    print("Updating one pokemon")
+    
+    Pokemon.update(data)
+
+    return {'error': False, 'message': 'Pokemon updated'}
+
 def validate_all(data):
     print("Validating all pokemon")
     
