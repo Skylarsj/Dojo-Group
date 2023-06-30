@@ -82,6 +82,12 @@ class User:
             error_message = "Email already taken."
             error_messages['oldEmail'] = error_message
 
+        query = "SELECT * FROM user WHERE username = %(username)s;"
+        results = connectToMySQL(db).query_db(query, user)
+        if results:
+            error_message = "Username already taken."
+            error_messages['oldUsername'] = error_message
+
         if len(user['username']) < 3:
             error_message = "Username must be at least 3 characters."
             error_messages['username'] = error_message
