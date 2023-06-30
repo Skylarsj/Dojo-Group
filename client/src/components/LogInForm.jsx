@@ -38,6 +38,7 @@ const handleSubmit = (e) => {
             <div className="bg-[#626466]">
                 <form className="flex pb-1" onSubmit={handleSubmit}>
                     <div>
+                    {errors.message ? <p className="absolute bottom-20 left-[80px] text-lg text-red-500 placeholder-black">{errors.message}</p> : null}
                         <input
                             className="border rounded-md h-10 w-[149px] border-gray-500 bg-[#00C247] font-mono placeholder-black text-lg pl-1"
                             placeholder="username"

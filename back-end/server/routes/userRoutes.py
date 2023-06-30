@@ -47,6 +47,8 @@ def loginRoute():
     if 'error' in result and not result['error']:
         session['username'] = data['username']
         session['logged_in'] = True
+        session['user_id'] = result['user']['id']
+        print(result)
         print("Session data after login:", session)
         
         return jsonify({'results': result, 'username': session['username']}), 200

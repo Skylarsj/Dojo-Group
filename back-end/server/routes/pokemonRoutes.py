@@ -4,15 +4,29 @@ from server import app
 from server.controllers.pokemonController import save_pokemon
 from server.models.pokemonModel import Pokemon
 
+@app.route('/index')
+def pokemonindex():
+    username = session.get('username')
+    print(username)
+    print("hello world")
+    return jsonify({"message": "Hello World POKEMON"})
 
-
-@app.route('/pokemon/save', methods=['POST'])
+@app.route('/api/pokemon/save', methods=['POST'])
 def save_captured_pokemon():
     # Extract the captured Pokemon data from the request
     print("Saving Pokemon")
     data = request.get_json()
-    result = save_pokemon(data)
-    
+    print(session)
+    user_id = session.get('user_id')
+    print(user_id)
+    newData = {
+        'user_id': user_id,
+        'name': data['name'],
+        'nickname': data['nickname'],
+        'spriteURL': data['spriteURL'],
+    }
+    result = save_pokemon(newData)
+    print("THIS IS THE THING YOU ARE LOOKING FOR",result)
     if result['error']:
         return jsonify(result), 400  # Return error response with status code 400
 

@@ -18,9 +18,10 @@ class Pokemon:
         self.user = None
 
     @classmethod
-    def save_pokemon(cls, form_data):
-        query = 'INSERT INTO pokemon(user_id, name, nickname, SpriteURL) VALUES(%(user_id)s, %(name)s, %(nickname)s, %(SpriteURL)s);'
-        return connectToMySQL(db).query_db(query, form_data)
+    def save_pokemon(cls, newData):
+        print("save_pokemon TO DATABASE")
+        query = 'INSERT INTO pokemon(user_id, name, nickname, SpriteURL) VALUES(%(user_id)s, %(name)s, %(nickname)s, %(spriteURL)s);'
+        return connectToMySQL(db).query_db(query, newData)
     
     @classmethod
     def get_all(cls):

@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import './App.css'
 //component imports
-import Captured from './components/Captured'
 
 //view imports
+import Captured from './views/Captured'
 import PokedexData from './views/PokedexData'
 import Navbar from './views/navbar'
 import Login from './views/LogIn'

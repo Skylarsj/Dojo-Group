@@ -3,13 +3,13 @@ import random, requests
 from server.models.pokemonModel import Pokemon
 from server.models.userModel import User
 
-def save_pokemon(data):
+def save_pokemon(newData):
     print("Saving Pokemon")
-    new_pokemon = Pokemon.validate_pokemon(data)
-    if not new_pokemon:
+
+    new_pokemon = Pokemon.save_pokemon(newData)
+
+    if new_pokemon.get('error'):
         return {'error': True, 'message': 'Invalid pokemon data'}
-    
-    Pokemon.save_pokemon(data)
 
     return new_pokemon
 

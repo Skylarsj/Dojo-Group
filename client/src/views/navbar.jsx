@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import NavMap from '../components/NavMap';
 import NavBattle from '../components/NavBattle';
 import NavInventory from '../components/navInventory';
+import NavCaptured from '../components/NavCaptured';
 
 const Navbar = () => {
     const [navMap, setNavMap] = useState(true);
