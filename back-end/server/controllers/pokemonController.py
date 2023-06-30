@@ -6,10 +6,12 @@ from server.models.userModel import User
 def save_pokemon(newData):
     print("Saving Pokemon")
 
-    new_pokemon = Pokemon.save_pokemon(newData)
-
-    if new_pokemon.get('error'):
-        return {'error': True, 'message': 'Invalid pokemon data'}
+    new_pokemon = Pokemon.validate_pokemon(newData)
+    print(new_pokemon)
+    if new_pokemon is None:
+        return {'error': True, 'message': new_pokemon}
+    
+    Pokemon.save_pokemon(newData)
 
     return new_pokemon
 

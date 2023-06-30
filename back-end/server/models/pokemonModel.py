@@ -63,6 +63,7 @@ class Pokemon:
             'updated_at': result['user.updated_at']
         }
         this_pokemon.user = userModel.User(user_data)
+        print("this is a pokemon",this_pokemon)
         return this_pokemon
     
     #This will only update the name of the pokemon
@@ -80,22 +81,21 @@ class Pokemon:
 
 
     @staticmethod
-    def validate_pokemon(form_data):
+    def validate_pokemon(data):
         print ("Validating Pokemon")
-        print (Pokemon)
+        print (data)
         error_message = None
 
         error_messages = {}
-       
-        if len(Pokemon['nickname']) < 2:  # Add validation for nickname length
+
+        if len(data['nickname']) < 2:  # Add validation for nickname length
             error_message = "Nickname must be at least 2 characters."
             error_messages['badNickname'] = error_message
-        if len(Pokemon['nickname']) > 16:  # Add validation for nickname length
+        if len(data['nickname']) > 16:  # Add validation for nickname length
             error_message = "Nickname must be less than 16 characters."
-
+            error_messages['badNickname'] = error_message
         if error_messages:
             return {'error': True, 'message': error_messages}
         else:
             return {'error': False, 'message': "User is valid."}
 
-       
