@@ -46,11 +46,11 @@ const renderPokemonSprites = () => {
     return pokemonObjects.slice(startIndex, endIndex).map((pokemonObjects, index) => (
     <li key={index}>
         <div className="flex">
-            <img src={pokemonObjects.sprites && pokemonObjects.sprites.front_default} alt={`Pokemon Sprite ${index}`} />
-            <div className="flex-col w-[125px] text-[12px] font-mono ">
+            <img className="w-20 h-20" src={pokemonObjects.sprites && pokemonObjects.sprites.front_default} alt={`Pokemon Sprite ${index}`} />
+            <div className="flex-col w-[125px] text-[10px] font-mono text-black">
                 <p className="mt-2">Name:</p>
                 <p>{pokemonObjects.name}</p>
-                <p className="mt-2">Nickanme:</p>
+                <p className="mt-1">Nickanme:</p>
                 <p>nickname</p>
             </div>
         </div>
@@ -68,10 +68,16 @@ return (
             <div className="absolute border rounded-xl w-12 h-1/2 left-1 top-9 flex items-center " onClick={goToPreviousPage} disabled={currentPage === Math.ceil(pokemonObjects.length / 1) - 1}>
                 <img className="rotate-180" src="./src/img/arrow.png" alt="arrow" />
             </div>
-            <div className="flex items-center justify-center border-red-500 border mx-auto">
-                <ul className="">
-                    {renderPokemonSprites()}
-                </ul>
+            <div className="mx-auto">
+                <div className="flex h-1/2 items-center justify-center">
+                    <ul className="">
+                        {renderPokemonSprites()}
+                    </ul>
+                </div>
+                <div className="flex h-1/2 items-center justify-center">
+                    <button className="w-20 h-10 text-xs mr-2 font-mono">release</button>
+                    <button className="w-20 h-10 text-xs pl-2.5 font-mono">nickname</button>
+                </div>
             </div>
         </div>
     <div className="h-1/2 w-full bg-slate-600">
