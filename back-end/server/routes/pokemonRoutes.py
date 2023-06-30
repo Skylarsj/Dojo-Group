@@ -26,12 +26,20 @@ def save_captured_pokemon():
     # Extract the captured Pokemon data from the request
     data = request.get_json()
 
+    # Get name of pokemon from the data dictionary
+    name = data.get('name')
+
     # Get the nickname from the user separately
     nickname = data.get('nickname')
-    
-    # Add the nickname to the data dictionary
-    data['nickname'] = nickname
 
+    #Get the SpriteURL from data dictionary
+    SpriteURL = data.get('SpriteURL')
+    
+    # Add the name, nickname, and SpriteURL to the data dictionary
+    data['name'] = name
+    data['nickname'] = nickname
+    data['SpriteURL'] = SpriteURL
+    
     # Call the save_pokemon() function to save the captured Pokemon data to the database
     result = save_pokemon(data)
 
