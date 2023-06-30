@@ -1,7 +1,7 @@
 from flask import  redirect, request, session, jsonify
 from server import app
 
-from server.controllers.pokemonController import generate_encounter
+from server.controllers.pokemonController import save_pokemon
 from server.models.pokemonModel import Pokemon
 
 
@@ -11,9 +11,8 @@ def save_captured_pokemon():
     # Extract the captured Pokemon data from the request
     print("Saving Pokemon")
     data = request.get_json()
-    result = Pokemon.save_pokemon(data)
+    result = save_pokemon(data)
     
- 
     if result['error']:
         return jsonify(result), 400  # Return error response with status code 400
 
