@@ -1,9 +1,7 @@
 from flask import  redirect, request, session, jsonify
-from launch import app
+from server import app
 
-from server.controllers.userController import login, register, logout
 from server.controllers.pokemonController import generate_encounter
-from server.routes.pokemonRoutes import save_pokemon
 from server.models.pokemonModel import Pokemon
 
 @app.route('/encounter', methods=['POST'])
