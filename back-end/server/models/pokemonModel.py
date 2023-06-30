@@ -1,10 +1,9 @@
 from server.config.mysqlconnection import connectToMySQL
-import validators
-
 from server.models import userModel
+import json
 import re
 
-db = 'pokemon'
+db = 'Pokemon'
 
 class Pokemon:
     def __init__(self, db_data):
@@ -17,33 +16,48 @@ class Pokemon:
         self.updated_at = db_data['updated_at']
         self.user = None
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'name': self.name,
+            'nickname': self.nickname,
+            'SpriteURL': self.SpriteURL,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at
+        }
+    
     @classmethod
     def save_pokemon(cls, newData):
         print("save_pokemon TO DATABASE")
         query = 'INSERT INTO pokemon(user_id, name, nickname, SpriteURL) VALUES(%(user_id)s, %(name)s, %(nickname)s, %(spriteURL)s);'
         return connectToMySQL(db).query_db(query, newData)
     
+
     @classmethod
-    def get_all(cls):
-        query = 'SELECT * FROM pokemon JOIN user ON pokemon.user_id = user.id;'
-        results = connectToMySQL(db).query_db(query)
-        pokemon = []
+    def get_all(cls, id):
+        print("get_all POKEMON")
+        query = 'SELECT * FROM pokemon JOIN user ON user.id = pokemon.user_id WHERE user_id = %(id)s;'
+        results = connectToMySQL(db).query_db(query, id)
+        pokemon_list = []
         for row in results:
             one_pokemon = cls(row)
 
             one_pokemon_user_data = {
-            'id': row['user.id'],
-            'username': row['username'],
-            'email': row['email'],
-            'password': row['password'],
-            'created_at': row['user.created_at'],
-            'updated_at': row['user.updated_at']
+                'id': row['user.id'],
+                'username': row['username'],
+                'email': row['email'],
+                'password': row['password'],
+                'pokeballs': row['pokeballs'],
+                'created_at': row['user.created_at'],
+                'updated_at': row['user.updated_at']
             }
 
             user = userModel.User(one_pokemon_user_data)
             one_pokemon.user = user
-            pokemon.append(one_pokemon)
-        return pokemon
+            pokemon_list.append(one_pokemon.to_dict()) 
+
+        return pokemon_list
 
     @classmethod
     def get_id(cls, data):

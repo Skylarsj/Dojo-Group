@@ -52,7 +52,7 @@ def loginRoute():
         print("Session data after login:", session)
         
         return jsonify({'results': result, 'username': session['username']}), 200
-
+    
 @app.route('/api/logout')
 def logout():
     session.clear()  # Clear session data on the server-side

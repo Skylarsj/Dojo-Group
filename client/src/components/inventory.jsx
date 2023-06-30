@@ -6,30 +6,48 @@ const Bag = () => {
 const [pokemonObjects, setPokemonObjects] = useState([]);
 const [currentPage, setCurrentPage] = useState(0);
 
-const getPokemonData = async (pokemonType) => {
-    try {
-    const response = await axios.get(`https://pokeapi.co/api/v2/type/${pokemonType}`);
-    const pokemonData = response.data;
-
-    const pokemonObjects = await Promise.all(
-        pokemonData.pokemon.map(async (pokemon) => {
-        const pokemonResponse = await axios.get(pokemon.pokemon.url);
-        const pokemonDetails = pokemonResponse.data;
-        return {
-            name: pokemonDetails.name,
-            sprites: pokemonDetails.sprites,
-        }
-        })
-    );
-
-    setPokemonObjects(pokemonObjects);
-    } catch (error) {
-    console.error(error);
-    }
-};
-
 useEffect(() => {
-    getPokemonData('normal');
+    const getPokemonData = async () => {
+    try {
+        // Check login status
+        const loginCheckResponse = await axios.get('http://127.0.0.1:5000/api/check-login', { withCredentials: true });
+        const loginCheckData = loginCheckResponse.data;
+        console.log(loginCheckData);
+
+        if (loginCheckData.logged_in) {
+        const user_id = loginCheckData.user_id;
+
+        // Get user's Pokemon data
+        const savePokemonResponse = await axios.get(`http://localhost:5000/api/pokemon/get-all/${user_id}`, { withCredentials: true });
+        console.log(savePokemonResponse);
+        const pokemonData = savePokemonResponse.data;
+        
+        // Fetch details for each Pokemon
+        const pokemonObjects = await Promise.all(
+            pokemonData.pokemon.map(async (pokemon) => {
+            return {
+                name: pokemon.name,
+                id: pokemon.id,
+                sprite: pokemon.SpriteURL,
+                user_id: pokemon.user_id,
+            };
+            })
+        );
+        console.log(pokemonData);
+        return setPokemonObjects(pokemonObjects);
+        // ...
+        } else {
+        // User is not logged in, redirect to login page or perform other actions
+        Navigate("/");
+        console.log("User is not logged in");
+        }
+    } catch (error) {
+        // Handle error if the request fails
+        console.error("An error occurred:", error);
+    }
+    };
+
+    getPokemonData();
 }, []);
 
 const goToNextPage = () => {
@@ -47,7 +65,7 @@ const renderPokemonSprites = () => {
     return pokemonObjects.slice(startIndex, endIndex).map((pokemonObjects, index) => (
     <li key={index}>
         <div className="flex">
-            <img className="w-20 h-20" src={pokemonObjects.sprites && pokemonObjects.sprites.front_default} alt={`Pokemon Sprite ${index}`} />
+            <img className="w-20 h-20" src={pokemonObjects.sprite} alt={`Pokemon Sprite ${index}`} />
             <div className="flex-col w-[125px] text-[10px] font-mono text-black">
                 <p className="mt-2">Name:</p>
                 <p>{pokemonObjects.name}</p>

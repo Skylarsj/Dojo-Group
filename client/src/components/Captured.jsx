@@ -1,10 +1,12 @@
-import {React, useEffect } from 'react';
+import {React, useEffect, useState } from 'react';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const CapturedForm = () => {
+    const Navigate = useNavigate();
     const location = useLocation();
     const {pokemon} = location.state || "";
+    const [nickname, setNickname] = useState("");
     console.log(pokemon);
 
     
@@ -20,7 +22,7 @@ const CapturedForm = () => {
             const capturedPokemon = {
             user_id: user_id,
             name: pokemon.name,
-            nickname: pokemon.name,
+            nickname: nickname || pokemon.name,
             spriteURL: pokemon.sprites.front_default
             };
     
@@ -39,11 +41,16 @@ const CapturedForm = () => {
         }
     };
 
+    const applyNickname = (e) => {
+        setNickname(e.target.value);
+    };
 
     return(
-        <div className="flex w-full h-full">
-            <div>{pokemon.name}</div>
-            <button onClick={savePokemon}>Save</button>
+        <div className="relative flex flex-col w-full h-full">
+            <div className="absolute bottom-20 left-[133px]">{pokemon.name}</div>
+            <img className="w-[200px] h-[200px] mx-auto" src={pokemon.sprites.front_default} alt={pokemon.name} />
+            <input onChange={applyNickname} className="justify-bottom w-3/4 mx-auto" type="text" placeholder="nickname" value={nickname} />
+            <button className="justify-bottom w-3/4 mx-auto" onClick={savePokemon}>keep</button>
         </div>
     );
 }

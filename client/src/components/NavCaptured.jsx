@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router-dom';
 const NavCaptured = () => {
     const Navigate = useNavigate();
 
-    const Inventory = () => {
-        Navigate('/inventory');
+    const Map = () => {
+        Navigate('/map');
     }
 
     const logOut = () => {
@@ -28,7 +28,7 @@ const NavCaptured = () => {
             <img className="h-20 w-auto pb-6" src="./src/img/NormalPokeball.png" alt="logo"/>
                 <p className="font-mono text-black text-[20px] ml-[-10px] pt-6">x</p>
                 <p className="font-mono text-black text-[20px] pt-6">1</p>
-            <button onClick={Inventory} className="w-18 border border-black h-auto m-4 p-1 text-xs font-mono text-black bg-[#00C247]">inventory</button>
+            <button onClick={Map} className="w-20 border border-black h-auto m-4 p-1 text-xs font-mono text-black bg-[#00C247]">map</button>
             <button onClick={logOut} className="w-16 border border-black h-auto m-4 ml-auto p-1 text-xs font-mono text-black bg-[#00C247]">Logout</button>
         </div>
     );
