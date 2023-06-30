@@ -6,7 +6,7 @@ const Map = () => {
 const Navigate = useNavigate();
 
     useEffect(() => {
-    axios.get('http://127.0.0.1:5000/api/check-login')
+    axios.get('http://127.0.0.1:5000/api/check-login', { withCredentials: true })
         .then(response => response.data)
         .then(data => {
             console.log(data);

@@ -49,7 +49,7 @@ def loginRoute():
         session['logged_in'] = True
         print("Session data after login:", session)
         
-        return jsonify(result), 200
+        return jsonify({'results': result, 'username': session['username']}), 200
 
 @app.route('/logout')
 def logout():
