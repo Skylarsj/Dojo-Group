@@ -12,7 +12,7 @@ const NavMap = () => {
     const logOut = () => {
         axios.get('http://localhost:5000/api/logout', { withCredentials: true })
             .then(res => {
-                document.cookie = 'session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+                console.log(res);
                 Navigate('/');
             })
             .catch(err => console.log(err));
