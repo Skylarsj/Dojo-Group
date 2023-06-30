@@ -3,6 +3,13 @@ import random, requests
 from server.models.pokemonModel import Pokemon
 from server.models.userModel import User
 
+def delete_one(data):
+    print("Deleting one pokemon")
+    
+    Pokemon.delete(data)
+
+    return {'error': False, 'message': 'Pokemon deleted'}
+
 def validate_all(data):
     print("Validating all pokemon")
     

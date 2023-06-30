@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
+import { useNavigate } from 'react-router-dom';
 
 const Bag = () => {
+const Navigate = useNavigate();
 const [pokemonObjects, setPokemonObjects] = useState([]);
 const [currentPage, setCurrentPage] = useState(0);
+const [currentPokemonId, setCurrentPokemonId] = useState(0);
 
 useEffect(() => {
     const getPokemonData = async () => {
@@ -68,18 +70,38 @@ const renderPokemonSprites = () => {
     const endIndex = (currentPage + 1) * 1;
     return pokemonObjects.slice(startIndex, endIndex).map((pokemonObjects, index) => (
     <li key={index}>
-        <div className="flex">
-            <img className="w-20 h-20" src={pokemonObjects.sprite} alt={`Pokemon Sprite ${index}`} />
-            <div className="flex-col w-[125px] text-[10px] font-mono text-black">
-                <p className="mt-2">Name:</p>
-                <p>{pokemonObjects.name}</p>
-                <p className="mt-1">Nickanme:</p>
-                <p>{pokemonObjects.nickname}</p>
+        <div className="flex flex-col">
+            <div className="flex h-1/2">
+                <img className="w-20 h-20" src={pokemonObjects.sprite} alt={`Pokemon Sprite ${index}`} />
+                <div className="flex-col w-[125px] text-[10px] font-mono text-black">
+                    <p className="mt-2">Name:</p>
+                    <p>{pokemonObjects.name}</p>
+                    <p className="mt-1">Nickanme:</p>
+                    <p>{pokemonObjects.nickname}</p>
+                </div>
+            </div>
+            <div className="flex h-1/2 items-center justify-center">
+                <button onClick={() => DeletePokemon(pokemonObjects.id)} className="w-20 h-10 text-xs mr-2 font-mono">release</button>
+                <button className="w-20 h-10 text-xs pl-2.5 font-mono">nickname</button>
             </div>
         </div>
     </li>
     ));
 };
+
+
+const DeletePokemon = (id) => {
+    axios.delete(`http://127.0.0.1:5000/api/pokemon/delete/${id}`, { withCredentials: true })
+    .then((response) => {
+        console.log(response);
+        setPokemonObjects((prevPokemonObjects) => prevPokemonObjects.filter(pokemon => pokemon.id !== id));
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+    
+};
+
 
 return (
     <div className="flex flex-col w-full h-full overflow-hidden bg-[#00C247]">
@@ -91,15 +113,11 @@ return (
                 <img className="rotate-180" src="./src/img/arrow.png" alt="arrow" />
             </button>
             <div className="mx-auto">
-                <div className="flex h-1/2 items-center justify-center">
+
                     <ul className="">
                         {renderPokemonSprites()}
                     </ul>
-                </div>
-                <div className="flex h-1/2 items-center justify-center">
-                    <button className="w-20 h-10 text-xs mr-2 font-mono">release</button>
-                    <button className="w-20 h-10 text-xs pl-2.5 font-mono">nickname</button>
-                </div>
+
             </div>
         </div>
     <div className="h-1/2 w-full bg-slate-600">

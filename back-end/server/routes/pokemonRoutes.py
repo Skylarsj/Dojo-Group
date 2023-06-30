@@ -1,7 +1,7 @@
 from flask import  redirect, request, session, jsonify
 from server import app
 
-from server.controllers.pokemonController import save_pokemon, validate_all
+from server.controllers.pokemonController import save_pokemon, validate_all, delete_one
 from server.models.pokemonModel import Pokemon
 
 @app.route('/index')
@@ -51,13 +51,13 @@ def get_all_pokemon_route(id):
 
     return jsonify(result), 200
 
-@app.route('/pokemon/delete/<int:id>', methods=['DELETE'])
+@app.route('/api/pokemon/delete/<int:id>', methods=['DELETE'])
 def delete_pokemon_route(id):
     # Create a dictionary with the id parameter
     data = {'id': id}
 
     # Call the delete function of the Pokemon model to delete the Pokemon
-    result = Pokemon.delete(data)
+    result = delete_one(data)
 
     if result['error']:
         return jsonify(result), 400  # Return error response with status code 400
