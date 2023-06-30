@@ -104,13 +104,13 @@ def validate_User(user):
         return {'error': False, 'message': "User is valid."}
 
 @staticmethod
-def validate_login(data):
-    valid_user = User.get_username(data)
+def login_validation(data):
+    valid_user = User.get_username(data['email'])
     print("in validate_login", valid_user)
     if not valid_user:
         error_message = "Invalid email/password."
-    return jsonify({'error': True, 'message': error_message})
+        return jsonify({'error': True, 'message': error_message})
     if valid_user:
         if not bcrypt.check_password_hash(valid_user['password'], data['password']):
-            return {'error': True, 'message': "Invalid email/password."}
-    return {'error': False, 'message': "User is valid."}
+            return jsonify({'error': True, 'message': "Invalid email/password."})
+    return jsonify({'error': False, 'message': "User is valid."})
