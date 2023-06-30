@@ -29,11 +29,12 @@ useEffect(() => {
                 name: pokemon.name,
                 id: pokemon.id,
                 sprite: pokemon.SpriteURL,
+                nickname: pokemon.nickname,
                 user_id: pokemon.user_id,
             };
             })
         );
-        console.log(pokemonData);
+        console.log(pokemonObjects.length);
         return setPokemonObjects(pokemonObjects);
         // ...
         } else {
@@ -52,16 +53,19 @@ useEffect(() => {
 
 const goToNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
+    console.log(currentPage);
+    console.log("maths", Math.ceil(pokemonObjects.length / 1) - 1);
 };
 
 const goToPreviousPage = () => {
     setCurrentPage((prevPage) => prevPage - 1);
+    console.log(currentPage);
+    console.log("maths", Math.ceil(pokemonObjects.length / 1) - 1);
 };
 
 const renderPokemonSprites = () => {
-    const startIndex = currentPage * 1; // Adjust the number of Pokémon per page here
+    const startIndex = currentPage * 1;
     const endIndex = (currentPage + 1) * 1;
-
     return pokemonObjects.slice(startIndex, endIndex).map((pokemonObjects, index) => (
     <li key={index}>
         <div className="flex">
@@ -70,7 +74,7 @@ const renderPokemonSprites = () => {
                 <p className="mt-2">Name:</p>
                 <p>{pokemonObjects.name}</p>
                 <p className="mt-1">Nickanme:</p>
-                <p>nickname</p>
+                <p>{pokemonObjects.nickname}</p>
             </div>
         </div>
     </li>
@@ -80,13 +84,12 @@ const renderPokemonSprites = () => {
 return (
     <div className="flex flex-col w-full h-full overflow-hidden bg-[#00C247]">
         <div className="relative flex h-1/2 w-full border mx-auto">
-            <div className="absolute border rounded-xl w-12 h-1/2 right-1 top-9 flex mx-auto just items-center active:bg-green-500" onClick={goToNextPage} disabled={currentPage === Math.ceil(pokemonObjects.length / 1) - 1}>
-                <img src="./src/img/arrow.png" alt="arrow" />
-            </div>
-
-            <div className="absolute border rounded-xl w-12 h-1/2 left-1 top-9 flex items-center " onClick={goToPreviousPage} disabled={currentPage === Math.ceil(pokemonObjects.length / 1) - 1}>
+            <button className="absolute border rounded-xl w-12 h-1/2 right-1 top-9 flex mx-auto just items-center bg-green-500 active:bg-green-800" onClick={goToNextPage} disabled={currentPage === Math.ceil(pokemonObjects.length / 1) - 1}>
+            <img src="./src/img/arrow.png" alt="arrow" />
+            </button>
+            <button className="absolute border rounded-xl w-12 h-1/2 left-1 top-9 flex items-center bg-green-500 active:bg-green-800 " onClick={goToPreviousPage} disabled={currentPage === 0}>
                 <img className="rotate-180" src="./src/img/arrow.png" alt="arrow" />
-            </div>
+            </button>
             <div className="mx-auto">
                 <div className="flex h-1/2 items-center justify-center">
                     <ul className="">

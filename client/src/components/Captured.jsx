@@ -18,7 +18,7 @@ const CapturedForm = () => {
         console.log(loginCheckData);
     
         if (loginCheckData.logged_in) {
-                const user_id = loginCheckData.user_id;
+            const user_id = loginCheckData.user_id;
             const capturedPokemon = {
             user_id: user_id,
             name: pokemon.name,
@@ -26,9 +26,7 @@ const CapturedForm = () => {
             spriteURL: pokemon.sprites.front_default
             };
     
-            const savePokemonResponse = await axios.post("http://localhost:5000/api/pokemon/save", capturedPokemon, { withCredentials: true });
-            console.log(savePokemonResponse);
-    
+            const savePokemonResponse = await axios.post("http://localhost:5000/api/pokemon/save", capturedPokemon, { withCredentials: true });    
             Navigate('/map');
         } else {
             // User is not logged in, redirect to login page or perform other actions
