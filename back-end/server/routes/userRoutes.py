@@ -51,7 +51,11 @@ def loginRoute():
         
         return jsonify({'results': result, 'username': session['username']}), 200
 
-@app.route('/logout')
+@app.route('/api/logout')
 def logout():
-    session.clear()
-    return jsonify({'message': 'Logged out successfully'}), 200  # Return success response with status code 200
+    session.clear()  # Clear session data on the server-side
+
+    response = jsonify({'message': 'Logged out successfully'})
+    response.set_cookie('session', '', expires=0)  # Clear session cookie on the client-side
+
+    return response, 200  # Return success response with status code 200
