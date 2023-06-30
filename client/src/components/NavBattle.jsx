@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 const NavBattle = ({ handlePopUp, handleCapture }) => {
   const navigate = useNavigate();
-  const [nickname, setNickname] = useState('');
+  const {pokemon } = location.state || "";
 
   const handleCaptureClick = () => {
     const enteredNickname = prompt('Enter a nickname:');
@@ -12,19 +12,34 @@ const NavBattle = ({ handlePopUp, handleCapture }) => {
       return;
     }
 
-    handleCapture({ name: 'Pikachu', spriteUrl: 'https://pokeapi.co/sprites/pikachu.png', nickname: enteredNickname });
-    navigate('/captured-pokemon');
+    const capturedPokemon = {
+      name: pokemon.name,
+      spriteUrl: pokemon.sprites.front_default,
+      nickname: enteredNickname,
+    };
+
+    axios.post('/pokemon/save', capturedPokemon)
+      .then(response => {
+        // Handle the response if needed
+        console.log(response.data);
+      })
+      .catch(error => {
+        // Handle the error if needed
+        console.error(error);
+      });
+
+    handleCapture(capturedPokemon);
+    navigate('/inventory');
+  };
+  const handleGoBackClick = () => {
     navigate('/map');
   };
-  
+
 
   return (
     <div className="flex h-16 w-full bg-[#00C247] border-t-2 border-black z-50">
       {/* Pokeball count */}
       <img
-        onClick={() => {
-          handlePopUp();
-        }}
         className="h-20 w-auto pb-6"
         src="./src/img/NormalPokeball.png"
         alt="logo"
@@ -37,7 +52,10 @@ const NavBattle = ({ handlePopUp, handleCapture }) => {
       >
         Capture!
       </button>
-      <button onClick = ""className="w-18 border rounded-md border-black h-auto m-4 ml-auto text-xs p-1.5 font-mono text-black bg-[#00C247]">
+      <button
+        className="w-18 border rounded-md border-black h-auto m-4 ml-auto text-xs p-1.5 font-mono text-black bg-[#00C247]"
+        onClick={handleGoBackClick}
+      >
         Go back
       </button>
     </div>
