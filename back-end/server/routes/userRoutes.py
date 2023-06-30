@@ -17,7 +17,7 @@ def check_login():
     print("Session data:", session)
     if 'username' in session:
         print("User is logged in")
-        return jsonify({'logged_in': True, 'username': session['username']})
+        return jsonify({'logged_in': True, 'username': session['username'], 'user_id': session['user_id']})
     else:
         print("User is not logged in")
         return jsonify({"logged_in": False})

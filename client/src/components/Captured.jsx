@@ -7,42 +7,37 @@ const CapturedForm = () => {
     const {pokemon} = location.state || "";
     console.log(pokemon);
 
-    useEffect(() => {
-        axios.get('http://127.0.0.1:5000/api/check-login', { withCredentials: true })
-            .then(response => response.data)
-            .then(data => {
-                console.log(data);
-            if (data.logged_in) {
-                // User is logged in, perform necessary actions
-                console.log("Logged in as:", data.username);
-            } else {
-                // User is not logged in, redirect to login page or perform other actions
-                Navigate("/");
-                console.log("User is not logged in");
-            }
-            })
-            .catch(error => {
-            // Handle error if the request fails
-            console.error("An error occurred:", error);
-            });
-        }, []);
     
-    const savePokemon = () => {
-
-
-    const capturedPokemon = {
+    const savePokemon = async () => {
+        try {
+        const loginCheckResponse = await axios.get('http://127.0.0.1:5000/api/check-login', { withCredentials: true });
+        const loginCheckData = loginCheckResponse.data;
+    
+        console.log(loginCheckData);
+    
+        if (loginCheckData.logged_in) {
+                const user_id = loginCheckData.user_id;
+            const capturedPokemon = {
+            user_id: user_id,
             name: pokemon.name,
             nickname: pokemon.name,
             spriteURL: pokemon.sprites.front_default
+            };
+    
+            const savePokemonResponse = await axios.post("http://localhost:5000/api/pokemon/save", capturedPokemon, { withCredentials: true });
+            console.log(savePokemonResponse);
+    
+            Navigate('/map');
+        } else {
+            // User is not logged in, redirect to login page or perform other actions
+            Navigate("/");
+            console.log("User is not logged in");
         }
-
-        axios.post("http://localhost:5000/api/pokemon/save", capturedPokemon, { withCredentials: true })
-            .then(res => {
-                console.log(res);
-                Navigate('/map');
-            })
-            .catch(err => console.log(err));
-    }
+        } catch (error) {
+        // Handle error if the request fails
+        console.error("An error occurred:", error);
+        }
+    };
 
 
     return(

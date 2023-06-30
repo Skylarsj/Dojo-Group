@@ -16,11 +16,8 @@ def save_captured_pokemon():
     # Extract the captured Pokemon data from the request
     print("Saving Pokemon")
     data = request.get_json()
-    print(session)
-    user_id = session.get('user_id')
-    print(user_id)
     newData = {
-        'user_id': user_id,
+        'user_id': data['user_id'],
         'name': data['name'],
         'nickname': data['nickname'],
         'spriteURL': data['spriteURL'],

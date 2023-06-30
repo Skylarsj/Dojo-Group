@@ -27,7 +27,7 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `pokemon`.`pokemon` (
   `user_id` INT NOT NULL,
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NULL DEFAULT NULL,
   `SpriteURL` VARCHAR(255) NULL DEFAULT NULL,
   `created_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
