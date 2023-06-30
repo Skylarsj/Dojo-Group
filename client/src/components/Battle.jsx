@@ -9,7 +9,6 @@ const Battle = () => {
     const { pokemon } = location.state || "";
     const [isLoading, setIsLoading] = useState(true);
     const [PokemonFontSize, setPokemonFontSize] = useState(0);
-    const [capturedPokemon, setCapturedPokemon] = useState(null);
     
         const adjustFontSize = () => {
         if (pokemon.name.length > 10) {
@@ -18,11 +17,6 @@ const Battle = () => {
             setPokemonFontSize(20);
         }
     };
-
-    const handleCapture = (pokemonData) => {
-        setCapturedPokemon(pokemonData); // Store the captured Pokemon data in state
-        
-      };
 
     useEffect(() => {
         if (pokemon === null || pokemon === undefined) {
