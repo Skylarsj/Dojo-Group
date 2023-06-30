@@ -10,15 +10,15 @@ db = 'Pokemon'
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$') 
 
 class User:
-def __init__( self , db_data ):
-    self.id = db_data['id']
-    self.username = db_data['username']
-    self.email = db_data['email']
-    self.password = db_data['password']
-    self.pokeballs = db_data['pokeballs']
-    self.created_at = db_data['created_at']
-    self.updated_at = db_data['updated_at']
-    self.pokemon = []
+    def __init__( self , db_data ):
+        self.id = db_data['id']
+        self.username = db_data['username']
+        self.email = db_data['email']
+        self.password = db_data['password']
+        self.pokeballs = db_data['pokeballs']
+        self.created_at = db_data['created_at']
+        self.updated_at = db_data['updated_at']
+        self.pokemon = []
 
 @classmethod
 def save_user(cls, form_data):
@@ -31,7 +31,7 @@ def get_all(cls):
     results = connectToMySQL(db).query_db(query)
     user = []
     for user in results:
-    user.append(cls(user))
+        user.append(cls(user))
     return user
 
 @classmethod
@@ -108,9 +108,9 @@ def validate_login(data):
     valid_user = User.get_username(data)
     print("in validate_login", valid_user)
     if not valid_user:
-    error_message = "Invalid email/password."
+        error_message = "Invalid email/password."
     return jsonify({'error': True, 'message': error_message})
     if valid_user:
-    if not bcrypt.check_password_hash(valid_user['password'], data['password']):
-        return {'error': True, 'message': "Invalid email/password."}
+        if not bcrypt.check_password_hash(valid_user['password'], data['password']):
+            return {'error': True, 'message': "Invalid email/password."}
     return {'error': False, 'message': "User is valid."}

@@ -18,7 +18,7 @@ def create_user(data):
 
     return new_user
 
-    def validate_login(data):
+def validate_login(data):
     valid_user = User.validate_login(data)
     if not valid_user:
         return {'error': True, 'message': 'Username does not exist'}

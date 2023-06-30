@@ -24,25 +24,25 @@ class Pokemon:
     
     @classmethod
     def get_all(cls):
-    query = 'SELECT * FROM pokemon JOIN user ON pokemon.user_id = user.id;'
-    results = connectToMySQL(db).query_db(query)
-    pokemon = []
-    for row in results:
-        one_pokemon = cls(row)
+        query = 'SELECT * FROM pokemon JOIN user ON pokemon.user_id = user.id;'
+        results = connectToMySQL(db).query_db(query)
+        pokemon = []
+        for row in results:
+            one_pokemon = cls(row)
 
-        one_pokemon_user_data = {
-        'id': row['user.id'],
-        'username': row['username'],
-        'email': row['email'],
-        'password': row['password'],
-        'created_at': row['user.created_at'],
-        'updated_at': row['user.updated_at']
-        }
+            one_pokemon_user_data = {
+            'id': row['user.id'],
+            'username': row['username'],
+            'email': row['email'],
+            'password': row['password'],
+            'created_at': row['user.created_at'],
+            'updated_at': row['user.updated_at']
+            }
 
-        user = userModel.User(one_pokemon_user_data)
-        one_pokemon.user = user
-        pokemon.append(one_pokemon)
-    return pokemon
+            user = userModel.User(one_pokemon_user_data)
+            one_pokemon.user = user
+            pokemon.append(one_pokemon)
+        return pokemon
 
     @classmethod
     def get_id(cls, data):
@@ -74,8 +74,8 @@ class Pokemon:
     #release pokemon
     @classmethod
     def delete(cls, data):
-    query = "DELETE FROM pokemon WHERE id = %(id)s;"
-    return connectToMySQL(db).query_db(query, data)
+        query = "DELETE FROM pokemon WHERE id = %(id)s;"
+        return connectToMySQL(db).query_db(query, data)
 
 
     @staticmethod
