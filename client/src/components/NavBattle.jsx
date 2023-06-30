@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
 
-const NavBattle = ({ handlePopUp, handleCapture }) => {
+const NavBattle = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const {pokemon } = location.state || "";
 
   const handleCaptureClick = () => {
@@ -18,7 +20,7 @@ const NavBattle = ({ handlePopUp, handleCapture }) => {
       nickname: enteredNickname,
     };
 
-    axios.post('/pokemon/save', capturedPokemon)
+    axios.post('http://127.0.0.1:5000/api/pokemon/save', pokemon)
       .then(response => {
         // Handle the response if needed
         console.log(response.data);
@@ -28,7 +30,6 @@ const NavBattle = ({ handlePopUp, handleCapture }) => {
         console.error(error);
       });
 
-    handleCapture(capturedPokemon);
     navigate('/inventory');
   };
   const handleGoBackClick = () => {

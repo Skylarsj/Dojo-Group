@@ -80,19 +80,21 @@ class Pokemon:
 
     @staticmethod
     def validate_pokemon(form_data):
-        is_valid = True
-        if len(form_data['name']) < 2:
-            error_message = "Name must be at least 2 characters."
-            is_valid = False
-            return jsonify({'error': True, 'message': error_message})
+        print ("Validating Pokemon")
+        print (Pokemon)
+        error_message = None
 
-        if len(form_data['nickname']) < 2:  # Add validation for nickname length
+        error_messages = {}
+       
+        if len(Pokemon['nickname']) < 2:  # Add validation for nickname length
             error_message = "Nickname must be at least 2 characters."
-            is_valid = False
-            return jsonify({'error': True, 'message': error_message})
+            error_messages['badNickname'] = error_message
+        if len(Pokemon['nickname']) > 16:  # Add validation for nickname length
+            error_message = "Nickname must be less than 16 characters."
 
-        if validators.url(form_data['SpriteURL']) != True:
-            error_message = "SpriteURL must be a valid URL."
-            is_valid = False
-            return jsonify({'error': True, 'message': error_message})
-        return is_valid
+        if error_messages:
+            return {'error': True, 'message': error_messages}
+        else:
+            return {'error': False, 'message': "User is valid."}
+
+       

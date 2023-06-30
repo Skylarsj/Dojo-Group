@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+
 const Bag = () => {
 const [pokemonObjects, setPokemonObjects] = useState([]);
 const [currentPage, setCurrentPage] = useState(0);
