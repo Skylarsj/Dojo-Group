@@ -38,7 +38,7 @@ def register():
 def loginRoute():
     data = request.get_json()
     result = validate_login(data)
-    
+    print(session)
     if 'error' in result and result['error']:
         return jsonify(result), 401 
     
@@ -56,6 +56,8 @@ def logout():
     session.clear()  # Clear session data on the server-side
 
     response = jsonify({'message': 'Logged out successfully'})
-    response.set_cookie('session', '', expires=0)  # Clear session cookie on the client-side
+    response.delete_cookie('session', domain='localhost', secure=True, httponly=True, samesite='None')
 
+    print("Session data after logout:", session)
+    print("Response data after logout:", response)
     return response, 200  # Return success response with status code 200

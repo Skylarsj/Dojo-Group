@@ -15,6 +15,7 @@ const Navigate = useNavigate();
             console.log("Logged in as:", data.username);
         } else {
             // User is not logged in, redirect to login page or perform other actions
+            Navigate("/");
             console.log("User is not logged in");
         }
         })

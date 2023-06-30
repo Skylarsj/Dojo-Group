@@ -46,23 +46,30 @@ const renderPokemonSprites = () => {
 
     return pokemonObjects.slice(startIndex, endIndex).map((pokemonObjects, index) => (
     <li key={index}>
-        <img src={pokemonObjects.sprites && pokemonObjects.sprites.front_default} alt={`Pokemon Sprite ${index}`} />
-        <p>Name: {pokemonObjects.name}</p>
+        <div className="flex">
+            <img src={pokemonObjects.sprites && pokemonObjects.sprites.front_default} alt={`Pokemon Sprite ${index}`} />
+            <div className="flex-col w-[125px] text-[12px] font-mono ">
+                <p className="mt-2">Name:</p>
+                <p>{pokemonObjects.name}</p>
+                <p className="mt-2">Nickanme:</p>
+                <p>nickname</p>
+            </div>
+        </div>
     </li>
     ));
 };
 
 return (
     <div className="flex flex-col w-full h-full overflow-hidden bg-[#00C247]">
-        <div className="relative flex h-1/2 w-full">
-            <div className="absolute border rounded-xl w-12 h-1/2 right-1 top-9 flex items-center active:bg-green-500" onClick={goToNextPage} disabled={currentPage === Math.ceil(pokemonObjects.length / 1) - 1}>
+        <div className="relative flex h-1/2 w-full border mx-auto">
+            <div className="absolute border rounded-xl w-12 h-1/2 right-1 top-9 flex mx-auto just items-center active:bg-green-500" onClick={goToNextPage} disabled={currentPage === Math.ceil(pokemonObjects.length / 1) - 1}>
                 <img src="./src/img/arrow.png" alt="arrow" />
             </div>
 
             <div className="absolute border rounded-xl w-12 h-1/2 left-1 top-9 flex items-center " onClick={goToPreviousPage} disabled={currentPage === Math.ceil(pokemonObjects.length / 1) - 1}>
                 <img className="rotate-180" src="./src/img/arrow.png" alt="arrow" />
             </div>
-            <div className="ml-16">
+            <div className="flex items-center justify-center border-red-500 border mx-auto">
                 <ul className="">
                     {renderPokemonSprites()}
                 </ul>
