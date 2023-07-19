@@ -57,6 +57,13 @@ def delete_pokemon(data):
 
     return deleted_pokemon
 
+def get_pokemon_by_user_id(user_id):
+    print("Getting Pokemon by user ID")
+    pokemon_list = Pokemon.get_by_user_id(user_id)
+    if not pokemon_list:
+        return {'error': True, 'message': 'No Pokemon found for user'}
+    
+    return pokemon_list
 
 
 
