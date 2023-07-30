@@ -31,17 +31,13 @@ const DeletePokemon = (id) => {
     
 };
 
-
-
 useEffect(() => {
 
     const getPokemonCount = async (userId) => {
         try {
-        // Check login status
         const PokemonCount = await axios.get(`http://localhost:5000/api/pokemon/get-all/${userID}`, { withCredentials: true });
-    
+            setPokemonCount(PokemonCount.data.pokemon.length);
         } catch (error) {
-        // Handle error if the request fails
         console.error("An error occurred:", error);
         }
     }

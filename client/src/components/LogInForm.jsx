@@ -19,7 +19,6 @@ const [errors, setErrors] = useState({});
             [name]: value
         }));
     };
-//T O D O: Add handleSubmit function for backend
 const handleSubmit = (e) => {
     e.preventDefault();
     axios.post('http://127.0.0.1:5000/api/login', account, { withCredentials: true })
