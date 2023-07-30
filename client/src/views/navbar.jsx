@@ -14,7 +14,39 @@ const Navbar = () => {
 
 const location = useLocation();
 
+const [pokemonCount, setPokemonCount] = useState(0);
+const [pokeballCount, setPokeballCount] = useState(0);
+
+
+
+const DeletePokemon = (id) => {
+    axios.delete(`http://127.0.0.1:5000/api/pokemon/delete/${id}`, { withCredentials: true })
+    .then((response) => {
+        console.log(response);
+        setPokemonObjects((prevPokemonObjects) => prevPokemonObjects.filter(pokemon => pokemon.id !== id));
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+    
+};
+
+
+
 useEffect(() => {
+
+    const getPokemonCount = async (userId) => {
+        try {
+        // Check login status
+        const PokemonCount = await axios.get(`http://localhost:5000/api/pokemon/get-all/${userID}`, { withCredentials: true });
+    
+        } catch (error) {
+        // Handle error if the request fails
+        console.error("An error occurred:", error);
+        }
+    }
+    getPokemonCount();
+
     const path = location.pathname
     if (path === '/map') {
     setNavMap(true)
