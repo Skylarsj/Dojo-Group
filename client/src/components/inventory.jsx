@@ -125,7 +125,7 @@ return (
             </div>
         </div>
     <div className="h-1/2 w-full bg-slate-600">
-        <p>Pokeball logic will go here</p>
+        <p>Wokring on this now</p>
     </div>
     </div>
 );
