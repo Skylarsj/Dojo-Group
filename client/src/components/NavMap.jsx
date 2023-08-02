@@ -12,6 +12,7 @@ const NavMap = () => {
     const logOut = () => {
         axios.get('http://localhost:5000/api/logout', { withCredentials: true })
             .then(res => {
+                console.log("Logged out");
                 console.log(res);
                 Navigate('/');
             })

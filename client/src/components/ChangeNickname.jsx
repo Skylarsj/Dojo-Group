@@ -13,6 +13,9 @@ const ChangeName = () => {
         nickname: nickname,
         id: pokemon.id
     };
+
+   //I want to make a function that will validate that the user is logged in 
+    //and if they are not logged in, redirect them to the login page
     
     const nickNameChange = () => {
             axios.post("http://localhost:5000/api/pokemon/update/nickname", newNickname, { withCredentials: true })
@@ -37,6 +40,7 @@ const ChangeName = () => {
             <button className="justify-bottom w-3/4 mx-auto" onClick={nickNameChange}>update</button>
         </div>
     );
-}
+
+    }
 
 export default ChangeName;
