@@ -53,7 +53,7 @@ def logout():
     session.clear()  # Clear session data on the server-side
 
     response = jsonify({'message': 'Logged out successfully'})
-    response.delete_cookie('session', domain='localhost', secure=True, httponly=True, samesite='None')
+    response.set_cookie('session', '', expires=0, domain='localhost', secure=True, httponly=True, samesite='None')
 
     print("Session data after logout:", session)
     print("Response data after logout:", response)

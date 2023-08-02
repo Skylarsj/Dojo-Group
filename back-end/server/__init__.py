@@ -9,3 +9,4 @@ load_dotenv()
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_here'
 CORS(app, supports_credentials=True, origins=["http://localhost:5173"])
+app.config['SESSION_PERMANENT'] = False
