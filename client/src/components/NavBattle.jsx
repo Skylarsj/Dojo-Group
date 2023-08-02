@@ -17,6 +17,8 @@ const NavBattle = () => {
         navigate('/map');
     };
 
+
+    //THIS IS A TEST
     return (
         <>
         {/* popup */}
