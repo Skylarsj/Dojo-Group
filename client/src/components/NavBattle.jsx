@@ -18,7 +18,6 @@ const NavBattle = () => {
     };
 
 
-    //THIS IS A TEST
     return (
         <>
         {/* popup */}
