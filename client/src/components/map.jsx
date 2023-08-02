@@ -10,6 +10,7 @@ const Navigate = useNavigate();
         .then(response => response.data)
         .then(data => {
             console.log(data);
+            console.log("session data", document.cookie)
         if (data.logged_in) {
             // User is logged in, perform necessary actions
             console.log("Logged in as:", data.username);

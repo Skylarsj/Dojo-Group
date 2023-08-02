@@ -12,7 +12,8 @@ const NavMap = () => {
     const logOut = () => {
         axios.get('http://localhost:5000/api/logout', { withCredentials: true })
             .then(res => {
-                console.log(res);
+                console.log("attempting to log out", res);
+                document.cookie = "session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                 Navigate('/');
             })
             .catch(err => console.log(err));
