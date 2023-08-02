@@ -5,6 +5,7 @@ import axios from 'axios';
 const NavBattle = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    //this is coming from the battle component
     const {pokemon} = location.state || "";
     console.log(pokemon);
 
