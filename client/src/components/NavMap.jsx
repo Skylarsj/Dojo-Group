@@ -15,6 +15,7 @@ const NavMap = () => {
 
     const handleLogout = () => {
         logout();
+        resetUsername(true);
  }
 
 
