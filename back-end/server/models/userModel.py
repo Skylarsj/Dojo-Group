@@ -110,12 +110,17 @@ class User:
 
     @staticmethod
     def login_validation(data):
+        if 'username' not in data or 'password' not in data:
+            error_message = "Invalid email/password."
+            return {'error': True, 'message': error_message}
+
         valid_user = User.get_username(data['username'])
-        print("in validate_login", valid_user)
         if not valid_user:
             error_message = "Invalid email/password."
-            return ({'error': True, 'message': error_message})
-        if valid_user:
-            if not bcrypt.check_password_hash(valid_user['password'], data['password']):
-                return ({'error': True, 'message': "Invalid email/password."})
-        return ({'error': False, 'message': "User is valid.", 'user': valid_user})
+            return {'error': True, 'message': error_message}
+
+        if not bcrypt.check_password_hash(valid_user['password'], data['password']):
+            error_message = "Invalid email/password."
+            return {'error': True, 'message': error_message}
+
+        return {'error': False, 'message': "User is valid.", 'user': valid_user}

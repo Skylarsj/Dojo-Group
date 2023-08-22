@@ -1,48 +1,30 @@
-import React, { useState } from 'react';
-import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useRegister } from '../hooks/useRegister';
+
 const RegisterForm = () => {
+    const [ username, setUsername ] = useState("");
+    const [ email, setEmail ] = useState("");
+    const [ password, setPassword ] = useState("");
+    const [ confirmPassword, setConfirmPassword ] = useState("");
+    const { register, error, isLoading } = useRegister()
 
-    const [register, setRegister] = useState({
-        username: "",
-        email: "",
-        password: "",
-        confirmPassword: ""
-    });
-
-    const navigate = useNavigate();
 
     const [errors, setErrors] = useState({});
 
-    const handleRegisterChange = (e) => {
-        const { name, value } = e.target;
-        
-        setRegister((prevFormInput) => ({
-            ...prevFormInput,
-            [name]: value
-        }));
-    };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
-        console.log(register)
-        axios.post('http://127.0.0.1:5000/api/register', register)
-            .then(res => {
-                console.log("Response",res);
-                navigate("/map");
-            })
-            .catch(err => {
-                const errors = err.response.data; // Array of error objects
-                setErrors(errors); // Assuming you have a state variable to store errors
-                console.log(errors);
-                });
+        await register(username, email, password, confirmPassword);
             };
     return (
         <>
             <div className="relative bg-[#626466] h-auto w-full mt-20 font-mono z-50">
                 <form onSubmit={handleSubmit} className="txt-center pb-1">
                     <div>
-                    {errors.message?.username ? <p className="absolute top-[-17px] left-8 text-xs text-black placeholder-black">{errors.message.username}</p> : null}
+                    {error && (
+                        <p className="absolute bottom-20 left-[80px] text-lg text-red-500 placeholder-black">
+                        {error.message}
+                    </p> )}
                         <input
                             className="mb-3 border rounded border-gray-500 h-10 bg-[#00C247] placeholder-black text-lg pl-1"
                             placeholder="username"
@@ -50,7 +32,7 @@ const RegisterForm = () => {
                             id="lastName"
                             name="username"
                             value={register.username}
-                            onChange={handleRegisterChange}
+                            onChange={(e) => setUsername(e.target.value)}
                         />
                         {errors.message?.oldEmail ? <p className="absolute top-10 left-8 text-xs text-black placeholder-black">{errors.message.oldEmail}</p> : null}
                         {errors.message?.email ? <p className="absolute top-10 left-8 text-xs text-black placeholder-black">{errors.message.email}</p> : null}
@@ -61,7 +43,7 @@ const RegisterForm = () => {
                             id="email"
                             name="email"
                             value={register.email}
-                            onChange={handleRegisterChange}
+                            onChange={(e) => setEmail(e.target.value)}
                         />
                         {errors.message?.password ? <p className="absolute top-[90px] left-8 text-xs text-black placeholder-black">{errors.message.password}</p> : null}
                         <input
@@ -72,7 +54,7 @@ const RegisterForm = () => {
                             name="password"
                             autoComplete="new-password"
                             value={register.password}
-                            onChange={handleRegisterChange}
+                            onChange={(e) => setPassword(e.target.value)}
                         />
                         {errors.message?.confirmPassword ? <p className="absolute bottom-[114px] left-8 text-xs text-black">{errors.message.confirmPassword}</p> : null}
                         <input
@@ -83,12 +65,12 @@ const RegisterForm = () => {
                             name="confirmPassword"
                             autoComplete="new-password"
                             value={register.confirmPassword}
-                            onChange={handleRegisterChange}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
                         />
                     </div>
                     <button
                         className="w-1/2 h-10 bg-gray text-md font-ligh mt-2 font-mono"
-                        type="submit">register</button>
+                        type="submit" onChange={handleSubmit} disabled= {isLoading}>Register</button>
                 </form>
                 <a
                 href="/"

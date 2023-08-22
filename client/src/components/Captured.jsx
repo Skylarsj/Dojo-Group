@@ -1,42 +1,35 @@
 import {React, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useAuthContext } from "../hooks/useAuthContext"
 
 const CapturedForm = () => {
     const Navigate = useNavigate();
     const location = useLocation();
-    const {pokemon} = location.state || "";
+    const { pokemon } = location.state || "";
     const [nickname, setNickname] = useState("");
+    const { state } = useAuthContext();
     console.log(pokemon);
-
-    
+    console.log("capture", state.user.results.user.id);
+  
     const savePokemon = async () => {
-        try {
-        const loginCheckResponse = await axios.get('http://127.0.0.1:5000/api/check-login', { withCredentials: true });
-        const loginCheckData = loginCheckResponse.data;
-    
-        console.log(loginCheckData);
-    
-        if (loginCheckData.logged_in) {
-            const user_id = loginCheckData.user_id;
-            const capturedPokemon = {
-            user_id: user_id,
+      try {
+        if (state.user) {
+          const capturedPokemon = {
+            user_id: state.user.results.user.id,
             name: pokemon.name,
             nickname: nickname || pokemon.name,
             spriteURL: pokemon.sprites.front_default
-            };
-    
-            const savePokemonResponse = await axios.post("http://localhost:5000/api/pokemon/save", capturedPokemon, { withCredentials: true });    
-            Navigate('/map');
+          };
+  
+          const savePokemonResponse = await axios.post("http://localhost:5000/api/pokemon/save", capturedPokemon, { withCredentials: true });
+          Navigate('/map');
         } else {
-            // User is not logged in, redirect to login page or perform other actions
-            Navigate("/");
-            console.log("User is not logged in");
+          console.log("User is not logged in");
         }
-        } catch (error) {
-        // Handle error if the request fails
+      } catch (error) {
         console.error("An error occurred:", error);
-        }
+      }
     };
 
     const applyNickname = (e) => {
