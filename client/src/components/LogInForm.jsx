@@ -1,31 +1,19 @@
 import React, { useContext, useState } from 'react';
 import axios from "axios";
 import Cookies from 'js-cookie';
-import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
 import { useLogin } from '../hooks/useLogin';
 
 
 const LoginForm = () => {
-  const [account, setAccount] = useState({
-    username: '',
-    password: ''
-  });
-  const navigate = useNavigate();
+ const [username , setUsername] = useState("");
+  const [password , setPassword] = useState("");
   const { login, error, isLoading } = useLogin();
 
-  const handleAccountChange = (e) => {
-    setAccount({
-      ...account,
-      [e.target.name]: e.target.value
-    });
-  };
 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await login(account.username, account.password);
-    navigate('/');
+    await login(username, password);
   };
 
   return (
@@ -44,8 +32,8 @@ const LoginForm = () => {
               type="text"
               id="username"
               name="username"
-              value={account.username}
-              onChange={handleAccountChange}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
           <div>
@@ -55,8 +43,8 @@ const LoginForm = () => {
               type="password"
               id="password"
               name="password"
-              value={account.password}
-              onChange={handleAccountChange}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <button disabled={isLoading} className="flex items-center border rounded-md border-gray-500 h-10 w-10 bg-[#00C247] font-mono placeholder-black text-lg pl-2">

@@ -38,5 +38,5 @@ export const useLogin = () => {
     document.cookie = name + "=" + encodeURIComponent(value) + "; expires=" + expires + "; path=/";
   };
 
-  return { error, isLoading, login };
+  return { error, isLoading, login, };
 };
