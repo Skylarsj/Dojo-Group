@@ -22,7 +22,7 @@ const CapturedForm = () => {
             spriteURL: pokemon.sprites.front_default
           };
   
-          const savePokemonResponse = await axios.post("http://localhost:5000/api/pokemon/save", capturedPokemon, { withCredentials: true });
+          const savePokemonResponse = await axios.post("http://localhost:5000/api/pokemon/save", capturedPokemon);
           Navigate('/map');
         } else {
           console.log("User is not logged in");

@@ -18,7 +18,7 @@ const ChangeName = () => {
     //and if they are not logged in, redirect them to the login page
     
     const nickNameChange = () => {
-            axios.post("http://localhost:5000/api/pokemon/update/nickname", newNickname, { withCredentials: true })
+            axios.post("http://localhost:5000/api/pokemon/update/nickname", newNickname)
             .then((res) => {
                 console.log(res);
                 Navigate('/inventory');

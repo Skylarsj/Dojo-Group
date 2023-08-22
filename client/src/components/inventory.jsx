@@ -1,56 +1,52 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 const Bag = () => {
 const Navigate = useNavigate();
 const [pokemonObjects, setPokemonObjects] = useState([]);
 const [currentPage, setCurrentPage] = useState(0);
+const {state} = useAuthContext();
 
 useEffect(() => {
     const getPokemonData = async () => {
-    try {
-        // Check login status
-        const loginCheckResponse = await axios.get('http://127.0.0.1:5000/api/check-login', { withCredentials: true });
-        const loginCheckData = loginCheckResponse.data;
-        console.log(loginCheckData);
+      try {
+        if (state.user) {
+          const user_id = state.user.results.user.id
 
-        if (loginCheckData.logged_in) {
-        const user_id = loginCheckData.user_id;
+          // Get user's Pokemon data
+          const savePokemonResponse = await axios.get(`http://localhost:5000/api/pokemon/get-all/${user_id}`);
+          console.log(savePokemonResponse);
+          const pokemonData = savePokemonResponse.data;
 
-        // Get user's Pokemon data
-        const savePokemonResponse = await axios.get(`http://localhost:5000/api/pokemon/get-all/${user_id}`, { withCredentials: true });
-        console.log(savePokemonResponse);
-        const pokemonData = savePokemonResponse.data;
-        
-        // Fetch details for each Pokemon
-        const pokemonObjects = await Promise.all(
+          // Fetch details for each Pokemon
+          const pokemonObjects = await Promise.all(
             pokemonData.pokemon.map(async (pokemon) => {
-            return {
+              return {
                 name: pokemon.name,
                 id: pokemon.id,
                 sprite: pokemon.SpriteURL,
                 nickname: pokemon.nickname,
                 user_id: pokemon.user_id,
-            };
+              };
             })
-        );
-        console.log(pokemonObjects.length);
-        return setPokemonObjects(pokemonObjects);
-        // ...
+          );
+          console.log(pokemonObjects.length);
+          setPokemonObjects(pokemonObjects);
         } else {
-        // User is not logged in, redirect to login page or perform other actions
-        Navigate("/");
-        console.log("User is not logged in");
+          // User is not logged in, redirect to login page or perform other actions
+          Navigate("/");
+          console.log("User is not logged in");
         }
-    } catch (error) {
+      } catch (error) {
         // Handle error if the request fails
         console.error("An error occurred:", error);
-    }
+      }
     };
 
     getPokemonData();
-}, []);
+  }, [state.user]);
 
 const goToNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
@@ -95,7 +91,7 @@ const goToChangeNickname = (pokemon) => {
 
 
 const DeletePokemon = (id) => {
-    axios.delete(`http://127.0.0.1:5000/api/pokemon/delete/${id}`, { withCredentials: true })
+    axios.delete(`http://127.0.0.1:5000/api/pokemon/delete/${id}`,)
     .then((response) => {
         console.log(response);
         setPokemonObjects((prevPokemonObjects) => prevPokemonObjects.filter(pokemon => pokemon.id !== id));

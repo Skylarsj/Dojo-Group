@@ -2,7 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react'
 import axios from 'axios';
-
+import { useAuthContext } from '../hooks/useAuthContext';
 import NavMap from '../components/NavMap';
 import NavBattle from '../components/NavBattle';
 import NavInventory from '../components/navInventory';
@@ -13,6 +13,7 @@ const Navbar = ({ userID }) => {
   const [navBattle, setNavBattle] = useState(false);
   const [navCaptured, setNavCaptured] = useState(false);
   const [navInventory, setNavInventory] = useState(false);
+  const {state} = useAuthContext();
 
   const location = useLocation();
 

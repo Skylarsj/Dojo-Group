@@ -21,6 +21,8 @@ def create_user(data):
 
     return new_user
 
+
+
 def validate_login(data):
     valid_user = User.login_validation(data)
     if not valid_user:
