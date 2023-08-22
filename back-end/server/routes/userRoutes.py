@@ -1,4 +1,4 @@
-from flask import redirect, render_template, request, session, jsonify
+from flask import redirect, render_template, request, session, jsonify, make_response
 from flask_session import Session
 from server import app
 from server.controllers.userController import create_user, validate_login
@@ -11,16 +11,7 @@ def index():
     print("hello world")
     return jsonify({"message": "Hello World"})
 
-@app.route("/api/check-login")
-def check_login():
-    print("checking login")
-    print("Session data:", session)
-    if 'username' in session:
-        print("User is logged in")
-        return jsonify({'logged_in': True, 'username': session['username'], 'user_id': session['user_id']})
-    else:
-        print("User is not logged in")
-        return jsonify({"logged_in": False})
+
 
 @app.route('/api/register', methods=['POST'])
 def register():
@@ -58,8 +49,12 @@ def logout():
     print("logging out on ")
     session.clear()  # Clear session data on the server-side
 
-    response = jsonify({'message': 'Logged out successfully'})
+    response = make_response(jsonify({'message': 'Logged out successfully'}))
     response.set_cookie('session', '', expires=0, domain='localhost', secure=True, httponly=True, samesite='None')
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    response.headers['Vary'] = 'Cookie'
 
     print("Session data after logout:", session)
     print("Response data after logout:", response)
