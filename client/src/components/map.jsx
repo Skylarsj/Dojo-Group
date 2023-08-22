@@ -9,6 +9,7 @@ const Map = () => {
   console.log("map", state.user)
 
 
+
   const getPokemonData = async (pokemonType) => {
     try {
       const response = await axios.get(`https://pokeapi.co/api/v2/type/${pokemonType}`);

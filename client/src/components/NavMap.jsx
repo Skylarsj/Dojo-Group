@@ -12,9 +12,10 @@ const NavMap = () => {
         Navigate('/inventory');
     }
 
+
     const handleLogout = () => {
         logout();
-    }
+ }
 
 
 
@@ -42,6 +43,7 @@ const NavMap = () => {
             <button onClick={handleLogout} className="w-16 border border-black h-auto m-4 ml-auto p-1 text-xs font-mono text-black bg-[#00C247]">Logout</button>
         </div>
     );
+   
 }
 
 export default NavMap;

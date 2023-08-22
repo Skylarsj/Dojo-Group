@@ -12,7 +12,6 @@ def index():
     return jsonify({"message": "Hello World"})
 
 
-
 @app.route('/api/register', methods=['POST'])
 def register():
     print("registration route")
@@ -36,17 +35,12 @@ def loginRoute():
     print("HERE ARE THE RESULTS", result)
     
     if 'error' in result and not result['error']:
-        session['username'] = data['username']
-        session['logged_in'] = True
-        session['user_id'] = result['user']['id']
-        print(result)
-        print("Session data after login:", session)
         
-        return jsonify({'results': result, 'username': session['username']}), 200
+        return jsonify({'results': result, 'username':['username']}), 200
     
 @app.route('/api/logout')
 def logout():
-    print("logging out on ")
+    print("Logging out...")
     session.clear()  # Clear session data on the server-side
 
     response = make_response(jsonify({'message': 'Logged out successfully'}))
