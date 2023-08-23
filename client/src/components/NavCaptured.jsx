@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useLogout } from '../hooks/useLogout';
 import { useAuthContext } from '../hooks/useAuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const NavCaptured = () => {
     const { state } = useAuthContext();
     const { logout } = useLogout(); 
     const [pokemonCount, setPokemonCount] = useState(0);
+    const Navigate = useNavigate();
 
     const Map = () => {
         Navigate('/map');
