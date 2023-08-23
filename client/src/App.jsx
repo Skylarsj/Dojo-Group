@@ -21,7 +21,7 @@ function App() {
           <Routes>
             <Route element={state.user ? <Navigate to="/map" /> : <Login />} path="/" />
 
-            <Route element={state.user ? <Navigate to="/map" /> : <Register />} path="/register" />
+            <Route element={<Register />} path="/register" />
 
             <Route element={!state.user ? <Navigate to="/" /> : <PokemonSearch />} path="/map" />
 

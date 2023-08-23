@@ -2,11 +2,15 @@ import { React, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate  } from 'react-router-dom';
 import { useAuthContext } from '../hooks/useAuthContext';
+import mapMusic from '../music/mapMusic.mp3';
+import { useVolume } from '../hooks/useVolume';
+
 
 const Map = () => {
   const Navigate = useNavigate();
   const {state }  = useAuthContext()
   const [pokemonCount, setPokemonCount] = useState(0);
+  const { volume} = useVolume();
   // console.log("map", state.user)
 
   useEffect(() => {
@@ -24,6 +28,16 @@ const Map = () => {
 
     getCount();
   }, [state.user]);
+
+  useEffect(() => {
+    const audio = new Audio(mapMusic);
+    audio.volume = volume; // Set volume to 25%
+    audio.loop = true; // Set loop to true
+    audio.play();
+    return () => {
+      audio.pause();
+    };
+  }, []);
 
 
   const getPokemonData = async (pokemonType) => {
@@ -50,6 +64,7 @@ const Map = () => {
   };
 
   return (
+    
     <div
       className="flex flex-wrap bg-cover w-[340px] h-[290px] overflow-hidden"
       style={{ backgroundImage: `url('./src/img/map2.png')` }}

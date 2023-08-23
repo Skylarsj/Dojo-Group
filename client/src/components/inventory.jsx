@@ -2,12 +2,17 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../hooks/useAuthContext';
+import inventoryMusic from '../music/inventoryMusic.mp3';
+import VolumeSlider from './volumeSlider';
+import { useVolume } from '../hooks/useVolume';
 
 const Bag = () => {
 const Navigate = useNavigate();
 const [pokemonObjects, setPokemonObjects] = useState([]);
 const [currentPage, setCurrentPage] = useState(0);
 const {state} = useAuthContext();
+const {volume} =  useVolume();
+
 
 useEffect(() => {
     const getPokemonData = async () => {
@@ -102,29 +107,47 @@ const DeletePokemon = (id) => {
     
 };
 
+useEffect(() => {
+  const audio = new Audio(inventoryMusic);
+  audio.volume = volume; // Set volume to 25%
+  audio.loop = true; // Set loop to true
+  audio.play();
+  return () => {
+    audio.pause();
+  };
+}, [volume]);
 
-return (
-    <div className="flex flex-col w-full h-full overflow-hidden bg-[#00C247]">
-        <div className="relative flex h-1/2 w-full border mx-auto">
-            <button className="absolute border rounded-xl w-12 h-1/2 right-1 top-9 flex mx-auto just items-center bg-green-500 active:bg-green-800" onClick={goToNextPage} disabled={currentPage === Math.ceil(pokemonObjects.length / 1) - 1}>
-            <img src="./src/img/arrow.png" alt="arrow" />
+
+
+
+
+ 
+    return (
+        <div className="flex flex-col w-full h-full overflow-hidden bg-[#00C247]">
+          <div className="relative flex h-1/2 w-full border mx-auto">
+            <button
+              className="absolute border rounded-xl w-12 h-1/2 right-1 top-9 flex mx-auto just items-center bg-green-500 active:bg-green-800"
+              onClick={goToNextPage}
+              disabled={currentPage === Math.ceil(pokemonObjects.length / 1) - 1}
+            >
+              <img src="./src/img/arrow.png" alt="arrow" />
             </button>
-            <button className="absolute border rounded-xl w-12 h-1/2 left-1 top-9 flex items-center bg-green-500 active:bg-green-800 " onClick={goToPreviousPage} disabled={currentPage === 0}>
-                <img className="rotate-180" src="./src/img/arrow.png" alt="arrow" />
+            <button
+              className="absolute border rounded-xl w-12 h-1/2 left-1 top-9 flex items-center bg-green-500 active:bg-green-800 "
+              onClick={goToPreviousPage}
+              disabled={currentPage === 0}
+            >
+              <img className="rotate-180" src="./src/img/arrow.png" alt="arrow" />
             </button>
             <div className="mx-auto">
-
-                    <ul className="">
-                        {renderPokemonSprites()}
-                    </ul>
-
+              <ul className="">{renderPokemonSprites()}</ul>
             </div>
+          </div>
+          <div className="h-1/2 w-full bg-slate-600">
+           <VolumeSlider />
+          </div>
         </div>
-    <div className="h-1/2 w-full bg-slate-600">
-        <p>Wokring on this now</p>
-    </div>
-    </div>
-);
-};
+      );
+    };
 
 export default Bag;
