@@ -1,13 +1,29 @@
-import { React, useEffect } from 'react';
+import { React, useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate  } from 'react-router-dom';
 import { useAuthContext } from '../hooks/useAuthContext';
 
 const Map = () => {
   const Navigate = useNavigate();
   const {state }  = useAuthContext()
-  console.log("map", state.user)
+  const [pokemonCount, setPokemonCount] = useState(0);
+  // console.log("map", state.user)
 
+  useEffect(() => {
+    const getCount = async () => {
+      try {
+        if (state.user) {
+          const response = await axios.get(`http://localhost:5000/api/pokemon/count/${state.user.results.user.id}`);
+          setPokemonCount(response.data.count);
+          console.log("data sent in map",response.data.count);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getCount();
+  }, [state.user]);
 
 
   const getPokemonData = async (pokemonType) => {

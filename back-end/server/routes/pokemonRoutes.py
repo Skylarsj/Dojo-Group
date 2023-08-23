@@ -1,8 +1,11 @@
 from flask import  redirect, request, session, jsonify
 from server import app
+from flask_cors import CORS
 
 from server.controllers.pokemonController import save_pokemon, validate_all, delete_one, update_one
 from server.models.pokemonModel import Pokemon
+
+CORS(app)
 
 @app.route('/index')
 def pokemonindex():
@@ -50,6 +53,12 @@ def get_all_pokemon_route(id):
         return jsonify(result), 400
 
     return jsonify(result), 200
+
+@app.route('/api/pokemon/count/<int:id>', methods=['get'])
+def count_pokemon_route(id):
+    print("Counting Pokemon")
+    count = Pokemon.get_count(id)
+    return jsonify({'count': count}), 200
 
 @app.route('/api/pokemon/delete/<int:id>', methods=['DELETE'])
 def delete_pokemon_route(id):

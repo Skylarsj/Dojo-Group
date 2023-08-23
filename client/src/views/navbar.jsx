@@ -14,10 +14,8 @@ const Navbar = ({ userID }) => {
   const [navCaptured, setNavCaptured] = useState(false);
   const [navInventory, setNavInventory] = useState(false);
   const {state} = useAuthContext();
-
-  const location = useLocation();
-
   const [pokemonCount, setPokemonCount] = useState(0);
+  const location = useLocation();
   const [pokeballCount, setPokeballCount] = useState(0);
 
   const DeletePokemon = (id) => {
@@ -32,14 +30,18 @@ const Navbar = ({ userID }) => {
   };
 
   useEffect(() => {
-    const getPokemonCount = async (userId) => {
+    const getCount = async () => {
       try {
-        const PokemonCount = await axios.get(`http://localhost:5000/api/pokemon/get-all/${userID}`, { withCredentials: true });
-        setPokemonCount(PokemonCount.data.pokemon.length);
+        if (state.user) {
+          const response = await axios.get(`http://localhost:5000/api/pokemon/count/${state.user.results.user.id}`);
+          setPokemonCount(response.data.count);
+          console.log("data sent in map",response.data.count);
+        }
       } catch (error) {
-        console.error("An error occurred:", error);
+        console.error(error);
       }
     };
+  
 
     if (location.pathname === '/map') {
       setNavMap(true);
@@ -72,12 +74,12 @@ const Navbar = ({ userID }) => {
     
   
 
-    getPokemonCount(userID);
-  }, [location.pathname, userID]);
+    
+  }, [location.pathname, state.user]);
 
   return (
     <div className="flex h-16 w-full bg-[#00C247] border-t-2 border-black">
-      {navBattle && <NavBattle />}
+      {navBattle  && <NavBattle />}
       {navMap && <NavMap />}
       {navCaptured && <NavCaptured DeletePokemon={DeletePokemon} />}
       {navInventory && <NavInventory setNavInventory={setNavInventory} pokeballCount={pokeballCount} />}

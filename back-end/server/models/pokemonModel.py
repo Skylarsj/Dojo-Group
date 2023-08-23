@@ -58,6 +58,21 @@ class Pokemon:
             pokemon_list.append(one_pokemon.to_dict()) 
 
         return pokemon_list
+    
+    @classmethod
+    def get_count(cls, id):
+        print("get_all POKEMON")
+        query = 'SELECT * FROM pokemon JOIN user ON user.id = pokemon.user_id WHERE user_id = %(id)s;'
+        results = connectToMySQL(db).query_db(query, id)
+
+        if not results:
+            return 0
+
+        count = 0
+        for row in results:
+            count += 1
+
+        return count
 
     @classmethod
     def get_id(cls, data):
