@@ -5,11 +5,11 @@ import { useLogin } from '../hooks/useLogin';
 
 
 const LoginForm = () => {
- const [username , setUsername] = useState("");
+  const [username , setUsername] = useState("");
   const [password , setPassword] = useState("");
   const { login, error, isLoading } = useLogin();
 
-
+  console.log("login form", error);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,15 +17,14 @@ const LoginForm = () => {
   };
 
   return (
-    <div>
+    <div>   
+      <div style={{ height: error ? "2rem" : "0" }}>
+        {error && <p className="error-message2">{error.json.message}</p>}
+      </div>
+      
       <div className="bg-[#626466]">
         <form className="flex pb-1" onSubmit={handleSubmit}>
           <div>
-            {error && (
-              <p className="absolute bottom-20 left-[80px] text-lg text-red-500 placeholder-black">
-                {error.message}
-              </p>
-            )}
             <input
               className="border rounded-md h-10 w-[149px] border-gray-500 bg-[#00C247] font-mono placeholder-black text-lg pl-1"
               placeholder="username"

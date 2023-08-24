@@ -2,6 +2,7 @@ import {React, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuthContext } from "../hooks/useAuthContext"
+import { usePokemonContext } from '../hooks/usePokemonContext';
 
 const CapturedForm = () => {
     const Navigate = useNavigate();
@@ -11,6 +12,8 @@ const CapturedForm = () => {
     const { state } = useAuthContext();
     console.log(pokemon);
     console.log("capture", state.user.results.user.id);
+    const { catchPokemon } = usePokemonContext();
+    
   
     const savePokemon = async () => {
       try {
@@ -24,6 +27,7 @@ const CapturedForm = () => {
   
           const savePokemonResponse = await axios.post("http://localhost:5000/api/pokemon/save", capturedPokemon);
           Navigate('/map');
+          catchPokemon();
         } else {
           console.log("User is not logged in");
         }

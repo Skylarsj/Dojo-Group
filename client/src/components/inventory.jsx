@@ -5,6 +5,7 @@ import { useAuthContext } from '../hooks/useAuthContext';
 import inventoryMusic from '../music/inventoryMusic.mp3';
 import VolumeSlider from './volumeSlider';
 import { useVolume } from '../hooks/useVolume';
+import { usePokemonContext } from '../hooks/usePokemonContext';
 
 const Bag = () => {
 const Navigate = useNavigate();
@@ -12,6 +13,7 @@ const [pokemonObjects, setPokemonObjects] = useState([]);
 const [currentPage, setCurrentPage] = useState(0);
 const {state} = useAuthContext();
 const {volume} =  useVolume();
+const { releasePokemon } = usePokemonContext();
 
 
 useEffect(() => {
@@ -98,8 +100,11 @@ const goToChangeNickname = (pokemon) => {
 const DeletePokemon = (id) => {
     axios.delete(`http://127.0.0.1:5000/api/pokemon/delete/${id}`,)
     .then((response) => {
+        releasePokemon();
         console.log(response);
         setPokemonObjects((prevPokemonObjects) => prevPokemonObjects.filter(pokemon => pokemon.id !== id));
+        releas
+
     })
     .catch((error) => {
         console.log(error);

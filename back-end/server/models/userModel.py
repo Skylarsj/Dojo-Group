@@ -116,11 +116,11 @@ class User:
 
         valid_user = User.get_username(data['username'])
         if not valid_user:
-            error_message = "Invalid email/password."
+            error_message = "Invalid User."
             return {'error': True, 'message': error_message}
 
         if not bcrypt.check_password_hash(valid_user['password'], data['password']):
-            error_message = "Invalid email/password."
+            error_message = "Incorrect password."
             return {'error': True, 'message': error_message}
 
         return {'error': False, 'message': "User is valid.", 'user': valid_user}

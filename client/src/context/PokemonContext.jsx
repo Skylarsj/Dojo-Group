@@ -31,8 +31,16 @@ export const PokemonProvider = ({ children }) => {
     getPokemonData();
   }, [state.user]);
 
+  const catchPokemon = () => {
+    setPokemonCount(pokemonCount + 1);
+  };
+
+  const releasePokemon = () => {
+    setPokemonCount(pokemonCount - 1);
+  }
+
   return (
-    <pokemonContext.Provider value={{ pokemonCount }}>
+    <pokemonContext.Provider value={{ pokemonCount, catchPokemon, releasePokemon }}>
       {children}
     </pokemonContext.Provider>
   );
