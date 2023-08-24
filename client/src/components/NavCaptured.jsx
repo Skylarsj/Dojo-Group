@@ -3,12 +3,14 @@ import axios from 'axios';
 import { useLogout } from '../hooks/useLogout';
 import { useAuthContext } from '../hooks/useAuthContext';
 import { useNavigate } from 'react-router-dom';
+import { usePokemonContext } from '../hooks/usePokemonContext';
 
 const NavCaptured = () => {
     const { state } = useAuthContext();
     const { logout } = useLogout(); 
-    const [pokemonCount, setPokemonCount] = useState(0);
     const Navigate = useNavigate();
+    const {pokemonCount} = usePokemonContext();
+
 
     const Map = () => {
         Navigate('/map');
@@ -19,33 +21,7 @@ const NavCaptured = () => {
         resetUsername(true);
  }
 
-    useEffect(() => {
-        const getPokemonData = async () => {
-          try {
-            if (state.user) {
-              const user_id = state.user.results.user.id;
-      
-              // Get user's Pokemon data
-              const savePokemonResponse = await axios.get(`http://localhost:5000/api/pokemon/get-all/${user_id}`);
-              console.log(savePokemonResponse);
-              const pokemonData = savePokemonResponse.data.pokemon;
-      
-    
-              // Set the Pokemon count to the length of the Pokemon data array
-              setPokemonCount(pokemonData.length);
-            } else {
-              // User is not logged in, redirect to login page or perform other actions
-              Navigate("/");
-              console.log("User is not logged in");
-            }
-          } catch (error) {
-            // Handle error if the request fails
-            console.error("An error occurred:", error);
-          }
-        };
-      
-        getPokemonData();
-      }, [state.user]);
+   
 
 
 
