@@ -6,21 +6,22 @@ export const useRegister = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { dispatch } = useAuthContext();
 
-  const register = async (email, username, password) => {
+  const register = async (username, email, password, confirm_password ) => {
     setIsLoading(true);
     setError(null);
 
-    const response = await fetch('/api/register', {
+    const response = await fetch('http://localhost:5000/api/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, username, password })
+      body: JSON.stringify({ username, email, password, confirm_password  })
     });
 
     const json = await response.json();
 
     if (!response.ok) {
       setIsLoading(false);
-      setError(json.error);
+      setError({ json, response });
+      console.log("error", error);
     }
     if (response.ok) {
       // Save the user in a cookie

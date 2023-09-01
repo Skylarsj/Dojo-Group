@@ -8,44 +8,41 @@ const RegisterForm = () => {
     const [ confirmPassword, setConfirmPassword ] = useState("");
     const { register, error, isLoading } = useRegister()
 
-
-    const [errors, setErrors] = useState({});
-
+    console.log("register form", error);
 
     const handleSubmit = async(e) => {
         e.preventDefault();
         await register(username, email, password, confirmPassword);
-            };
+    };
+
     return (
         <>
             <div className="relative bg-[#626466] h-auto w-full mt-20 font-mono z-50">
                 <form onSubmit={handleSubmit} className="txt-center pb-1">
                     <div>
-                    {error && (
-                        <p className="absolute bottom-20 left-[80px] text-lg text-red-500 placeholder-black">
-                        {error.message}
-                    </p> )}
                         <input
                             className="mb-3 border rounded border-gray-500 h-10 bg-[#00C247] placeholder-black text-lg pl-1"
                             placeholder="username"
                             type="text"
-                            id="lastName"
+                            id="username"
                             name="username"
-                            value={register.username}
+                            value={username}
                             onChange={(e) => setUsername(e.target.value)}
                         />
-                        {errors.message?.oldEmail ? <p className="absolute top-10 left-8 text-xs text-black placeholder-black">{errors.message.oldEmail}</p> : null}
-                        {errors.message?.email ? <p className="absolute top-10 left-8 text-xs text-black placeholder-black">{errors.message.email}</p> : null}
+                       
+            
                         <input
                             className="mb-3 border rounded border-gray-500 h-10 bg-[#00C247] placeholder-black text-lg pl-1"
                             placeholder="e-mail"
                             type="text"
                             id="email"
-                            name="email"
-                            value={register.email}
+                            name="email" 
+                            value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
-                        {errors.message?.password ? <p className="absolute top-[90px] left-8 text-xs text-black placeholder-black">{errors.message.password}</p> : null}
+
+                   
+
                         <input
                             className="mb-3 border rounded border-gray-500 h-10 bg-[#00C247] placeholder-black text-lg pl-1"
                             placeholder="password"
@@ -53,10 +50,12 @@ const RegisterForm = () => {
                             id="password"
                             name="password"
                             autoComplete="new-password"
-                            value={register.password}
+                            value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                        {errors.message?.confirmPassword ? <p className="absolute bottom-[114px] left-8 text-xs text-black">{errors.message.confirmPassword}</p> : null}
+
+                     
+
                         <input
                             className="border rounded border-gray-500 h-10 bg-[#00C247] placeholder-black text-lg pl-1"
                             placeholder="confirm password"
@@ -64,13 +63,20 @@ const RegisterForm = () => {
                             id="confirmPassword"
                             name="confirmPassword"
                             autoComplete="new-password"
-                            value={register.confirmPassword}
+                            value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                         />
                     </div>
+
+                        <div >
+                            {error && <p className="error-message2">{error.json.message}</p>}
+                        </div>
+
                     <button
                         className="w-1/2 h-10 bg-gray text-md font-ligh mt-2 font-mono"
-                        type="submit" onChange={handleSubmit} disabled= {isLoading}>Register</button>
+                        type="submit" onChange={handleSubmit} disabled={isLoading}>Register</button>
+
+         
                 </form>
                 <a
                 href="/"

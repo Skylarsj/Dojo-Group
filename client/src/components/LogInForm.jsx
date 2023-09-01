@@ -1,6 +1,4 @@
-import React, { useContext, useState } from 'react';
-import axios from "axios";
-import Cookies from 'js-cookie';
+import {useState } from 'react';
 import { useLogin } from '../hooks/useLogin';
 
 

@@ -11,29 +11,19 @@ def index():
     print("hello world")
     return jsonify({"message": "Hello World"})
 
-@app.route("/api/check-login")
-def check_login():
-    print("checking login")
-    print("Session data:", session)
-    if 'username' in session:
-        print("User is logged in")
-        return jsonify({'logged_in': True, 'username': session['username'], 'user_id': session['user_id']})
-    else:
-        print("User is not logged in")
-        return jsonify({"logged_in": False})
-
-
 @app.route('/api/register', methods=['POST'])
 def register():
     print("registration route")
     data = request.get_json()
     result = create_user(data)
     print(result)
-    if result['error']:
-        print(result)
-        return jsonify(result), 400  # Return error response with status code 400
-    else :
-        return jsonify(result), 201  # Return success response with status code 201
+    if 'error' in result and result['error']:
+        return jsonify(result), 401 
+    
+    print("HERE ARE THE RESULTS", result)
+    
+    if 'error' in result and not result['error']:
+        return jsonify({'results': result, 'username':['username']}), 200
 
 @app.route('/api/login', methods=['POST'])
 def loginRoute():

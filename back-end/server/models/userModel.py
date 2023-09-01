@@ -7,7 +7,7 @@ bcrypt = Bcrypt()
 
 db = 'Pokemon'
 
-EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$') 
+EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
 
 class User:
     def __init__( self , db_data ):
@@ -42,6 +42,23 @@ class User:
         if not results:
             return None
         return results[0]
+    
+    @classmethod
+    def get_email(cls, data):
+        email = {'email': data}
+        query = "SELECT * FROM user WHERE email = %(email)s;"
+        results = connectToMySQL(db).query_db(query, email)
+        if not results:
+            return None
+        return results[0]
+    
+    @classmethod
+    def get_by_id(cls, user_id):
+        query = "SELECT * FROM user WHERE id = %(id)s;"
+        result = connectToMySQL(db).query_db(query, {'id': user_id})
+        if not result:
+            return None
+        return cls(result[0])
 
     @classmethod
     def get_id(cls,form_data):
@@ -68,45 +85,44 @@ class User:
             user.pokemon.append( pokemonModel.Pokemon(n) )
         return user
 
-    def validate_User(user):
+    @staticmethod
+    def validate_user(data):
         print("Validating user...")
-        print(user)
-        error_message = None
+        print(data)
 
-        error_messages = {}
+        if 'username' not in data:
+            return {'error': True, 'message': 'Username is required.'}
 
-        query = "SELECT * FROM user WHERE email = %(email)s;"
-        results = connectToMySQL(db).query_db(query, user)
-        if results:
-            error_message = "Email already taken."
-            error_messages['oldEmail'] = error_message
+        if len(data['username']) < 3:
+            return {'error': True, 'message': 'Username must be at least 3 characters.'}
 
-        query = "SELECT * FROM user WHERE username = %(username)s;"
-        results = connectToMySQL(db).query_db(query, user)
-        if results:
-            error_message = "Username already taken."
-            error_messages['oldUsername'] = error_message
+        existing_user = User.get_username(data['username'])
+        if existing_user:
+            return {'error': True, 'message': 'Username already exists.'}
 
-        if len(user['username']) < 3:
-            error_message = "Username must be at least 3 characters."
-            error_messages['username'] = error_message
+        if 'email' not in data:
+            return {'error': True, 'message': 'Email is required.'}
 
-        if not EMAIL_REGEX.match(user['email']):
-            error_message = "Invalid email address!"
-            error_messages['email'] = error_message
+        if not EMAIL_REGEX.match(data['email']):
+            return {'error': True, 'message': 'Invalid email.'}
 
-        if len(user['password']) < 8:
-            error_message = "Password must be at least 8 characters."
-            error_messages['password'] = error_message
+        existing_email = User.get_email(data['email'])
+        if existing_email:
+            return {'error': True, 'message': 'Email already exists.'}
 
-        if user['password'] != user['confirmPassword']:
-            error_message = "Passwords do not match."
-            error_messages['confirmPassword'] = error_message
+        if 'password' not in data:
+            return {'error': True, 'message': 'Password is required.'}
 
-        if error_messages:
-            return {'error': True, 'message': error_messages}
-        else:
-            return {'error': False, 'message': "User is valid."}
+        if len(data['password']) < 8:
+            return {'error': True, 'message': 'Password must be at least 8 characters.'}
+
+        if 'confirm_password' not in data:
+            return {'error': True, 'message': 'Confirm password is required.'}
+
+        if data['password'] != data['confirm_password']:
+            return {'error': True, 'message': 'Passwords do not match.'}
+
+        return {'error': False, 'message': 'User is valid.', 'user': data}
 
     @staticmethod
     def login_validation(data):
@@ -124,3 +140,13 @@ class User:
             return {'error': True, 'message': error_message}
 
         return {'error': False, 'message': "User is valid.", 'user': valid_user}
+    
+
+    @classmethod
+    def get_new_user(cls, username):
+        user = User.get_username(username)
+        if user is None:
+            return None
+        return {'error': False, 'message': "New user successful", 'user': user}
+
+        

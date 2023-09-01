@@ -5,19 +5,25 @@ bcrypt = Bcrypt()
 
 def create_user(data):
     print("create_user")
-    new_user = User.validate_User(data)
+    new_user = User.validate_user(data)
     print(new_user)
     if new_user is None:
-        return {'error': True, 'message': new_user}
+        return {'error': True, 'message': 'Invalid user data'}
     
     if new_user.get('error'):
         return new_user
 
     pw_hash = bcrypt.generate_password_hash(data['password'])
 
-    data['password'] = pw_hash
+    # Convert pw_hash to a string
+    data['password'] = pw_hash.decode('utf-8')
 
     User.save_user(data)
+
+    # Call get_new_user to retrieve the newly created user
+    new_user = User.get_new_user(data['username'])
+    if new_user is None:
+        return {'error': True, 'message': 'Error retrieving new user'}
 
     return new_user
 
