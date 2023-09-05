@@ -8,9 +8,9 @@ import { usePokemonContext } from '../hooks/usePokemonContext';
 
 const NavMap = () => {
     const Navigate = useNavigate();
-    const { logout } = useLogout();
+    const { logout, reset } = useLogout();
     const {state} = useAuthContext();
-    const {pokemonCount} = usePokemonContext();
+    const {pokemonCount, resetPokemonCount } = usePokemonContext();
 
     const Inventory = () => {
         Navigate('/inventory');
@@ -19,7 +19,9 @@ const NavMap = () => {
 
     const handleLogout = () => {
         logout();
+        reset();
         resetUsername(true);
+        resetPokemonCount(0);
  }
 
  

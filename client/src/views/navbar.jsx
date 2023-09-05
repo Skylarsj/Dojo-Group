@@ -30,17 +30,6 @@ const Navbar = ({ userID }) => {
   };
 
   useEffect(() => {
-    const getCount = async () => {
-      try {
-        if (state.user) {
-          const response = await axios.get(`http://localhost:5000/api/pokemon/count/${state.user.results.user.id}`);
-          setPokemonCount(response.data.count);
-          console.log("data sent in map",response.data.count);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
   
 
     if (location.pathname === '/map') {

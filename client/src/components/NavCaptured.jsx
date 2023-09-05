@@ -7,7 +7,7 @@ import { usePokemonContext } from '../hooks/usePokemonContext';
 
 const NavCaptured = () => {
     const { state } = useAuthContext();
-    const { logout } = useLogout(); 
+    const { logout, reset } = useLogout(); 
     const Navigate = useNavigate();
     const {pokemonCount} = usePokemonContext();
 
@@ -18,6 +18,7 @@ const NavCaptured = () => {
 
     const handleLogout = () => {
         logout();
+        reset();
         resetUsername(true);
  }
 

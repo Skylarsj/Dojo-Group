@@ -41,10 +41,6 @@ useEffect(() => {
           );
           console.log(pokemonObjects.length);
           setPokemonObjects(pokemonObjects);
-        } else {
-          // User is not logged in, redirect to login page or perform other actions
-          Navigate("/");
-          console.log("User is not logged in");
         }
       } catch (error) {
         // Handle error if the request fails
@@ -68,6 +64,17 @@ const goToPreviousPage = () => {
 };
 
 const renderPokemonSprites = () => {
+  if (pokemonObjects.length === 0) {
+    return (       
+      <div className=" flex items-center justify-center h-full">
+        <div className="flex-col font-mono text-black text-center">
+          <p className="font-bold">No Pokemon found.</p>
+          <p>Go catch some!</p>
+        </div>
+      </div>
+    )
+  }
+
     const startIndex = currentPage * 1;
     const endIndex = (currentPage + 1) * 1;
     return pokemonObjects.slice(startIndex, endIndex).map((pokemonObjects, index) => (
@@ -91,7 +98,6 @@ const renderPokemonSprites = () => {
     </li>
     ));
 };
-
 const goToChangeNickname = (pokemon) => {
     Navigate("/change-nickname", { state: { pokemon: pokemon } });
 };

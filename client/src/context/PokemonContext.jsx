@@ -6,12 +6,15 @@ export const pokemonContext = createContext();
 
 export const PokemonProvider = ({ children }) => {
   const [pokemonCount, setPokemonCount] = useState(0);
+  const [isLoading, setIsLoading] = useState();
   const { state } = useAuthContext();
 
   useEffect(() => {
     const getPokemonData = async () => {
       try {
         if (state.user) {
+          setIsLoading(true);
+
           const user_id = state.user.results.user.id;
 
           // Get user's Pokemon data
@@ -21,10 +24,12 @@ export const PokemonProvider = ({ children }) => {
 
           // Set the Pokemon count to the length of the Pokemon data array
           setPokemonCount(pokemonData.length);
+          setIsLoading(false);
         }
       } catch (error) {
         // Handle error if the request fails
         console.error("An error occurred:", error);
+        setIsLoading(false);
       }
     };
 
@@ -37,10 +42,18 @@ export const PokemonProvider = ({ children }) => {
 
   const releasePokemon = () => {
     setPokemonCount(pokemonCount - 1);
-  }
+  };
+
+  const isPokemonCountZero = () => {
+    return pokemonCount === 0;
+  };
+
+  const resetPokemonCount = () => {
+    setPokemonCount(0);
+  };
 
   return (
-    <pokemonContext.Provider value={{ pokemonCount, catchPokemon, releasePokemon }}>
+    <pokemonContext.Provider value={{ pokemonCount, catchPokemon, releasePokemon, isPokemonCountZero, resetPokemonCount, isLoading }}>
       {children}
     </pokemonContext.Provider>
   );

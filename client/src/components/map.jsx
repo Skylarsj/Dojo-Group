@@ -11,7 +11,6 @@ const Map = () => {
   const {state }  = useAuthContext()
   const [pokemonCount, setPokemonCount] = useState(0);
   const { volume} = useVolume();
-  // console.log("map", state.user)
 
   useEffect(() => {
     const getCount = async () => {

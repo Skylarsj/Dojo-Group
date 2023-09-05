@@ -1,6 +1,8 @@
 import { useAuthContext } from "./useAuthContext";
+import { usePokemonContext } from "./usePokemonContext";
 
 export const useLogout = () => {
+  const { resetPokemonCount } = usePokemonContext();
   const { dispatch } = useAuthContext();
 
   const deleteCookie = (name) => {
@@ -12,5 +14,10 @@ export const useLogout = () => {
     dispatch({ type: "LOGOUT" });
   };
 
-  return { logout };
+  const reset = () => {
+    resetPokemonCount();
+  }
+
+
+  return { logout, reset };
 };
