@@ -4,12 +4,14 @@ import { useLogout } from '../hooks/useLogout';
 import { useAuthContext } from '../hooks/useAuthContext';
 import { useNavigate } from 'react-router-dom';
 import { usePokemonContext } from '../hooks/usePokemonContext';
+import { useBackground } from '../hooks/useBackground';
 
 const NavCaptured = () => {
     const { state } = useAuthContext();
-    const { logout, reset } = useLogout(); 
+    const { logout, resetBg } = useLogout(); 
     const Navigate = useNavigate();
     const {pokemonCount} = usePokemonContext();
+    const {reset} = useBackground();
 
 
     const Map = () => {
@@ -20,6 +22,7 @@ const NavCaptured = () => {
         logout();
         reset();
         resetUsername(true);
+        resetBg();
  }
 
    

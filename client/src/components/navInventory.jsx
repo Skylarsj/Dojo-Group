@@ -4,17 +4,20 @@ import { useLogout } from '../hooks/useLogout';
 import { useAuthContext } from '../hooks/useAuthContext';
 import axios from 'axios';
 import { usePokemonContext } from '../hooks/usePokemonContext';
+import { useBackground } from '../hooks/useBackground';
 
 const NavInventory = () => {
     const Navigate = useNavigate();
     const { logout, reset } = useLogout();
     const {state} = useAuthContext();
     const {pokemonCount} = usePokemonContext();
+    const {backgroundImage, setBackgroundImage} = useBackground();
 
 
     const handleLogout = () => {
         logout();
         reset();
+        setBackgroundImage('');
     }
 
     const Map = () => {

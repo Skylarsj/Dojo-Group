@@ -3,6 +3,7 @@ import { useNavigate, useLocation, Navigate} from 'react-router-dom';
 import axios from 'axios';
 import { useAuthContext } from "../hooks/useAuthContext"
 
+
 const NavBattle = () => {
     const navigate = useNavigate();
     const location = useLocation()
@@ -10,6 +11,7 @@ const NavBattle = () => {
     //this is coming from the battle component
     const {pokemon} = location.state || "";
     console.log(pokemon);
+    
 
     const capturePokemon = () => {
         navigate('/captured', { state: { pokemon } });

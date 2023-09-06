@@ -14,34 +14,38 @@ import Starter from './views/Starter';
 import { useAuthContext } from './hooks/useAuthContext';
 import { usePokemonContext } from './hooks/usePokemonContext';
 
+
 function App() {
   const { state } = useAuthContext();
   const { isPokemonCountZero } = usePokemonContext();
   console.log("poke", isPokemonCountZero );
 
- 
+  const handleBackgroundChange = (value) => {
+    console.log('Selected background:', value);
+    setBackgroundImage(value);
+    document.body.style.backgroundImage = `url( ${value})`;
+    document.body.style.backgroundRepeat = 'no-repeat';
+    document.body.style.backgroundSize = '100% 100%';
+    document.body.style.overflow = 'hidden';
+  };
 
+  const handleBagBackgroundChange = (value) => {
+    handleBackgroundChange(value);
+  };
+ 
   return (
     <BrowserRouter>
-      <div className="bg-cover bg-center h-[950px] w-[550px] relative" style={{ backgroundImage: `url('./src/img/pokedex.png')` }}>
+      <div className="bg-cover bg-center h-[950px] w-[550px] relative" style={{ backgroundImage: `url('./src/img/pokedex_noBg.png')` }}>
         <div className="absolute flex flex-col justify-end w-[62%] h-[35.7%] top-[44.2%] left-[52%] transform -translate-x-1/2 -translate-y-1/2 overflow-hidden">
           <Routes>
             <Route element={state.user ? <Navigate to="/map" /> : <Login />} path="/" />
-            
             <Route element={state.user ? <Navigate to="/starter" /> : <Register />} path="/register" />
-
             <Route element={!state.user ? <Navigate to="/" /> : <PokemonSearch />} path="/map" />
-
-            <Route element={!state.user ? <Navigate to="/" /> : <Inventory />} path="/inventory" />
-
+            <Route element={!state.user ? <Navigate to="/" /> : <Inventory onBackgroundChange={handleBagBackgroundChange} />} path="/inventory" />
             <Route element={!state.user ? <Navigate to="/" /> : <Battle />} path="/battle" />
-
             <Route element={!state.user ? <Navigate to="/" /> : <Captured />} path="/captured" />
-
             <Route element={!state.user ? <Navigate to="/" /> : <ChangeName />} path="/change-nickname" />
-
             <Route element={!state.user ? <Navigate to="/" /> : <Starter />} path="/starter" />
-
           </Routes>
           <Navbar />
         </div>

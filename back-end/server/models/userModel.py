@@ -10,12 +10,15 @@ db = 'Pokemon'
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
 
 class User:
-    def __init__( self , db_data ):
+    def __init__(self, db_data):
         self.id = db_data['id']
         self.username = db_data['username']
         self.email = db_data['email']
         self.password = db_data['password']
-        self.pokeballs = db_data['pokeballs']
+        # self.normal_pokeballs = db_data['normal_pokeballs']
+        # self.great_pokeballs = db_data['great_pokeballs']
+        # self.ultra_pokeballs = db_data['ultra_pokeballs']
+        # self.master_pokeballs = db_data['master_pokeballs']
         self.created_at = db_data['created_at']
         self.updated_at = db_data['updated_at']
         self.pokemon = []
@@ -59,6 +62,7 @@ class User:
         if not result:
             return None
         return cls(result[0])
+    
 
     @classmethod
     def get_id(cls,form_data):
@@ -84,6 +88,49 @@ class User:
                 }
             user.pokemon.append( pokemonModel.Pokemon(n) )
         return user
+    
+    # @classmethod
+    # def use_normal_pokeball(self):
+    #     """Use a normal pokeball."""
+    #     if self.normal_pokeballs > 0:
+    #         self.normal_pokeballs -= 1
+    #         return True
+    #     return False
+    
+    # @classmethod
+    # def use_great_pokeball(self):
+    #     """Use a great pokeball."""
+    #     if self.great_pokeballs > 0:
+    #         self.great_pokeballs -= 1
+    #         return True
+    #     return False
+    
+    # @classmethod
+    # def use_ultra_pokeball(self):
+    #     """Use an ultra pokeball."""
+    #     if self.ultra_pokeballs > 0:
+    #         self.ultra_pokeballs -= 1
+    #         return True
+    #     return False
+    
+    # @classmethod
+    # def use_master_pokeball(self):
+    #     """Use a master pokeball."""
+    #     if self.master_pokeballs > 0:
+    #         self.master_pokeballs -= 1
+    #         return True
+    #     return False
+    
+    # @classmethod
+    # def get_pokeballs(cls, data):
+    #     query = "SELECT * FROM user WHERE id = %(id)s;"
+    #     results = connectToMySQL(db).query_db(query, data)
+    #     return cls(results[0])
+    
+    # @classmethod
+    # def update_pokeballs(cls, data):
+    #     query = "UPDATE user SET normal_pokeballs = %(normal_pokeballs)s, great_pokeballs = %(great_pokeballs)s, ultra_pokeballs = %(ultra_pokeballs)s, master_pokeballs = %(master_pokeballs)s WHERE id = %(id)s;"
+    #     return connectToMySQL(db).query_db(query, data)
 
     @staticmethod
     def validate_user(data):
@@ -95,6 +142,9 @@ class User:
 
         if len(data['username']) < 3:
             return {'error': True, 'message': 'Username must be at least 3 characters.'}
+        
+        if len(data['username']) > 16:
+            return {'error': True, 'message': 'Username must be less than 16 characters.'}
 
         existing_user = User.get_username(data['username'])
         if existing_user:
@@ -109,6 +159,18 @@ class User:
         existing_email = User.get_email(data['email'])
         if existing_email:
             return {'error': True, 'message': 'Email already exists.'}
+        
+        if not re.search(r"[a-z]", data['password']):
+            return {'error': True, 'message': 'Password must contain at least 1 lowercase letter.'}
+            
+        if not re.search(r"[A-Z]", data['password']):
+            return {'error': True, 'message': 'Password must contain at least 1 uppercase letter.'}
+                
+        if not re.search(r"[0-9]", data['password']):
+            return {'error': True, 'message': 'Password must contain at least 1 number.'}
+                
+        if not re.search(r"[!@#$%^&*]", data['password']):
+            return {'error': True, 'message': 'Password must contain at least 1 special character.'}
 
         if 'password' not in data:
             return {'error': True, 'message': 'Password is required.'}
