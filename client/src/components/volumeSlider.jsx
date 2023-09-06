@@ -13,10 +13,12 @@ const VolumeSlider = () => {
     setVolume(tempVolume);
   };
 
+  const displayVolume = Math.round(tempVolume * 100);
+
   return (
     <div>
-      <p>Volume: {tempVolume}</p>
-      <input type="range" min="0" max="1" step="0.01" value={tempVolume} onChange={handleVolumeChange} />
+      <p>Volume: {displayVolume}</p>
+      <input type="range" min="0" max=".1" step="0.01" value={tempVolume} onChange={handleVolumeChange} />
       <button className="w-20 h-10 text-xs mr-2 font-mono" onClick={handleApplyClick}>Apply</button>
     </div>
   );

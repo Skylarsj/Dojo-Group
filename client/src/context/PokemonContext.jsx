@@ -6,6 +6,7 @@ export const pokemonContext = createContext();
 
 export const PokemonProvider = ({ children }) => {
   const [pokemonCount, setPokemonCount] = useState(0);
+  const [isPokemonCountZero, setIsZero] = useState(true);
   const [isLoading, setIsLoading] = useState();
   const { state } = useAuthContext();
 
@@ -34,7 +35,12 @@ export const PokemonProvider = ({ children }) => {
     };
 
     getPokemonData();
-  }, [state.user]);
+  }, [state.user]); 
+  
+  useEffect(() => {
+    setIsZero(pokemonCount === 0);
+  }, [pokemonCount]);
+
 
   const catchPokemon = () => {
     setPokemonCount(pokemonCount + 1);
@@ -44,10 +50,7 @@ export const PokemonProvider = ({ children }) => {
     setPokemonCount(pokemonCount - 1);
   };
 
-  const isPokemonCountZero = () => {
-    return pokemonCount === 0;
-  };
-
+ 
   const resetPokemonCount = () => {
     setPokemonCount(0);
   };

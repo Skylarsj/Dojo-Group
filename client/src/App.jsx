@@ -17,6 +17,7 @@ import { usePokemonContext } from './hooks/usePokemonContext';
 function App() {
   const { state } = useAuthContext();
   const { isPokemonCountZero } = usePokemonContext();
+  console.log("poke", isPokemonCountZero );
 
  
 
@@ -39,7 +40,7 @@ function App() {
 
             <Route element={!state.user ? <Navigate to="/" /> : <ChangeName />} path="/change-nickname" />
 
-            <Route element={!state.user ? <Navigate to="/" /> : isPokemonCountZero ? <Navigate to="/map"/> : <Starter />} path="/starter" />
+            <Route element={!state.user ? <Navigate to="/" /> : <Starter />} path="/starter" />
 
           </Routes>
           <Navbar />

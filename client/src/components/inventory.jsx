@@ -109,7 +109,7 @@ const DeletePokemon = (id) => {
         releasePokemon();
         console.log(response);
         setPokemonObjects((prevPokemonObjects) => prevPokemonObjects.filter(pokemon => pokemon.id !== id));
-        releas
+       
 
     })
     .catch((error) => {
