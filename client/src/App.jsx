@@ -16,7 +16,8 @@ import { usePokemonContext } from './hooks/usePokemonContext';
 
 function App() {
   const { state } = useAuthContext();
-  const { isPokemonCountZero, isLoading } = usePokemonContext();
+  const { isPokemonCountZero } = usePokemonContext();
+
  
 
   return (
@@ -25,19 +26,21 @@ function App() {
         <div className="absolute flex flex-col justify-end w-[62%] h-[35.7%] top-[44.2%] left-[52%] transform -translate-x-1/2 -translate-y-1/2 overflow-hidden">
           <Routes>
             <Route element={state.user ? <Navigate to="/map" /> : <Login />} path="/" />
+            
             <Route element={state.user ? <Navigate to="/starter" /> : <Register />} path="/register" />
-            <Route path="/map" element={
-              state.user && !isLoading && !isPokemonCountZero() ? (
-                <PokemonSearch />
-              ) : (
-                <Navigate to="/starter" />
-              )
-            } />
+
+            <Route element={!state.user ? <Navigate to="/" /> : <PokemonSearch />} path="/map" />
+
             <Route element={!state.user ? <Navigate to="/" /> : <Inventory />} path="/inventory" />
+
             <Route element={!state.user ? <Navigate to="/" /> : <Battle />} path="/battle" />
+
             <Route element={!state.user ? <Navigate to="/" /> : <Captured />} path="/captured" />
+
             <Route element={!state.user ? <Navigate to="/" /> : <ChangeName />} path="/change-nickname" />
-            <Route element={!state.user ? <Navigate to="/" /> : <Starter />} path="/starter" />
+
+            <Route element={!state.user ? <Navigate to="/" /> : isPokemonCountZero ? <Navigate to="/map"/> : <Starter />} path="/starter" />
+
           </Routes>
           <Navbar />
         </div>

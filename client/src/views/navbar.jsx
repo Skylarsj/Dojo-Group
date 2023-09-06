@@ -7,12 +7,14 @@ import NavMap from '../components/NavMap';
 import NavBattle from '../components/NavBattle';
 import NavInventory from '../components/navInventory';
 import NavCaptured from '../components/NavCaptured';
+import NavStarter from '../components/NavStarter';
 
 const Navbar = ({ userID }) => {
   const [navMap, setNavMap] = useState(true);
   const [navBattle, setNavBattle] = useState(false);
   const [navCaptured, setNavCaptured] = useState(false);
   const [navInventory, setNavInventory] = useState(false);
+  const [navStarter, setNavStarter] = useState(false);
   const {state} = useAuthContext();
   const [pokemonCount, setPokemonCount] = useState(0);
   const location = useLocation();
@@ -37,27 +39,39 @@ const Navbar = ({ userID }) => {
       setNavBattle(false);
       setNavCaptured(false);
       setNavInventory(false);
+      setNavStarter(false);
     } else if (location.pathname === '/battle') {
       setNavMap(false);
       setNavBattle(true);
       setNavCaptured(false);
       setNavInventory(false);
+      setNavStarter(false);
     } else if (location.pathname === '/captured') {
       setNavMap(false);
       setNavBattle(false);
       setNavCaptured(true);
       setNavInventory(false);
+      setNavStarter(false);
     } else if (location.pathname === '/inventory') {
       setNavMap(false);
       setNavBattle(false);
       setNavCaptured(false);
       setNavInventory(true);
+      setNavStarter(false);
     }
     else if (location.pathname === '/register' || location.pathname === '/') {
         setNavMap(false);
         setNavBattle(false);
         setNavCaptured(false);
         setNavInventory(false);
+        setNavStarter(false);
+      }
+    else if (location.pathname === '/starter') {
+        setNavMap(false);
+        setNavBattle(false);
+        setNavCaptured(false);
+        setNavInventory(false);
+        setNavStarter(true);
       }
     
     
@@ -67,12 +81,14 @@ const Navbar = ({ userID }) => {
   }, [location.pathname, state.user]);
 
   return (
-    <div className="flex h-16 w-full bg-[#00C247] border-t-2 border-black">
+    <div className="flex h-16 w-full bg-[#00C247] border-t-2 border-black"> 
+      {navStarter && <NavStarter />}
       {navBattle  && <NavBattle />}
       {navMap && <NavMap />}
       {navCaptured && <NavCaptured DeletePokemon={DeletePokemon} />}
       {navInventory && <NavInventory setNavInventory={setNavInventory} pokeballCount={pokeballCount} />}
     </div>
+   
   );
 };
 
