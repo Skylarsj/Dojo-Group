@@ -20,14 +20,7 @@ function App() {
   const { isPokemonCountZero } = usePokemonContext();
   console.log("poke", isPokemonCountZero );
 
-  const handleBackgroundChange = (value) => {
-    console.log('Selected background:', value);
-    setBackgroundImage(value);
-    document.body.style.backgroundImage = `url( ${value})`;
-    document.body.style.backgroundRepeat = 'no-repeat';
-    document.body.style.backgroundSize = '100% 100%';
-    document.body.style.overflow = 'hidden';
-  };
+ 
 
   const handleBagBackgroundChange = (value) => {
     handleBackgroundChange(value);

@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useCallback } from 'react';
 
 export const BackgroundContext = createContext();
 
@@ -13,10 +13,13 @@ export const BackgroundProvider = ({ children }) => {
     document.body.style.overflow = 'hidden';
   };
   
-  const resetBg = () => {
+  const resetBg = useCallback(() => {
     setBackgroundImage("");
-
-  }
+    document.body.style.backgroundImage = "";
+    document.body.style.backgroundRepeat = "";
+    document.body.style.backgroundSize = "";
+    document.body.style.overflow = "";
+  }, []);
 
   return (
     <BackgroundContext.Provider value={{ backgroundImage, handleBackgroundChange,resetBg  }}>

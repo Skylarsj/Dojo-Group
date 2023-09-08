@@ -167,6 +167,7 @@ const Bag = () => {
       <div className="h-1/2 w-full bg-slate-600 flex flex-col justify-between">
         <div className="mt-2 flex justify-center items-center">
         <select value={backgroundImage} onChange={(event) => handleBackgroundChange(event.target.value)} className="mx-2 w-32 h-10 rounded-md  text-white font-mono">
+            <option value="">Gray </option>
             <option value="pokemon_bg1.jpg">Pikachu</option>
             <option value="pokemon_bg2.jpg">Pokeball</option>
             <option value="pokemon_bg3.jpg">Pokemon</option>
