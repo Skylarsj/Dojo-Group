@@ -15,22 +15,27 @@ class User:
         self.username = db_data['username']
         self.email = db_data['email']
         self.password = db_data['password']
-        # self.normal_pokeballs = db_data['normal_pokeballs']
-        # self.great_pokeballs = db_data['great_pokeballs']
-        # self.ultra_pokeballs = db_data['ultra_pokeballs']
-        # self.master_pokeballs = db_data['master_pokeballs']
+        self.normal_pokeballs = db_data['normal_pokeballs']
+        self.great_pokeballs = db_data['great_pokeballs']
+        self.ultra_pokeballs = db_data['ultra_pokeballs']
+        self.master_pokeballs = db_data['master_pokeballs']
         self.created_at = db_data['created_at']
         self.updated_at = db_data['updated_at']
         self.pokemon = []
 
     @classmethod
     def save_user(cls, form_data):
-        query= 'INSERT INTO user(username, email, password) VALUES( %(username)s, %(email)s, %(password)s );'
+        form_data['normal_pokeballs'] = 10
+        form_data['great_pokeballs'] = 0
+        form_data['ultra_pokeballs'] = 0
+        form_data['master_pokeballs'] = 0
+        query= 'INSERT INTO user(username, email, password, normal_pokeballs, great_pokeballs, ultra_pokeballs, master_pokeballs) VALUES( %(username)s, %(email)s, %(password)s, %(normal_pokeballs)s, %(great_pokeballs)s, %(ultra_pokeballs)s, %(master_pokeballs)s );'
         return connectToMySQL(db).query_db(query, form_data)
+        67
 
     @classmethod
     def get_all(cls):
-        query = 'SELECT * FROM user;'
+        query = 'SELECT *, normal_pokeballs, great_pokeballs, ultra_pokeballs, master_pokeballs FROM user;'
         results = connectToMySQL(db).query_db(query)
         user = []
         for user in results:
@@ -82,55 +87,54 @@ class User:
                 'user_id': row['user_id'],
                 'name': row['name'],
                 'SpriteURL': row['SpriteURL'],
-                'pokeballs': row['pokeballs'],
                 'created_at': row['created_at'],
                 'updated_at': row['updated_at']
                 }
             user.pokemon.append( pokemonModel.Pokemon(n) )
         return user
     
-    # @classmethod
-    # def use_normal_pokeball(self):
-    #     """Use a normal pokeball."""
-    #     if self.normal_pokeballs > 0:
-    #         self.normal_pokeballs -= 1
-    #         return True
-    #     return False
+    @classmethod
+    def use_normal_pokeball(self):
+        """Use a normal pokeball."""
+        if self.normal_pokeballs > 0:
+            self.normal_pokeballs -= 1
+            return True
+        return False
     
-    # @classmethod
-    # def use_great_pokeball(self):
-    #     """Use a great pokeball."""
-    #     if self.great_pokeballs > 0:
-    #         self.great_pokeballs -= 1
-    #         return True
-    #     return False
+    @classmethod
+    def use_great_pokeball(self):
+        """Use a great pokeball."""
+        if self.great_pokeballs > 0:
+            self.great_pokeballs -= 1
+            return True
+        return False
     
-    # @classmethod
-    # def use_ultra_pokeball(self):
-    #     """Use an ultra pokeball."""
-    #     if self.ultra_pokeballs > 0:
-    #         self.ultra_pokeballs -= 1
-    #         return True
-    #     return False
+    @classmethod
+    def use_ultra_pokeball(self):
+        """Use an ultra pokeball."""
+        if self.ultra_pokeballs > 0:
+            self.ultra_pokeballs -= 1
+            return True
+        return False
     
-    # @classmethod
-    # def use_master_pokeball(self):
-    #     """Use a master pokeball."""
-    #     if self.master_pokeballs > 0:
-    #         self.master_pokeballs -= 1
-    #         return True
-    #     return False
+    @classmethod
+    def use_master_pokeball(self):
+        """Use a master pokeball."""
+        if self.master_pokeballs > 0:
+            self.master_pokeballs -= 1
+            return True
+        return False
     
-    # @classmethod
-    # def get_pokeballs(cls, data):
-    #     query = "SELECT * FROM user WHERE id = %(id)s;"
-    #     results = connectToMySQL(db).query_db(query, data)
-    #     return cls(results[0])
+    @classmethod
+    def get_pokeballs(cls, data):
+        query = "SELECT * FROM user WHERE id = %(id)s;"
+        results = connectToMySQL(db).query_db(query, data)
+        return cls(results[0])
     
-    # @classmethod
-    # def update_pokeballs(cls, data):
-    #     query = "UPDATE user SET normal_pokeballs = %(normal_pokeballs)s, great_pokeballs = %(great_pokeballs)s, ultra_pokeballs = %(ultra_pokeballs)s, master_pokeballs = %(master_pokeballs)s WHERE id = %(id)s;"
-    #     return connectToMySQL(db).query_db(query, data)
+    @classmethod
+    def update_pokeballs(cls, data):
+        query = "UPDATE user SET normal_pokeballs = %(normal_pokeballs)s, great_pokeballs = %(great_pokeballs)s, ultra_pokeballs = %(ultra_pokeballs)s, master_pokeballs = %(master_pokeballs)s WHERE id = %(id)s;"
+        return connectToMySQL(db).query_db(query, data)
 
     @staticmethod
     def validate_user(data):

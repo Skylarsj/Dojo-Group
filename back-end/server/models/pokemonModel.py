@@ -48,7 +48,10 @@ class Pokemon:
                 'username': row['username'],
                 'email': row['email'],
                 'password': row['password'],
-                'pokeballs': row['pokeballs'],
+                'normal_pokeballs': row['normal_pokeballs'],  # Add normal_pokeballs attribute
+                'great_pokeballs': row['great_pokeballs'],  # Add great_pokeballs attribute
+                'ultra_pokeballs': row['ultra_pokeballs'],  # Add ultra_pokeballs attribute
+                'master_pokeballs': row['master_pokeballs'],  # Add master_pokeballs attribute
                 'created_at': row['user.created_at'],
                 'updated_at': row['user.updated_at']
             }
@@ -88,6 +91,10 @@ class Pokemon:
             'username': result['username'],
             'email': result['email'],
             'password': result['password'],
+            'normal_pokeballs': result['normal_pokeballs'],  # Add normal_pokeballs attribute
+            'great_pokeballs': result['great_pokeballs'],  # Add great_pokeballs attribute
+            'ultra_pokeballs': result['ultra_pokeballs'],  # Add ultra_pokeballs attribute
+            'master_pokeballs': result['master_pokeballs'],  # Add master_pokeballs attribute
             'created_at': result['user.created_at'],
             'updated_at': result['user.updated_at']
         }
@@ -127,4 +134,3 @@ class Pokemon:
             return {'error': True, 'message': error_messages}
         else:
             return {'error': False, 'message': "User is valid."}
-
