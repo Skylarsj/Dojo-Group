@@ -1,6 +1,6 @@
 from flask import Flask
 from server import app
-from server.routes import userRoutes, pokemonRoutes
+from server.routes import userRoutes, pokemonRoutes, pokeballRoutes
 
 
 @app.after_request

@@ -2,6 +2,7 @@ import {React, useState, useEffect } from 'react';
 import { useNavigate, useLocation, Navigate} from 'react-router-dom';
 import axios from 'axios';
 import { useAuthContext } from "../hooks/useAuthContext"
+import PokeballSelector from './PokeballSelector';
 
 
 const NavBattle = () => {
@@ -21,6 +22,10 @@ const NavBattle = () => {
         navigate('/map');
     };
 
+    const handlePokeballChange = (pokeball) => {
+        // Do something with the selected pokeball
+    };
+
     
 
     
@@ -31,13 +36,10 @@ const NavBattle = () => {
         {/* popup */}
             <div className="flex h-16 w-full bg-[#00C247] border-t-2 border-black z-50">
             {/* Pokeball count */}
-            <img
-                className="h-20 w-auto pb-6"
-                src="./src/img/NormalPokeball.png"
-                alt="logo"
-            />
-            <p className="font-mono text-black text-[20px] ml-[-10px] pt-6">x</p>
-            <p className="font-mono text-black text-[20px] pt-6">1</p>
+           {/* Pokeball selector */}
+           <div style={{ marginTop: '3%', marginLeft: '12%'}}>
+            <PokeballSelector onChange={handlePokeballChange} />
+            </div>
             <button
                 className="w-18 border rounded-md border-black h-auto m-4 ml-auto text-xs p-1.5 font-mono text-black bg-[#00C247]"
                 onClick={capturePokemon}
@@ -48,7 +50,7 @@ const NavBattle = () => {
                 className="w-18 border rounded-md border-black h-auto m-4 ml-auto text-xs p-1.5 font-mono text-black bg-[#00C247]"
                 onClick={handleGoBackClick}
             >
-                Go back
+                RUN!
             </button>
             </div>
         </>

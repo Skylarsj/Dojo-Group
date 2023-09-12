@@ -7,13 +7,14 @@ import { VolumeProvider } from './context/VolumeContext.jsx'
 import { PokemonProvider } from './context/pokemonContext.jsx'
 import { BackgroundProvider } from './context/Background.jsx'
 
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthContextProvider>
       <BackgroundProvider>
         <VolumeProvider>
-          <PokemonProvider>
-            <App />
+          <PokemonProvider>   
+              <App />
           </PokemonProvider>
         </VolumeProvider>
       </BackgroundProvider>

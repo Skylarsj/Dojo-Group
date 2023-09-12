@@ -53,7 +53,18 @@
 }
 
 .pokeball-selector-nav img {
-  height: 50%;
-  width: 100%;
-  object-fit: contain;
+  width: 30px;
+  height: 30px;
+}
+
+.pokeball-selector-nav p {
+  font-family: monospace;
+  font-size: 12px;
+}
+
+
+
+.pokeball-selector-menu-item p {
+  margin-left: 2px;
+  font-size: 14px;
 }

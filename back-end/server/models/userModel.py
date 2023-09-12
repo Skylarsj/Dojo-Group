@@ -35,12 +35,13 @@ class User:
 
     @classmethod
     def get_all(cls):
-        query = 'SELECT *, normal_pokeballs, great_pokeballs, ultra_pokeballs, master_pokeballs FROM user;'
+        query = 'SELECT * FROM user;'
         results = connectToMySQL(db).query_db(query)
-        user = []
-        for user in results:
-            user.append(cls(user))
-        return user
+        users = []
+        for result in results:
+            users.append(cls(result))
+        return users
+
 
     @classmethod
     def get_username(cls, data):
@@ -68,13 +69,6 @@ class User:
             return None
         return cls(result[0])
     
-
-    @classmethod
-    def get_id(cls,form_data):
-        query = "SELECT * FROM user WHERE id = %(id)s;"
-        results = connectToMySQL(db).query_db(query, form_data)
-        return cls(results[0])
-
     @classmethod
     def get_one_with_pokemon(cls, data ):
         query = "SELECT * FROM user LEFT JOIN pokemon on user.id = pokemon.user_id WHERE user.id = %(id)s;"
@@ -126,15 +120,23 @@ class User:
         return False
     
     @classmethod
-    def get_pokeballs(cls, data):
-        query = "SELECT * FROM user WHERE id = %(id)s;"
+    def get_all_pokeballs(cls, data):
+        query = "SELECT normal_pokeballs, great_pokeballs, ultra_pokeballs, master_pokeballs FROM user WHERE id = %(id)s;"
         results = connectToMySQL(db).query_db(query, data)
-        return cls(results[0])
+        if results:
+            return results[0]
+        else:
+            return None
     
     @classmethod
     def update_pokeballs(cls, data):
         query = "UPDATE user SET normal_pokeballs = %(normal_pokeballs)s, great_pokeballs = %(great_pokeballs)s, ultra_pokeballs = %(ultra_pokeballs)s, master_pokeballs = %(master_pokeballs)s WHERE id = %(id)s;"
-        return connectToMySQL(db).query_db(query, data)
+
+    @classmethod
+    def add_pokeballs(cls, data):
+        query = "UPDATE user SET normal_pokeballs = normal_pokeballs + %(normal_pokeballs)s, great_pokeballs = great_pokeballs + %(great_pokeballs)s, ultra_pokeballs = ultra_pokeballs + %(ultra_pokeballs)s, master_pokeballs = master_pokeballs + %(master_pokeballs)s WHERE id = %(id)s;"
+        connectToMySQL(db).query_db(query, data)
+        
 
     @staticmethod
     def validate_user(data):

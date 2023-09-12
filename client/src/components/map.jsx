@@ -30,13 +30,46 @@ const Map = () => {
 
   useEffect(() => {
     const audio = new Audio(mapMusic);
-    audio.volume = volume; // Set volume to 25%
-    audio.loop = true; // Set loop to true
+    audio.volume = volume;
+    audio.loop = true; 
     audio.play();
     return () => {
       audio.pause();
     };
   }, []);
+
+  const capture_pokemon = (capture_rate, pokeball_type) => {
+    let capture_rate_multiplier;
+    switch (pokeball_type) {
+      case 'normal':
+        capture_rate_multiplier = 1;
+        break;
+      case 'great':
+        capture_rate_multiplier = 1.5;
+        break;
+      case 'ultra':
+        capture_rate_multiplier = 2;
+        break;
+      case 'master':
+        capture_rate_multiplier = 255;
+        break;
+      default:
+        throw new Error('Invalid Pokeball type');
+    }
+  
+    // Calculate the modified capture rate
+    const modified_capture_rate = Math.floor((3 * capture_rate * capture_rate_multiplier) / 100);
+  
+    // Generate a random number between 0 and 255
+    const random_number = Math.floor(Math.random() * 256);
+  
+    // Check if the Pokemon was successfully captured
+    if (random_number < modified_capture_rate) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
 
   const getPokemonData = async (pokemonType) => {
@@ -54,13 +87,21 @@ const Map = () => {
         console.log('no sprite');
         getPokemonData(pokemonType);
       } else {
-        //send the pokemon data to the parent component if it has a sprite
-        Navigate(`/battle`, { state: { pokemon } });
+        // Retrieve the capture rate of the Pokemon from the API
+        const speciesResponse = await axios.get(pokemon.species.url);
+        const speciesData = speciesResponse.data;
+        const captureRate = speciesData.capture_rate;
+  
+        // Determine if the Pokemon is successfully captured using the capture rate and a Pokeball type
+        const isCaptured = capture_pokemon(captureRate, 'normal');
+  
+        // Send the Pokemon data and capture status to the parent component
+        Navigate(`/battle`, { state: { pokemon, isCaptured } });
       }
     } catch (error) {
       console.error(error);
     }
-  };
+  }
 
   return (
     
