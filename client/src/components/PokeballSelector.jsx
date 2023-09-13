@@ -9,6 +9,7 @@ import { useAuthContext } from '../hooks/useAuthContext';
 
 const PokeballSelector = ({ onChange }) => {
   const [selected, setSelected] = useState('pokeball');
+  const [selectedPokeball, setSelectedPokeball] = useState('pokeball');
   const [pokeballs, setPokeballs] = useState([
     { id: 'pokeball', img: pokeBall },
     { id: 'greatball', img: greatBall },
@@ -46,7 +47,8 @@ const PokeballSelector = ({ onChange }) => {
   }, []);
 
   const handlePokeballClick = (pokeball) => {
-    setSelected(pokeball);
+    setSelected(pokeball.id);
+    setSelectedPokeball(pokeball.id);
     if (onChange) {
       onChange(pokeball);
     }
@@ -63,16 +65,16 @@ const PokeballSelector = ({ onChange }) => {
         <div className="pokeball-selector-nav-item">
           <img src={pokeballs.find((pokeball) => pokeball.id === selected).img} alt={selected} />
           <p>
-          {selected === 'pokeball'
-            ? normalPokeballs
-            : selected === 'greatball'
-            ? greatPokeballs
-            : selected === 'ultraball'
-            ? ultraPokeballs
-            : selected === 'masterball'
-            ? masterPokeballs
-            : ''}
-        </p>
+            {selected === 'pokeball'
+              ? normalPokeballs
+              : selected === 'greatball'
+              ? greatPokeballs
+              : selected === 'ultraball'
+              ? ultraPokeballs
+              : selected === 'masterball'
+              ? masterPokeballs
+              : ''}
+          </p>
         </div>
       </div>
       {isOpen && (
@@ -81,7 +83,7 @@ const PokeballSelector = ({ onChange }) => {
             <div
               key={pokeball.id}
               className={`pokeball-selector-menu-item ${selected === pokeball.id ? 'selected' : ''}`}
-              onClick={() => handlePokeballClick(pokeball.id)}
+              onClick={() => handlePokeballClick(pokeball)}
             >
               <img src={pokeball.img} alt={pokeball.id} />
             </div>
