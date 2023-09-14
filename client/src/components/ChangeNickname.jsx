@@ -1,4 +1,4 @@
-import {React, useEffect, useState } from 'react';
+import {React,  useState } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -37,7 +37,7 @@ const ChangeName = () => {
             <div className="absolute bottom-20 left-[133px]">{pokemon.name}</div>
             <img className="w-[200px] h-[200px] mx-auto" src={pokemon.sprite} alt={pokemon.name} />
             <input onChange={applyNickname} className="justify-bottom w-3/4 mx-auto" type="text" placeholder={pokemon.nickname} value={nickname} />
-            <button className="justify-bottom w-3/4 mx-auto" onClick={nickNameChange}>update</button>
+            <button className="justify-bottom w-3/4 mx-auto" onClick={nickNameChange}>Change Nickname</button>
         </div>
     );
 

@@ -14,14 +14,14 @@ def use_pokeball_route():
     if not user:
         return jsonify({'error': 'User not found'}), 404
     pokeball_type = data['pokeball_type']
-    if pokeball_type == 'normal':
-        result = user.use_normal_pokeball()
-    elif pokeball_type == 'great':
-        result = user.use_great_pokeball()
-    elif pokeball_type == 'ultra':
-        result = user.use_ultra_pokeball()
-    elif pokeball_type == 'master':
-        result = user.use_master_pokeball()
+    if pokeball_type == 'pokeball':
+        result = User.use_normal_pokeball()
+    elif pokeball_type == 'greatball':
+        result = User.use_great_pokeball()
+    elif pokeball_type == 'ultraball':
+        result = User.use_ultra_pokeball()
+    elif pokeball_type == 'masterball':
+        result = User.use_master_pokeball()
     else:
         return jsonify({'error': 'Invalid Pokeball type'}), 400
     if result:

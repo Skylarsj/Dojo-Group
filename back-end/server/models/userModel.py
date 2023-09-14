@@ -89,11 +89,11 @@ class User:
     
     @classmethod
     def use_normal_pokeball(self):
-        """Use a normal pokeball."""
         if self.normal_pokeballs > 0:
             self.normal_pokeballs -= 1
             return True
-        return False
+        else:
+            return False
     
     @classmethod
     def use_great_pokeball(self):
@@ -123,6 +123,20 @@ class User:
     def get_all_pokeballs(cls, data):
         query = "SELECT normal_pokeballs, great_pokeballs, ultra_pokeballs, master_pokeballs FROM user WHERE id = %(id)s;"
         results = connectToMySQL(db).query_db(query, data)
+        if results:
+            return results[0]
+        else:
+            return None
+        
+    
+    @classmethod
+    def get_pokeballs(cls, filters):
+        query = "SELECT normal_pokeballs, great_pokeballs, ultra_pokeballs, master_pokeballs FROM user WHERE "
+        conditions = []
+        for key, value in filters.items():
+            conditions.append(f"{key} = '{value}'")
+        query += " AND ".join(conditions) + ";"
+        results = connectToMySQL(db).query_db(query)
         if results:
             return results[0]
         else:

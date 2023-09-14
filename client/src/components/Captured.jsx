@@ -1,7 +1,6 @@
-import {React, useEffect, useState } from 'react';
+import {React, useState } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAuthContext } from "../hooks/useAuthContext"
 import { usePokemonContext } from '../hooks/usePokemonContext';
 
 const CapturedForm = () => {
@@ -9,44 +8,27 @@ const CapturedForm = () => {
     const location = useLocation();
     const { pokemon } = location.state || "";
     const [nickname, setNickname] = useState("");
-    const { state } = useAuthContext();
     console.log(pokemon);
-    console.log("capture", state.user.results.user.id);
-    const { catchPokemon } = usePokemonContext();
     
-  
-    const savePokemon = async () => {
-      try {
-        if (state.user) {
-          const capturedPokemon = {
-            user_id: state.user.results.user.id,
-            name: pokemon.name,
-            nickname: nickname || pokemon.name,
-            spriteURL: pokemon.sprites.front_default
-          };
-  
-          const savePokemonResponse = await axios.post("http://localhost:5000/api/pokemon/save", capturedPokemon);
-          Navigate('/map');
-          catchPokemon();
-        } else {
-          console.log("User is not logged in");
-        }
-      } catch (error) {
-        console.error("An error occurred:", error);
-      }
+ 
+    const Map  = () => {
+        Navigate('/map');
     };
 
-    const applyNickname = (e) => {
-        setNickname(e.target.value);
+    const Inventory = () => {
+        Navigate('/inventory');
     };
+    
 
-    return(
-        <div className="relative flex flex-col w-full h-full">
-            <div className="absolute bottom-20 left-[133px]">{pokemon.name}</div>
-            <img className="w-[200px] h-[200px] mx-auto" src={pokemon.sprites.front_default} alt={pokemon.name} />
-            <input onChange={applyNickname} className="justify-bottom w-3/4 mx-auto" type="text" placeholder="nickname" value={nickname} />
-            <button className="justify-bottom w-3/4 mx-auto" onClick={savePokemon}>keep</button>
+    return (
+      <div className="relative flex flex-col w-full h-full">
+        <div className="absolute bottom-20 left-[80px] font-bold text-white shadow-lg">You caught a {pokemon.name}!</div>
+        <img className="w-[200px] h-[200px] mx-auto" src={pokemon.sprites.front_default} alt={pokemon.name} />
+        <div className="flex justify-center space-x-4">
+          <button className="font-bold bg-green-500 text-white px-4 py-2 rounded" onClick={Map}>Map</button>
+          <button className="font-bold bg-green-500 text-white px-4 py-2 rounded" onClick={Inventory}>Inventory</button>
         </div>
+      </div>
     );
 }
 

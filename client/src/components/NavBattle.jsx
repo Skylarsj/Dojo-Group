@@ -6,13 +6,13 @@ import PokeballSelector from './PokeballSelector';
 import { usePokemonContext } from '../hooks/usePokemonContext';
 
 
-const NavBattle = () => {
+const NavBattle = ({pokeball}) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { state } = useAuthContext();
   const { pokemon, captureRate } = location.state || "";
   const [selectedPokeball, setSelectedPokeball] = useState(null);
-  console.log("selectedPokeball", selectedPokeball);
+  console.log("selectedPokeball", selectedPokeball?.id);
   const { catchPokemon } = usePokemonContext();
 
   const handleGoBackClick = () => {
@@ -59,14 +59,34 @@ const NavBattle = () => {
   };
 
   const goToChangeNickname = (pokemon) => {
-    navigate('/change-nickname', { state: { pokemon: pokemon } });
+    navigate('/captured', { state: { pokemon: pokemon } });
   };
-  const isCaught = capture_pokemon(captureRate, selectedPokeball?.id);
+  
+  const isCaught = capture_pokemon(captureRate, selectedPokeball?.id);  
+  const usePokeball = async () => {
+    try {
+      if (selectedPokeball) {
+        const usePokeballResponse = await axios.post("http://localhost:5000/api/pokeballs/use", {
+          user_id: state.user.results.user.id,
+          pokeball_type: selectedPokeball?.id,
+        });
+        if (usePokeballResponse.status === 200) {
+          savePokemon();
+        } else {
+          console.log("Error using Pokeball:", usePokeballResponse.data.error);
+        }
+      } else {
+        console.log("No Pokeball selected");
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+  };
 
   const savePokemon = async () => {
     try {
       if (isCaught === true) {
-        navigate('/map');
+        navigate('/captured', { state: { pokemon: pokemon } });
       } else if (state.user) {
         const capturedPokemon = {
           user_id: state.user.results.user.id,
@@ -96,7 +116,7 @@ const NavBattle = () => {
         </div>
         <button
           className="w-18 border rounded-md border-black h-auto m-4 ml-auto text-xs p-1.5 font-mono text-black bg-[#00C247]"
-          onClick={savePokemon}
+          onClick={usePokeball}
         >
           Capture!
         </button>
