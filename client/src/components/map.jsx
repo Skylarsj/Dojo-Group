@@ -75,29 +75,24 @@ const Map = () => {
   const getPokemonData = async (pokemonType) => {
     try {
       const response = await axios.get(`https://pokeapi.co/api/v2/type/${pokemonType}`);
-      //store the data from the API call
+      // Store the data from the API call
       const pokemonData = response.data;
       console.log(pokemonData);
       const randomPokemon = Math.floor(Math.random() * pokemonData.pokemon.length);
       const pokemonName = pokemonData.pokemon[randomPokemon].pokemon.name;
       const pokemonResponse = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
       const pokemon = pokemonResponse.data;
-      //login to see if the pokemon has a sprite
-      if (pokemon.sprites.front_default === null) {
-        console.log('no sprite');
-        getPokemonData(pokemonType);
-      } else {
-        // Retrieve the capture rate of the Pokemon from the API
-        const speciesResponse = await axios.get(pokemon.species.url);
-        const speciesData = speciesResponse.data;
-        const captureRate = speciesData.capture_rate;
   
-        // Determine if the Pokemon is successfully captured using the capture rate and a Pokeball type
-        const isCaptured = capture_pokemon(captureRate, 'normal');
+      // Fetch the species data to get the capture rate
+      const speciesResponse = await axios.get(pokemon.species.url);
+      const speciesData = speciesResponse.data;
+      const captureRate = speciesData.capture_rate;
   
-        // Send the Pokemon data and capture status to the parent component
-        Navigate(`/battle`, { state: { pokemon, isCaptured } });
-      }
+      // Determine if the Pokemon is successfully captured using the capture rate and a Pokeball type
+      const isCaptured = capture_pokemon(captureRate, 'normal');
+  
+      // Send the Pokemon data and capture status to the parent component
+      Navigate(`/battle`, { state: { pokemon, isCaptured, captureRate } });
     } catch (error) {
       console.error(error);
     }

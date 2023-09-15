@@ -9,26 +9,36 @@ CORS(app)
 
 @app.route('/api/pokeballs/use', methods=['POST'])
 def use_pokeball_route():
-    data = request.get_json()
-    user = User.get_pokeballs({'id': data['user_id']})
-    if not user:
-        return jsonify({'error': 'User not found'}), 404
-    pokeball_type = data['pokeball_type']
-    if pokeball_type == 'pokeball':
-        result = User.use_normal_pokeball()
-    elif pokeball_type == 'greatball':
-        result = User.use_great_pokeball()
-    elif pokeball_type == 'ultraball':
-        result = User.use_ultra_pokeball()
-    elif pokeball_type == 'masterball':
-        result = User.use_master_pokeball()
-    else:
-        return jsonify({'error': 'Invalid Pokeball type'}), 400
-    if result:
-        User.update_pokeballs({'id': user.id, 'normal_pokeballs': user.normal_pokeballs, 'great_pokeballs': user.great_pokeballs, 'ultra_pokeballs': user.ultra_pokeballs, 'master_pokeballs': user.master_pokeballs})
-        return jsonify({'message': 'Pokeball used successfully'}), 200
-    else:
-        return jsonify({'error': 'No Pokeballs of the specified type remaining'}), 400
+    user_id = request.json.get('user_id')
+    pokeball_type = request.json.get('pokeball_type')
+
+    if not user_id:
+        return jsonify({'error': True, 'message': 'User not logged in.'}), 400
+
+    user_instance = User.get_by_id(user_id)
+
+    if not user_instance:
+        return jsonify({'error': True, 'message': 'User not found.'}), 404
+
+    # Check if the user has enough of the specified Pokeball type
+    pokeball_columns = {
+        'normal': 'normal_pokeballs',
+        'great': 'great_pokeballs',
+        'ultra': 'ultra_pokeballs',
+        'master': 'master_pokeballs',
+    }
+
+    if pokeball_type not in pokeball_columns:
+        return jsonify({'error': True, 'message': 'Invalid Pokeball type.'}), 400
+
+    pokeball_column = pokeball_columns[pokeball_type]
+
+    if getattr(user_instance, pokeball_column, 0) <= 0:
+        return jsonify({'error': True, 'message': f'No {pokeball_type.capitalize()} Pokeballs remaining.'}), 400
+
+    # If the user has enough Pokeballs, update the count
+    return User.update_pokeballs(user_id, pokeball_type)
+
     
 @app.route('/api/users/<int:user_id>/pokeballs', methods=['GET'])
 def get_pokeballs(user_id):

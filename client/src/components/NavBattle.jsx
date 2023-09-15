@@ -6,7 +6,7 @@ import PokeballSelector from './PokeballSelector';
 import { usePokemonContext } from '../hooks/usePokemonContext';
 
 
-const NavBattle = ({pokeball}) => {
+const NavBattle = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { state } = useAuthContext();
@@ -14,6 +14,7 @@ const NavBattle = ({pokeball}) => {
   const [selectedPokeball, setSelectedPokeball] = useState(null);
   console.log("selectedPokeball", selectedPokeball?.id);
   const { catchPokemon } = usePokemonContext();
+  const [isCaught, setIsCaught] = useState(false);
 
   const handleGoBackClick = () => {
     navigate('/map');
@@ -23,57 +24,73 @@ const NavBattle = ({pokeball}) => {
     setSelectedPokeball(selected);
   };
 
-  const capture_pokemon = (capture_rate, pokeball_type) => {
+  const capture_pokemon = async (capture_rate, pokeball_type, callback) => {
+    console.log("capture_rate", capture_rate);
+    console.log("pokeball_type", pokeball_type);
     let capture_rate_multiplier;
     switch (pokeball_type) {
-      case 'null':
+      case 'normal':
         capture_rate_multiplier = 1;
         break;
-      case 'pokeball':
-        capture_rate_multiplier = 1;
-        break;
-      case 'greatball':
+      case 'great':
         capture_rate_multiplier = 1.5;
         break;
-      case 'ultraball':
+      case 'ultra':
         capture_rate_multiplier = 2;
         break;
-      case 'masterball':
+      case 'master':
         capture_rate_multiplier = 255;
         break;
-      default:
     }
-
+  
     // Calculate the modified capture rate
     const modified_capture_rate = Math.floor((3 * capture_rate * capture_rate_multiplier) / 100);
-
+    console.log("capture_rate_multiplier", capture_rate_multiplier);
+    console.log("capture_rate", capture_rate);
+    console.log("modified_capture_rate", modified_capture_rate);
+  
     // Generate a random number between 0 and 255
     const random_number = Math.floor(Math.random() * 256);
-
+    console.log("random_number", random_number);
+  
     // Check if the Pokemon was successfully captured
-    if (random_number < modified_capture_rate) {
-      return true;
-    } else {
-      return false;
+    const isCaught = random_number < modified_capture_rate;
+    console.log("isCaught", isCaught);
+  
+    try {
+      // Perform asynchronous operation
+      await callback(isCaught);
+    } catch (error) {
+      console.error("An error occurred:", error);
     }
   };
+  
 
   const goToChangeNickname = (pokemon) => {
     navigate('/captured', { state: { pokemon: pokemon } });
   };
   
-  const isCaught = capture_pokemon(captureRate, selectedPokeball?.id);  
+ 
+  console.log("isCaught", isCaught);
   const usePokeball = async () => {
     try {
       if (selectedPokeball) {
-        const usePokeballResponse = await axios.post("http://localhost:5000/api/pokeballs/use", {
-          user_id: state.user.results.user.id,
-          pokeball_type: selectedPokeball?.id,
-        });
-        if (usePokeballResponse.status === 200) {
-          savePokemon();
+        // Call capture_pokemon and await its result
+        const captured = await capture_pokemon(captureRate, selectedPokeball?.id);
+        if (captured) {
+          setIsCaught(true);
+          const usePokeballResponse = await axios.post("http://localhost:5000/api/pokeballs/use", {
+            user_id: state.user.results.user.id,
+            pokeball_type: selectedPokeball.id, // Use selectedPokeball.id
+          });
+          if (usePokeballResponse.status === 200) {
+            savePokemon();
+          } else {
+            console.log("Error using Pokeball:", usePokeballResponse.data.error);
+          }
         } else {
-          console.log("Error using Pokeball:", usePokeballResponse.data.error);
+          console.log("The Pokemon fled!");
+          // Display a message to the user that the Pokemon fled
         }
       } else {
         console.log("No Pokeball selected");
@@ -82,22 +99,28 @@ const NavBattle = ({pokeball}) => {
       console.error("An error occurred:", error);
     }
   };
-
   const savePokemon = async () => {
     try {
-      if (isCaught === true) {
-        navigate('/captured', { state: { pokemon: pokemon } });
-      } else if (state.user) {
-        const capturedPokemon = {
-          user_id: state.user.results.user.id,
-          name: pokemon.name,
-          nickname:  pokemon.name,
-          spriteURL: pokemon.sprites.front_default,
-        };
-
-        const savePokemonResponse = await axios.post("http://localhost:5000/api/pokemon/save", capturedPokemon);
-        goToChangeNickname(pokemon);
-        catchPokemon();
+      if (state.user) {
+        if (isCaught == true) {
+          const capturedPokemon = {
+            user_id: state.user.results.user.id,
+            name: pokemon.name,
+            nickname: pokemon.name,
+            spriteURL: pokemon.sprites.front_default,
+          };
+  
+          const savePokemonResponse = await axios.post("http://localhost:5000/api/pokemon/save", capturedPokemon);
+  
+          if (savePokemonResponse.status === 200) {
+            goToChangeNickname(pokemon);
+            catchPokemon();
+          } else {
+            console.log("Error saving Pokemon:", savePokemonResponse.data.error);
+          }
+        } else {
+          console.log("Pokemon was not caught.");
+        }
       } else {
         console.log("User is not logged in");
       }

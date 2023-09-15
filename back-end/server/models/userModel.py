@@ -2,6 +2,7 @@ from server.config.mysqlconnection import connectToMySQL
 from flask_bcrypt import Bcrypt
 from flask import jsonify
 import re
+import sqlite3
 
 bcrypt = Bcrypt()
 
@@ -88,36 +89,33 @@ class User:
         return user
     
     @classmethod
-    def use_normal_pokeball(self):
-        if self.normal_pokeballs > 0:
-            self.normal_pokeballs -= 1
-            return True
-        else:
-            return False
+    def update_pokeballs(cls, user_id, pokeball_type):
+        # Create a dictionary to map Pokeball types to database column names
+        pokeball_columns = {
+            'normal': 'normal_pokeballs',
+            'great': 'great_pokeballs',
+            'ultra': 'ultra_pokeballs',
+            'master': 'master_pokeballs',
+        }
+
+        # Check if the pokeball type is valid
+        if pokeball_type not in pokeball_columns:
+            return jsonify({'error': True, 'message': 'Invalid Pokeball type.'}), 400
+
+        # Construct the column name and query parameters
+        pokeball_column = pokeball_columns[pokeball_type]
+        query = f"UPDATE user SET {pokeball_column} = {pokeball_column} - 1 WHERE id = %(id)s;"
+
+        try:
+            # Execute the query with user_id as a parameter to prevent SQL injection
+            connectToMySQL(db).query_db(query, {'id': user_id})
+            return jsonify({'error': False, 'message': f'{pokeball_type.capitalize()} Pokeball used successfully.'}), 200
+        except Exception as e:
+            # Handle database errors here
+            return jsonify({'error': True, 'message': str(e)}), 500
     
-    @classmethod
-    def use_great_pokeball(self):
-        """Use a great pokeball."""
-        if self.great_pokeballs > 0:
-            self.great_pokeballs -= 1
-            return True
-        return False
+
     
-    @classmethod
-    def use_ultra_pokeball(self):
-        """Use an ultra pokeball."""
-        if self.ultra_pokeballs > 0:
-            self.ultra_pokeballs -= 1
-            return True
-        return False
-    
-    @classmethod
-    def use_master_pokeball(self):
-        """Use a master pokeball."""
-        if self.master_pokeballs > 0:
-            self.master_pokeballs -= 1
-            return True
-        return False
     
     @classmethod
     def get_all_pokeballs(cls, data):
@@ -142,9 +140,8 @@ class User:
         else:
             return None
     
-    @classmethod
-    def update_pokeballs(cls, data):
-        query = "UPDATE user SET normal_pokeballs = %(normal_pokeballs)s, great_pokeballs = %(great_pokeballs)s, ultra_pokeballs = %(ultra_pokeballs)s, master_pokeballs = %(master_pokeballs)s WHERE id = %(id)s;"
+    
+    
 
     @classmethod
     def add_pokeballs(cls, data):

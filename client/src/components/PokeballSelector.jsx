@@ -8,13 +8,13 @@ import '../styling/PokeballSelector.css';
 import { useAuthContext } from '../hooks/useAuthContext';
 
 const PokeballSelector = ({ onChange }) => {
-  const [selected, setSelected] = useState('pokeball');
-  const [selectedPokeball, setSelectedPokeball] = useState('pokeball');
+  const [selected, setSelected] = useState('normal'); // Set a default value that matches the server-side code
+  const [selectedPokeball, setSelectedPokeball] = useState('normal'); // Set a default value that matches the server-side code
   const [pokeballs, setPokeballs] = useState([
-    { id: 'pokeball', img: pokeBall },
-    { id: 'greatball', img: greatBall },
-    { id: 'ultraball', img: ultraBall },
-    { id: 'masterball', img: masterBall },
+    { id: 'normal', img: pokeBall }, // Use 'normal' instead of 'pokeball'
+    { id: 'great', img: greatBall }, // Use 'great' instead of 'greatball'
+    { id: 'ultra', img: ultraBall }, // Use 'ultra' instead of 'ultraball'
+    { id: 'master', img: masterBall }, // Use 'master' instead of 'masterball'
   ]);
   const [normalPokeballs, setNormalPokeballs] = useState(0);
   const [greatPokeballs, setGreatPokeballs] = useState(0);
@@ -48,7 +48,7 @@ const PokeballSelector = ({ onChange }) => {
 
   const handlePokeballClick = (pokeball) => {
     setSelected(pokeball.id);
-    setSelectedPokeball(pokeball.id);
+    setSelectedPokeball(pokeball);
     if (onChange) {
       onChange(pokeball);
     }
@@ -65,13 +65,13 @@ const PokeballSelector = ({ onChange }) => {
         <div className="pokeball-selector-nav-item">
           <img src={pokeballs.find((pokeball) => pokeball.id === selected).img} alt={selected} />
           <p>
-            {selected === 'pokeball'
+            {selected === 'normal'
               ? normalPokeballs
-              : selected === 'greatball'
+              : selected === 'great'
               ? greatPokeballs
-              : selected === 'ultraball'
+              : selected === 'ultra'
               ? ultraPokeballs
-              : selected === 'masterball'
+              : selected === 'master'
               ? masterPokeballs
               : ''}
           </p>
