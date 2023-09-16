@@ -12,7 +12,7 @@ const NavBattle = () => {
   const location = useLocation();
   const { state } = useAuthContext();
   const { pokemon, captureRate } = location.state || "";
-  const [selectedPokeball, setSelectedPokeball] = useState(null);
+  const [selectedPokeball, setSelectedPokeball] = useState({ id: 'normal' });
   console.log("selectedPokeball", selectedPokeball?.id);
   const { catchPokemon } = usePokemonContext();
   const [isCaught, setIsCaught] = useState(false);
@@ -93,22 +93,23 @@ const NavBattle = () => {
         capture_pokemon(captureRate, selectedPokeball?.id, (captured) => {
           if (captured) {
             setIsCaught(true);
-            axios.post("http://localhost:5000/api/pokeballs/use", {
-              user_id: state.user.results.user.id,
-              pokeball_type: selectedPokeball.id,
-            }).then((usePokeballResponse) => {
-              if (usePokeballResponse.status === 200) {
-                savePokemon();
-              } else {
-                console.log("Error using Pokeball:", usePokeballResponse.data.error);
-              }
-            });
           } else {
             console.log("The Pokemon fled!");
             // Display a message to the user that the Pokemon fled
             setIsCaught(false); // Set isCaught to false when the Pokemon flees
             pokemonEscaped();
           }
+  
+          axios.post("http://localhost:5000/api/pokeballs/use", {
+            user_id: state.user.results.user.id,
+            pokeball_type: selectedPokeball.id,
+          }).then((usePokeballResponse) => {
+            if (usePokeballResponse.status === 200 && captured) {
+              savePokemon();
+            } else {
+              console.log("Error using Pokeball:", usePokeballResponse.data.error);
+            }
+          });
         });
       } else {
         console.log("No Pokeball selected");
