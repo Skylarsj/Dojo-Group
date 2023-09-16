@@ -4,6 +4,7 @@ import { useNavigate  } from 'react-router-dom';
 import { useAuthContext } from '../hooks/useAuthContext';
 import mapMusic from '../music/mapMusic.mp3';
 import { useVolume } from '../hooks/useVolume';
+import { useCapture } from '../hooks/useCapture';
 
 
 const Map = () => {
@@ -11,6 +12,7 @@ const Map = () => {
   const {state }  = useAuthContext()
   const [pokemonCount, setPokemonCount] = useState(0);
   const { volume} = useVolume();
+  const { resetCaptureStatus } = useCapture();
 
   useEffect(() => {
     const getCount = async () => {
@@ -90,6 +92,7 @@ const Map = () => {
   
       // Determine if the Pokemon is successfully captured using the capture rate and a Pokeball type
       const isCaptured = capture_pokemon(captureRate, 'normal');
+      resetCaptureStatus();
   
       // Send the Pokemon data and capture status to the parent component
       Navigate(`/battle`, { state: { pokemon, isCaptured, captureRate } });

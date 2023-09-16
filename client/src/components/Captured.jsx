@@ -19,11 +19,18 @@ const CapturedForm = () => {
         Navigate('/inventory');
     };
     
+    function formatPokemonName(name) {
+      // Split the name by dashes and capitalize the first letter of each word
+      const words = name.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1));
+      
+      // Join the words back together with spaces
+      return words.join(' ');
+    }
 
     return (
       <div className="relative flex flex-col w-full h-full">
-        <div className="absolute bottom-20 left-[80px] font-bold text-white shadow-lg">You caught a {pokemon.name}!</div>
-        <img className="w-[200px] h-[200px] mx-auto" src={pokemon.sprites.front_default} alt={pokemon.name} />
+        <div className="absolute bottom-20 left-[80px] font-bold text-white shadow-lg">You caught a {formatPokemonName(pokemon.name)}!</div>
+        <img className="w-[200px] h-[200px] mx-auto" src={pokemon.sprites.front_default} alt={formatPokemonName(pokemon.name)} />
         <div className="flex justify-center space-x-4">
           <button className="font-bold bg-green-500 text-white px-4 py-2 rounded" onClick={Map}>Map</button>
           <button className="font-bold bg-green-500 text-white px-4 py-2 rounded" onClick={Inventory}>Inventory</button>

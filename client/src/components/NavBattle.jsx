@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useAuthContext } from "../hooks/useAuthContext"
 import PokeballSelector from './PokeballSelector';
 import { usePokemonContext } from '../hooks/usePokemonContext';
+import {useCapture} from '../hooks/useCapture';
 
 
 const NavBattle = () => {
@@ -15,14 +16,25 @@ const NavBattle = () => {
   console.log("selectedPokeball", selectedPokeball?.id);
   const { catchPokemon } = usePokemonContext();
   const [isCaught, setIsCaught] = useState(false);
+  const { pokemonEscaped, resetCaptureStatus } = useCapture();
+
 
   const handleGoBackClick = () => {
     navigate('/map');
+    resetCaptureStatus();
   };
 
   const handlePokeballChange = (selected) => {
     setSelectedPokeball(selected);
   };
+
+  function formatPokemonName(name) {
+    // Split the name by dashes and capitalize the first letter of each word
+    const words = name.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1));
+    
+    // Join the words back together with spaces
+    return words.join(' ');
+  }
 
   const capture_pokemon = async (capture_rate, pokeball_type, callback) => {
     console.log("capture_rate", capture_rate);
@@ -83,7 +95,7 @@ const NavBattle = () => {
             setIsCaught(true);
             axios.post("http://localhost:5000/api/pokeballs/use", {
               user_id: state.user.results.user.id,
-              pokeball_type: selectedPokeball.id, // Use selectedPokeball.id
+              pokeball_type: selectedPokeball.id,
             }).then((usePokeballResponse) => {
               if (usePokeballResponse.status === 200) {
                 savePokemon();
@@ -94,6 +106,8 @@ const NavBattle = () => {
           } else {
             console.log("The Pokemon fled!");
             // Display a message to the user that the Pokemon fled
+            setIsCaught(false); // Set isCaught to false when the Pokemon flees
+            pokemonEscaped();
           }
         });
       } else {
@@ -108,8 +122,8 @@ const NavBattle = () => {
       if (state.user) {
           const capturedPokemon = {
             user_id: state.user.results.user.id,
-            name: pokemon.name,
-            nickname: pokemon.name,
+            name: formatPokemonName(pokemon.name),
+            nickname: formatPokemonName(pokemon.name),
             spriteURL: pokemon.sprites.front_default,
           };
   
