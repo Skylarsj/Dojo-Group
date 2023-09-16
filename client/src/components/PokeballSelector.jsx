@@ -8,13 +8,13 @@ import '../styling/PokeballSelector.css';
 import { useAuthContext } from '../hooks/useAuthContext';
 
 const PokeballSelector = ({ onChange }) => {
-  const [selected, setSelected] = useState('normal'); // Set a default value that matches the server-side code
-  const [selectedPokeball, setSelectedPokeball] = useState('normal'); // Set a default value that matches the server-side code
+  const [selected, setSelected] = useState('normal'); // Set a default value of 'normal'
+  const [selectedPokeball, setSelectedPokeball] = useState('normal'); // Set a default value of 'normal'
   const [pokeballs, setPokeballs] = useState([
-    { id: 'normal', img: pokeBall }, // Use 'normal' instead of 'pokeball'
-    { id: 'great', img: greatBall }, // Use 'great' instead of 'greatball'
-    { id: 'ultra', img: ultraBall }, // Use 'ultra' instead of 'ultraball'
-    { id: 'master', img: masterBall }, // Use 'master' instead of 'masterball'
+    { id: 'normal', img: pokeBall },
+    { id: 'great', img: greatBall },
+    { id: 'ultra', img: ultraBall },
+    { id: 'master', img: masterBall },
   ]);
   const [normalPokeballs, setNormalPokeballs] = useState(0);
   const [greatPokeballs, setGreatPokeballs] = useState(0);

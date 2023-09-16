@@ -27,26 +27,28 @@ const NavBattle = () => {
   const capture_pokemon = async (capture_rate, pokeball_type, callback) => {
     console.log("capture_rate", capture_rate);
     console.log("pokeball_type", pokeball_type);
-    let capture_rate_multiplier;
+  
+    // Define capture rate multipliers based on the pokeball_type
+    let ballFactor;
     switch (pokeball_type) {
       case 'normal':
-        capture_rate_multiplier = 1;
+        ballFactor = 1;
         break;
       case 'great':
-        capture_rate_multiplier = 1.5;
+        ballFactor = 1.5;
         break;
       case 'ultra':
-        capture_rate_multiplier = 2;
+        ballFactor = 2;
         break;
       case 'master':
-        capture_rate_multiplier = 255;
+        ballFactor = 255; // Master Ball should guarantee capture
         break;
+      default:
+        ballFactor = 1; // Default to 1 for unknown ball types
     }
   
     // Calculate the modified capture rate
-    const modified_capture_rate = Math.floor((3 * capture_rate * capture_rate_multiplier) / 100);
-    console.log("capture_rate_multiplier", capture_rate_multiplier);
-    console.log("capture_rate", capture_rate);
+    const modified_capture_rate = capture_rate * ballFactor;
     console.log("modified_capture_rate", modified_capture_rate);
   
     // Generate a random number between 0 and 255
@@ -75,23 +77,25 @@ const NavBattle = () => {
   const usePokeball = async () => {
     try {
       if (selectedPokeball) {
-        // Call capture_pokemon and await its result
-        const captured = await capture_pokemon(captureRate, selectedPokeball?.id);
-        if (captured) {
-          setIsCaught(true);
-          const usePokeballResponse = await axios.post("http://localhost:5000/api/pokeballs/use", {
-            user_id: state.user.results.user.id,
-            pokeball_type: selectedPokeball.id, // Use selectedPokeball.id
-          });
-          if (usePokeballResponse.status === 200) {
-            savePokemon();
+        // Call capture_pokemon without await
+        capture_pokemon(captureRate, selectedPokeball?.id, (captured) => {
+          if (captured) {
+            setIsCaught(true);
+            axios.post("http://localhost:5000/api/pokeballs/use", {
+              user_id: state.user.results.user.id,
+              pokeball_type: selectedPokeball.id, // Use selectedPokeball.id
+            }).then((usePokeballResponse) => {
+              if (usePokeballResponse.status === 200) {
+                savePokemon();
+              } else {
+                console.log("Error using Pokeball:", usePokeballResponse.data.error);
+              }
+            });
           } else {
-            console.log("Error using Pokeball:", usePokeballResponse.data.error);
+            console.log("The Pokemon fled!");
+            // Display a message to the user that the Pokemon fled
           }
-        } else {
-          console.log("The Pokemon fled!");
-          // Display a message to the user that the Pokemon fled
-        }
+        });
       } else {
         console.log("No Pokeball selected");
       }
@@ -102,7 +106,6 @@ const NavBattle = () => {
   const savePokemon = async () => {
     try {
       if (state.user) {
-        if (isCaught == true) {
           const capturedPokemon = {
             user_id: state.user.results.user.id,
             name: pokemon.name,
@@ -118,9 +121,6 @@ const NavBattle = () => {
           } else {
             console.log("Error saving Pokemon:", savePokemonResponse.data.error);
           }
-        } else {
-          console.log("Pokemon was not caught.");
-        }
       } else {
         console.log("User is not logged in");
       }
