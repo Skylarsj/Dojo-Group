@@ -16,7 +16,7 @@ const NavBattle = () => {
   console.log("selectedPokeball", selectedPokeball?.id);
   const { catchPokemon } = usePokemonContext();
   const [isCaught, setIsCaught] = useState(false);
-  const { pokemonEscaped, resetCaptureStatus } = useCapture();
+  const { isCaptured, pokemonEscaped, resetCaptureStatus } = useCapture();
 
 
   const handleGoBackClick = () => {
@@ -152,18 +152,29 @@ const NavBattle = () => {
         <div style={{ marginTop: '3%', marginLeft: '12%' }}>
           <PokeballSelector onChange={handlePokeballChange} />
         </div>
-        <button
-          className="w-18 border rounded-md border-black h-auto m-4 ml-auto text-xs p-1.5 font-mono text-black bg-[#00C247]"
-          onClick={usePokeball}
-        >
-          Capture!
-        </button>
-        <button
-          className="w-18 border rounded-md border-black h-auto m-4 ml-auto text-xs p-1.5 font-mono text-black bg-[#00C247]"
-          onClick={handleGoBackClick}
-        >
-          RUN!
-        </button>
+        {isCaptured ? (
+          <>
+            <button
+              className="w-18 border rounded-md border-black h-auto m-4 ml-auto text-xs p-1.5 font-mono text-black bg-[#00C247]"
+              onClick={usePokeball}
+            >
+              Capture!
+            </button>
+            <button
+              className="w-18 border rounded-md border-black h-auto m-4 ml-auto text-xs p-1.5 font-mono text-black bg-[#00C247]"
+              onClick={handleGoBackClick}
+            >
+              RUN!
+            </button>
+          </>
+        ) : (
+          <button
+            className="w-18 border rounded-md border-black h-auto m-4 ml-auto text-xs p-1.5 font-mono text-black bg-[#00C247]"
+            onClick={handleGoBackClick}
+          >
+            Leave
+          </button>
+        )}
       </div>
     </>
   );

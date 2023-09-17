@@ -8,6 +8,7 @@ import NavBattle from '../components/NavBattle';
 import NavInventory from '../components/navInventory';
 import NavCaptured from '../components/NavCaptured';
 import NavStarter from '../components/NavStarter';
+import NavMenu from '../components/NavMenu';
 
 const Navbar = ({ userID }) => {
   const [navMap, setNavMap] = useState(true);
@@ -15,6 +16,7 @@ const Navbar = ({ userID }) => {
   const [navCaptured, setNavCaptured] = useState(false);
   const [navInventory, setNavInventory] = useState(false);
   const [navStarter, setNavStarter] = useState(false);
+  const [navMenu, setNavMenu] = useState(false);
   const {state} = useAuthContext();
   const [pokemonCount, setPokemonCount] = useState(0);
   const location = useLocation();
@@ -40,24 +42,28 @@ const Navbar = ({ userID }) => {
       setNavCaptured(false);
       setNavInventory(false);
       setNavStarter(false);
+      setNavMenu(false);
     } else if (location.pathname === '/battle') {
       setNavMap(false);
       setNavBattle(true);
       setNavCaptured(false);
       setNavInventory(false);
       setNavStarter(false);
+      setNavMenu(false);
     } else if (location.pathname === '/captured') {
       setNavMap(false);
       setNavBattle(false);
       setNavCaptured(true);
       setNavInventory(false);
       setNavStarter(false);
+      setNavMenu(false);
     } else if (location.pathname === '/inventory') {
       setNavMap(false);
       setNavBattle(false);
       setNavCaptured(false);
       setNavInventory(true);
       setNavStarter(false);
+      setNavMenu(false);
     }
     else if (location.pathname === '/register' || location.pathname === '/') {
         setNavMap(false);
@@ -65,6 +71,7 @@ const Navbar = ({ userID }) => {
         setNavCaptured(false);
         setNavInventory(false);
         setNavStarter(false);
+        setNavMenu(false);
       }
     else if (location.pathname === '/starter') {
         setNavMap(false);
@@ -72,7 +79,19 @@ const Navbar = ({ userID }) => {
         setNavCaptured(false);
         setNavInventory(false);
         setNavStarter(true);
+        setNavMenu(false);
       }
+    else if (location.pathname === '/main-menu') {
+        setNavMap(false);
+        setNavBattle(false);
+        setNavCaptured(false);
+        setNavInventory(false);
+        setNavStarter(false);
+        setNavMenu(true);
+      }
+    
+
+    
     
     
   
@@ -87,6 +106,7 @@ const Navbar = ({ userID }) => {
       {navMap && <NavMap />}
       {navCaptured && <NavCaptured DeletePokemon={DeletePokemon} />}
       {navInventory && <NavInventory setNavInventory={setNavInventory} pokeballCount={pokeballCount} />}
+      {navMenu && <NavMenu />}
     </div>
    
   );

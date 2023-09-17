@@ -127,7 +127,7 @@ class Pokemon:
         if len(data['nickname']) < 2:  # Add validation for nickname length
             error_message = "Nickname must be at least 2 characters."
             error_messages['badNickname'] = error_message
-        if len(data['nickname']) > 16:  # Add validation for nickname length
+        if len(data['nickname']) > 32:  # Add validation for nickname length
             error_message = "Nickname must be less than 16 characters."
             error_messages['badNickname'] = error_message
         if error_messages:

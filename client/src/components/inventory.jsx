@@ -126,6 +126,9 @@ const Bag = () => {
         releasePokemon();
         console.log(response);
         setPokemonObjects((prevPokemonObjects) => prevPokemonObjects.filter((pokemon) => pokemon.id !== id));
+        if (pokemonObjects.length % 1 === 0 && currentPage > 0) {
+          setCurrentPage((prevPage) => prevPage - 1);
+        }
       })
       .catch((error) => {
         console.log(error);
