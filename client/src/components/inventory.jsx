@@ -17,6 +17,7 @@ const Bag = () => {
   const { releasePokemon } = usePokemonContext();
   const { backgroundImage, handleBackgroundChange } = useBackground();
   const [backgroundOptions] = useState([
+    { value: '', label: 'Gray'},
     { value: 'pokemon_bg1.jpg', label: 'Pikachu' },
     { value: 'pokemon_bg2.jpg', label: 'Pokeball' },
     { value: 'pokemon_bg3.jpg', label: 'Pokemon' },

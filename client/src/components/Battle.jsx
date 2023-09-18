@@ -4,7 +4,7 @@ import battle from '../music/battle.mp3';
 import { useVolume } from '../hooks/useVolume';
 import { useCapture } from '../hooks/useCapture';
 import pokemon_flee from '../img/pokemon_flee.png';
-import customHistory from './history';
+
 
 const Battle = () => {
   const location = useLocation();
@@ -37,17 +37,7 @@ const Battle = () => {
     return words.join(' ');
   }
 
-  useEffect(() => {
-    const unlisten = customHistory.listen((location, action) => {
-      if (action === 'POP') {
-        resetCaptureStatus();
-      }
-    });
-
-    return () => {
-      unlisten();
-    };
-  }, [resetCaptureStatus]);
+  
 
   const adjustFontSize = () => {
     if (pokemon.name.length > 10) {

@@ -15,6 +15,7 @@ import Menu from './views/Menu';
 import { useAuthContext } from './hooks/useAuthContext';
 import { usePokemonContext } from './hooks/usePokemonContext';
 import MainMenu from './components/mainMenu';
+import EarnPokeballs from './views/earnPokeballs';
 
 
 function App() {
@@ -42,6 +43,10 @@ function App() {
             <Route element={!state.user ? <Navigate to="/" /> : <ChangeName />} path="/change-nickname" />
             <Route element={!state.user ? <Navigate to="/" /> : <Starter />} path="/starter" />
             <Route element={!state.user ? <Navigate to="/" /> : <Menu />} path="/main-menu" />
+            <Route element={!state.user ? <Navigate to="/" /> : <EarnPokeballs />} path="/earnSelect" />
+            <Route element={!state.user ? <Navigate to="/" /> : <EarnPokeballs />} path="/earnEasy" />
+            <Route element={!state.user ? <Navigate to="/" /> : <EarnPokeballs />} path="/earnMedium" />
+            <Route element={!state.user ? <Navigate to="/" /> : <EarnPokeballs />} path="/earnHard" />
           </Routes>
           <Navbar />
         </div>

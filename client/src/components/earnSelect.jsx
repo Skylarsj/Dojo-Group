@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuthContext } from '../hooks/useAuthContext';
 
-const MainMenu = () => {
+const EarnSelect = () => {
   const [bgImage, setBgImage] = useState(null);
   const { state } = useAuthContext();
 
@@ -32,22 +32,22 @@ const MainMenu = () => {
         <h1 className="text-4xl font-bold mb-8 mt-5 text-shaw" style={{ textShadow: '4px 4px 4px #000000' }}>Pokemon API Adventure</h1>
         <div className="flex flex-col items-center gap-4">
           <Link
-            to="/map"
+            to="/earnEasy"
             className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded shadow-md"
           >
-            Map
+            Easy
           </Link>
           <Link
-            to="/inventory"
+            to="/earnMedium"
             className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded shadow-md"
           >
-            Inventory
+            Medium
           </Link>
           <Link
-            to="/earnSelect"
+            to="/earnHard"
             className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded shadow-md"
           >
-            Earn Pokeballs
+            Hard
           </Link>
         </div>
       </div>
@@ -55,4 +55,4 @@ const MainMenu = () => {
   );
 };
 
-export default MainMenu;
+export default EarnSelect;
