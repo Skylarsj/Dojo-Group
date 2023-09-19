@@ -19,6 +19,7 @@ const EarnSelect = () => {
     const selectedImage = bgImageOptions[randomNum];
     setBgImage(selectedImage);
   }, []);
+  
 
   return (
     <div

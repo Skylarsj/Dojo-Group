@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import basket from "../img/basket.png";
@@ -26,15 +25,17 @@ const EarnEasy = () => {
   useEffect(() => {
     if (timeLeft === 0) {
       setGameOver(true);
+      setTimeLeft(0);
     }
   }, [timeLeft]);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === 'ArrowLeft') {
-        setBasketPosition((prevPosition) => prevPosition - 10);
+        setBasketPosition((prevPosition) => Math.max(prevPosition - 10, 0));
       } else if (event.key === 'ArrowRight') {
-        setBasketPosition((prevPosition) => prevPosition + 10);
+        const maxPosition = 280
+        setBasketPosition((prevPosition) => Math.min(prevPosition + 10, maxPosition));
       }
     };
 
@@ -79,54 +80,23 @@ const EarnEasy = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  useEffect(() => {
-    const basketWidth = basketRef.current.offsetWidth;
-    const basketLeft = basketRef.current.offsetLeft;
-    const basketRight = basketLeft + basketWidth;
 
-    pokeballs.forEach((ball, index) => {
-      const ballElement = document.getElementById(`ball-${index}`);
-      const ballTop = ballElement.offsetTop;
-      const ballBottom = ballTop + ballElement.offsetHeight;
-      const ballLeft = ballElement.offsetLeft;
-      const ballRight = ballLeft + ballElement.offsetWidth;
 
-      if (ballBottom >= basketRef.current.offsetTop && ballBottom <= basketRef.current.offsetTop + basketRef.current.offsetHeight) {
-        if (ballLeft >= basketLeft && ballRight <= basketRight) {
-          setScore((prevScore) => prevScore + ball.points);
-          setPokeballs((prevPokeballs) => prevPokeballs.filter((_, i) => i !== index));
-        }
-      } else if (ballBottom >= window.innerHeight) {
-        setPokeballs((prevPokeballs) => prevPokeballs.filter((_, i) => i !== index));
-      }
-    });
-  }, [pokeballs, basketRef]);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-4xl font-bold mb-8">Earn Easy Pokeballs</h1>
+    <div className="flex flex-col items-center justify-center ">
       <div className="flex items-center justify-center mb-4">
+        <div className="text-2xl font-bold">{`Score: ${score}`}</div>
+        <div className="text-2xl font-bold ml-4">{`Time Left: ${timeLeft}`}</div>
         <img
           src={basket}
           alt="Basket"
           className="w-16 h-16 mr-4"
-          style={{ position: 'absolute', left: basketPosition }}
+          style={{ position: 'absolute', bottom: 65, left: basketPosition }}
           ref={basketRef}
         />
-        <div className="text-2xl font-bold">{`Score: ${score}`}</div>
-        <div className="text-2xl font-bold ml-4">{`Time Left: ${timeLeft}`}</div>
       </div>
-      <div className="flex flex-wrap justify-center">
-        {pokeballs.map((ball, index) => (
-          <img
-            key={index}
-            src={ball.image}
-            alt="Pokeball"
-            className="w-16 h-16 m-2"
-            id={`ball-${index}`}
-          />
-        ))}
-      </div>
+      
       {gameOver && (
         <div className="text-4xl font-bold mt-8">Game Over!</div>
       )}

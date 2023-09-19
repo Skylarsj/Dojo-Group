@@ -9,6 +9,7 @@ import NavInventory from '../components/navInventory';
 import NavCaptured from '../components/NavCaptured';
 import NavStarter from '../components/NavStarter';
 import NavMenu from '../components/NavMenu';
+import NavEarn from '../components/NavEarn';
 
 const Navbar = ({ userID }) => {
   const [navMap, setNavMap] = useState(true);
@@ -17,6 +18,7 @@ const Navbar = ({ userID }) => {
   const [navInventory, setNavInventory] = useState(false);
   const [navStarter, setNavStarter] = useState(false);
   const [navMenu, setNavMenu] = useState(false);
+  const [navEarn, setNavEarn] = useState(false);
   const {state} = useAuthContext();
   const [pokemonCount, setPokemonCount] = useState(0);
   const location = useLocation();
@@ -43,6 +45,7 @@ const Navbar = ({ userID }) => {
       setNavInventory(false);
       setNavStarter(false);
       setNavMenu(false);
+      setNavEarn(false);
     } else if (location.pathname === '/battle') {
       setNavMap(false);
       setNavBattle(true);
@@ -50,6 +53,7 @@ const Navbar = ({ userID }) => {
       setNavInventory(false);
       setNavStarter(false);
       setNavMenu(false);
+      setNavEarn(false);
     } else if (location.pathname === '/captured') {
       setNavMap(false);
       setNavBattle(false);
@@ -57,6 +61,7 @@ const Navbar = ({ userID }) => {
       setNavInventory(false);
       setNavStarter(false);
       setNavMenu(false);
+      setNavEarn(false);
     } else if (location.pathname === '/inventory') {
       setNavMap(false);
       setNavBattle(false);
@@ -64,6 +69,7 @@ const Navbar = ({ userID }) => {
       setNavInventory(true);
       setNavStarter(false);
       setNavMenu(false);
+      setNavEarn(false);
     }
     else if (location.pathname === '/register' || location.pathname === '/') {
         setNavMap(false);
@@ -72,6 +78,7 @@ const Navbar = ({ userID }) => {
         setNavInventory(false);
         setNavStarter(false);
         setNavMenu(false);
+        setNavEarn(false);
       }
     else if (location.pathname === '/starter') {
         setNavMap(false);
@@ -80,6 +87,7 @@ const Navbar = ({ userID }) => {
         setNavInventory(false);
         setNavStarter(true);
         setNavMenu(false);
+        setNavEarn(false);
       }
     else if (location.pathname === '/main-menu') {
         setNavMap(false);
@@ -88,14 +96,18 @@ const Navbar = ({ userID }) => {
         setNavInventory(false);
         setNavStarter(false);
         setNavMenu(true);
+        setNavEarn(false);
+      }
+    else if (location.pathname === '/earnSelect' || location.pathname === '/earnEasy' || location.pathname === '/earnMedium' || location.pathname === '/earnHard') {
+        setNavMap(false);
+        setNavBattle(false);
+        setNavCaptured(false);
+        setNavInventory(false);
+        setNavStarter(false);
+        setNavMenu(false);
+        setNavEarn(true);
       }
     
-
-    
-    
-    
-  
-
     
   }, [location.pathname, state.user]);
 
@@ -107,6 +119,7 @@ const Navbar = ({ userID }) => {
       {navCaptured && <NavCaptured DeletePokemon={DeletePokemon} />}
       {navInventory && <NavInventory setNavInventory={setNavInventory} pokeballCount={pokeballCount} />}
       {navMenu && <NavMenu />}
+      {navEarn && <NavEarn />}
     </div>
    
   );
