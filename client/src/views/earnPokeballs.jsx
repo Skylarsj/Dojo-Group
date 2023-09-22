@@ -11,7 +11,7 @@ import Charmander from '../../public/mainMenu_imgs/Charmander.gif'
 import Charmeleon from '../../public/mainMenu_imgs/Charmeleon.gif'
 import Charizard from '../../public/mainMenu_imgs/Charizard.gif'  
 
-const EarnPokeballs = ({ userID }) => {
+const EarnPokeballs = () => {
   const [earnSelect, setEarnSelect] = useState(true);
   const [earnEasy, setEarnEasy] = useState(false);
   const [earnMedium, setEarnMedium] = useState(false);

@@ -7,6 +7,7 @@ import { VolumeProvider } from './context/VolumeContext.jsx'
 import { PokemonProvider } from './context/pokemonContext.jsx'
 import { BackgroundProvider } from './context/Background.jsx'
 import { CaptureStatusProvider } from './context/CaptureStatusContext.jsx'
+import { ScoreProvider } from './context/ScoreContext.jsx'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -15,8 +16,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <BackgroundProvider>
         <VolumeProvider>
           <PokemonProvider> 
-            <CaptureStatusProvider>  
-              <App />
+            <CaptureStatusProvider> 
+              <ScoreProvider> 
+                <App />
+              </ScoreProvider>
             </CaptureStatusProvider>
           </PokemonProvider>
         </VolumeProvider>

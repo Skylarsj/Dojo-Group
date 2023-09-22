@@ -5,6 +5,8 @@ import greatBall from '../img/greatBall.png';
 import masterBall from '../img/masterBall.png';
 import ultraBall from '../img/ultraBall.png';
 import pokeBall from '../img/pokeBall.png';
+import { useVolume } from '../hooks/useVolume';
+import battle from '../music/battle.mp3';
 
 const EarnEasy = () => {
   const screenHeight = 341; 
@@ -12,11 +14,24 @@ const EarnEasy = () => {
   const [pokeballs, setPokeballs] = useState([]);
   const [basketPosition, setBasketPosition] = useState(screenWidth / 2 - 8);
   const [position, setPosition] = useState(screenHeight - 275);
-  const [fallingSpeed] = useState(1); 
+  const [fallingSpeed] = useState(2); 
   const [score, setScore] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(60);
+  const [timeLeft, setTimeLeft] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const basketRef = useRef(null);
+  const { volume } = useVolume();
+
+
+  useEffect(() => {
+    const audio = new Audio(battle);
+    audio.volume = volume;
+    audio.loop = true;
+    audio.play();
+    return () => {
+      audio.pause();
+    };
+    
+  }, []);
 
   
 
@@ -95,7 +110,7 @@ const EarnEasy = () => {
       };
   
       setPokeballs((prevPokeballs) => [...prevPokeballs, newPokeball]);
-    }, 2000);
+    }, 1000);
   
     return () => clearInterval(intervalId);
   }, [gameOver]);
@@ -130,14 +145,14 @@ const EarnEasy = () => {
           width: 100,
           height: 70,
         }
-        console.log("basket", basketRect);
+        
         const pokeballRect = {
           x: pokeball.x,
           y: screenHeight - pokeball.position - 8, // Adjusted position
           width: 8,
           height: 8,
         };
-        console.log("pokeball", pokeballRect);
+        
         if (intersectRect(basketRect, pokeballRect)) {
           console.log('Pokeball collided with basket!');
           setScore((prevScore) => prevScore + pokeball.points);
@@ -186,6 +201,11 @@ const EarnEasy = () => {
         style={{ top: `${pokeball.position}px`, left: `${pokeball.x}px` }}
       />
       ))}
+      {gameOver && (
+        <a href="/EasyShop" className="bg-green-500 hover:bg-blue-100 text-white font-bold py-2 px-4 rounded block" style={{ position: 'absolute', bottom: 160 , left: 90 }}>
+          Go to Easy Shop
+        </a>
+      )}
     </div>
   );
 };
