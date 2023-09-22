@@ -7,7 +7,9 @@ import EarnSelect from "../components/EarnSelect";
 import EarnEasy from "../components/EarnEasy"; 
 import EarnMedium from "../components/EarnMedium";
 import EarnHard from "../components/EarnHard";
-import pokemon_catch from '../../public/background_imgs/pokemon_catch.jpg'
+import Charmander from '../../public/mainMenu_imgs/Charmander.gif'
+import Charmeleon from '../../public/mainMenu_imgs/Charmeleon.gif'
+import Charizard from '../../public/mainMenu_imgs/Charizard.gif'  
 
 const EarnPokeballs = ({ userID }) => {
   const [earnSelect, setEarnSelect] = useState(true);
@@ -44,20 +46,24 @@ const EarnPokeballs = ({ userID }) => {
     }
   }, [location.pathname, state.user]);
 
+  let backgroundImg;
+  if (earnEasy) {
+    backgroundImg = Charmander;
+  } else if (earnMedium) {
+    backgroundImg = Charmeleon;
+  } else if (earnHard) {
+    backgroundImg = Charizard;
+  } else {
+    backgroundImg = Charmander;
+  }
+
   return (
-    <>
-        <div className="w-full h-full" style={{ backgroundImage: `url(${pokemon_catch})`, backgroundSize: 'cover' }}>
+    <div className="w-full h-full" style={{ backgroundImage: `url(${backgroundImg})`, backgroundSize: 'cover' }}>
       {earnSelect  && <EarnSelect />}
-      {earnEasy  && <EarnEasy screenWidth={window.innerWidth} screenHeight={window.innerHeight} />}
-      {earnMedium && <EarnMedium screenWidth={window.innerWidth} screenHeight={window.innerHeight} />}
-      {earnHard&& <EarnHard screenWidth={window.innerWidth} screenHeight={window.innerHeight} />}
+      {earnEasy  && <EarnEasy  />}
+      {earnMedium && <EarnMedium  />}
+      {earnHard&& <EarnHard  />}
     </div>
-    </>
   );
 };
 export default EarnPokeballs;
-    
-
-
-
-  

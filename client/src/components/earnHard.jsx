@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import basket from "../img/basket.png";
@@ -7,17 +6,29 @@ import masterBall from '../img/masterBall.png';
 import ultraBall from '../img/ultraBall.png';
 import pokeBall from '../img/pokeBall.png';
 
-const EarnHard = () => {
+const EarnEasy = () => {
+  const screenHeight = 341; 
+  const screenWidth = 275;
   const [pokeballs, setPokeballs] = useState([]);
-  const [basketPosition, setBasketPosition] = useState(0);
+  const [basketPosition, setBasketPosition] = useState(screenWidth / 2 - 8);
+  const [position, setPosition] = useState(screenHeight - 275);
+  const [fallingSpeed] = useState(4); 
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(60);
   const [gameOver, setGameOver] = useState(false);
   const basketRef = useRef(null);
 
+  
+
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setTimeLeft((prevTimeLeft) => prevTimeLeft - 1);
+      setTimeLeft((prevTimeLeft) => {
+        if (prevTimeLeft > 0) {
+          return prevTimeLeft - 1;
+        } else {
+          return prevTimeLeft;
+        }
+      });
     }, 1000);
 
     return () => clearInterval(intervalId);
@@ -26,112 +37,158 @@ const EarnHard = () => {
   useEffect(() => {
     if (timeLeft === 0) {
       setGameOver(true);
+      setTimeLeft(0);
     }
   }, [timeLeft]);
 
+  
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === 'ArrowLeft') {
-        setBasketPosition((prevPosition) => prevPosition - 10);
+        setBasketPosition((prevPosition) => Math.max(prevPosition - 10, 0));
       } else if (event.key === 'ArrowRight') {
-        setBasketPosition((prevPosition) => prevPosition + 10);
+        const maxPosition = 275;
+        setBasketPosition((prevPosition) => Math.min(prevPosition + 10, maxPosition));
       }
     };
-
+  
     window.addEventListener('keydown', handleKeyDown);
-
+  
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   useEffect(() => {
+    if (gameOver) {
+      return;
+    }
     const intervalId = setInterval(() => {
       const randomNum = Math.floor(Math.random() * 4) + 1;
       let ballImage, ballPoints;
-
+  
       switch (randomNum) {
         case 1:
           ballImage = pokeBall;
-          ballPoints = 1;
+          ballPoints = 0.5;
           break;
         case 2:
           ballImage = greatBall;
-          ballPoints = 3;
+          ballPoints = 1.5;
           break;
         case 3:
           ballImage = ultraBall;
-          ballPoints = 10;
+          ballPoints = 2.5;
           break;
         case 4:
           ballImage = masterBall;
-          ballPoints = 10;
+          ballPoints = 5;
           break;
         default:
           ballImage = pokeBall;
           ballPoints = 1;
       }
-
-      setPokeballs((prevPokeballs) => [
-        ...prevPokeballs,
-        { image: ballImage, points: ballPoints },
-      ]);
-    }, 1000);
-
+  
+      const randomX = Math.random() * (screenWidth - 30);
+      const newPokeball = {
+        image: ballImage,
+        points: ballPoints,
+        position: 0, // start at the top of the screen
+        x: randomX, // set a random x position
+      };
+  
+      setPokeballs((prevPokeballs) => [...prevPokeballs, newPokeball]);
+    }, 700);
+  
     return () => clearInterval(intervalId);
-  }, []);
+  }, [gameOver]);
+  
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setPokeballs((prevPokeballs) => {
+        return prevPokeballs.map((pokeball) => {
+          const newPosition = pokeball.position + fallingSpeed;
+          return { ...pokeball, position: newPosition };
+        });
+      });
+    }, 10);
+  
+    return () => clearInterval(intervalId);
+  }, [fallingSpeed]);
+  
+  useEffect(() => {
+    setPokeballs((prevPokeballs) => {
+      return prevPokeballs.filter((pokeball) => {
+        return pokeball.position < 245;
+      });
+    });
+  }, [pokeballs]);
 
   useEffect(() => {
-    const basketWidth = basketRef.current.offsetWidth;
-    const basketLeft = basketRef.current.offsetLeft;
-    const basketRight = basketLeft + basketWidth;
-
-    pokeballs.forEach((ball, index) => {
-      const ballElement = document.getElementById(`ball-${index}`);
-      const ballTop = ballElement.offsetTop;
-      const ballBottom = ballTop + ballElement.offsetHeight;
-      const ballLeft = ballElement.offsetLeft;
-      const ballRight = ballLeft + ballElement.offsetWidth;
-
-      if (ballBottom >= basketRef.current.offsetTop && ballBottom <= basketRef.current.offsetTop + basketRef.current.offsetHeight) {
-        if (ballLeft >= basketLeft && ballRight <= basketRight) {
-          setScore((prevScore) => prevScore + ball.points);
-          setPokeballs((prevPokeballs) => prevPokeballs.filter((_, i) => i !== index));
+    setPokeballs((prevPokeballs) => {
+      return prevPokeballs.filter((pokeball) => {
+        const basketRect = {
+          x: basketPosition,
+          y: position,
+          width: 100,
+          height: 70,
         }
-      } else if (ballBottom >= window.innerHeight) {
-        setPokeballs((prevPokeballs) => prevPokeballs.filter((_, i) => i !== index));
-      }
+        console.log("basket", basketRect);
+        const pokeballRect = {
+          x: pokeball.x,
+          y: screenHeight - pokeball.position - 8, // Adjusted position
+          width: 8,
+          height: 8,
+        };
+        console.log("pokeball", pokeballRect);
+        if (intersectRect(basketRect, pokeballRect)) {
+          console.log('Pokeball collided with basket!');
+          setScore((prevScore) => prevScore + pokeball.points);
+          return false;
+        } else {
+          return true;
+        }
+      });
     });
-  }, [pokeballs, basketRef]);
+  }, [position, pokeballs]);
+
+
+
+ 
+
+  const intersectRect = (r1, r2) => {
+    return !(r2.x > r1.x + r1.width ||
+      r2.x + r2.width < r1.x ||
+      r2.y > r1.y + r1.height ||
+      r2.y + r2.height < r1.y);
+  };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-4xl font-bold mb-8">Earn Easy Pokeballs</h1>
+    <div>
+      <div>{gameOver && (
+        <div className="text-4xl font-bold mt-0 text-red-500 border-4 border-red-500 bg-black">Game Over!</div>
+      )}</div>
+      
       <div className="flex items-center justify-center mb-4">
+        <div className="text-2xl font-bold text-black">{`Score: ${score}`}</div>
+        <div className="text-2xl font-bold ml-4 text-black">{`Time Left: ${timeLeft}`}</div>
+      </div>
+      <img
+        src={basket}
+        alt="Basket"
+        className="w-15 h-16 mr-4"
+        style={{ position: 'absolute', bottom: position , left: basketPosition }}
+        ref={basketRef}
+      />
+      {pokeballs.map((pokeball, index) => (
         <img
-          src={basket}
-          alt="Basket"
-          className="w-16 h-16 mr-4"
-          style={{ position: 'absolute', left: basketPosition }}
-          ref={basketRef}
-        />
-        <div className="text-2xl font-bold">{`Score: ${score}`}</div>
-        <div className="text-2xl font-bold ml-4">{`Time Left: ${timeLeft}`}</div>
-      </div>
-      <div className="flex flex-wrap justify-center">
-        {pokeballs.map((ball, index) => (
-          <img
-            key={index}
-            src={ball.image}
-            alt="Pokeball"
-            className="w-16 h-16 m-2"
-            id={`ball-${index}`}
-          />
-        ))}
-      </div>
-      {gameOver && (
-        <div className="text-4xl font-bold mt-8">Game Over!</div>
-      )}
+        key={index}
+        src={pokeball.image}
+        alt="Pokeball"
+        className="w-8 h-8 absolute"
+        style={{ top: `${pokeball.position}px`, left: `${pokeball.x}px` }}
+      />
+      ))}
     </div>
   );
 };
 
-export default EarnHard;
+export default EarnEasy;

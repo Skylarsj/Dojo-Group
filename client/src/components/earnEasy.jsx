@@ -11,14 +11,13 @@ const EarnEasy = () => {
   const screenWidth = 275;
   const [pokeballs, setPokeballs] = useState([]);
   const [basketPosition, setBasketPosition] = useState(screenWidth / 2 - 8);
-  console.log('Basket position:', basketPosition);
   const [position, setPosition] = useState(screenHeight - 275);
   const [fallingSpeed] = useState(1); 
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(60);
   const [gameOver, setGameOver] = useState(false);
   const basketRef = useRef(null);
-  console.log('Basket ref:', basketRef.current);
+
   
 
   useEffect(() => {
@@ -48,7 +47,7 @@ const EarnEasy = () => {
         setBasketPosition((prevPosition) => Math.max(prevPosition - 10, 0));
       } else if (event.key === 'ArrowRight') {
         const maxPosition = 275;
-        setBasketPosition((prevPosition) => Math.min(prevPosition + 30, maxPosition));
+        setBasketPosition((prevPosition) => Math.min(prevPosition + 10, maxPosition));
       }
     };
   
@@ -68,19 +67,19 @@ const EarnEasy = () => {
       switch (randomNum) {
         case 1:
           ballImage = pokeBall;
-          ballPoints = 1;
+          ballPoints = 0.5;
           break;
         case 2:
           ballImage = greatBall;
-          ballPoints = 3;
+          ballPoints = 1.5;
           break;
         case 3:
           ballImage = ultraBall;
-          ballPoints = 10;
+          ballPoints = 2.5;
           break;
         case 4:
           ballImage = masterBall;
-          ballPoints = 10;
+          ballPoints = 5;
           break;
         default:
           ballImage = pokeBall;
@@ -125,7 +124,12 @@ const EarnEasy = () => {
   useEffect(() => {
     setPokeballs((prevPokeballs) => {
       return prevPokeballs.filter((pokeball) => {
-        const basketRect = basketRef.current.getBoundingClientRect();
+        const basketRect = {
+          x: basketPosition,
+          y: position,
+          width: 100,
+          height: 70,
+        }
         console.log("basket", basketRect);
         const pokeballRect = {
           x: pokeball.x,
@@ -133,7 +137,6 @@ const EarnEasy = () => {
           width: 8,
           height: 8,
         };
-        pokeballRect.y += pokeballRect.height;
         console.log("pokeball", pokeballRect);
         if (intersectRect(basketRect, pokeballRect)) {
           console.log('Pokeball collided with basket!');
