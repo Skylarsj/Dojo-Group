@@ -4,9 +4,10 @@ import { useState, useEffect } from "react";
 import axios from "axios";  
 import { useAuthContext } from "../hooks/useAuthContext";
 import EarnSelect from "../components/EarnSelect";
-import EarnEasy from "../components/EarnEasy";
+import EarnEasy from "../components/EarnEasy"; 
 import EarnMedium from "../components/EarnMedium";
 import EarnHard from "../components/EarnHard";
+import pokemon_catch from '../../public/background_imgs/pokemon_catch.jpg'
 
 const EarnPokeballs = ({ userID }) => {
   const [earnSelect, setEarnSelect] = useState(true);
@@ -45,12 +46,12 @@ const EarnPokeballs = ({ userID }) => {
 
   return (
     <>
-      <div className="w-full h-full">
-        {earnSelect  && <EarnSelect />}
-        {earnEasy  && <EarnEasy />}
-        {earnMedium && <EarnMedium />}
-        {earnHard&& <EarnHard />}
-      </div>
+        <div className="w-full h-full" style={{ backgroundImage: `url(${pokemon_catch})`, backgroundSize: 'cover' }}>
+      {earnSelect  && <EarnSelect />}
+      {earnEasy  && <EarnEasy screenWidth={window.innerWidth} screenHeight={window.innerHeight} />}
+      {earnMedium && <EarnMedium screenWidth={window.innerWidth} screenHeight={window.innerHeight} />}
+      {earnHard&& <EarnHard screenWidth={window.innerWidth} screenHeight={window.innerHeight} />}
+    </div>
     </>
   );
 };
