@@ -41,7 +41,7 @@ const EasyShop = () => {
 
   const handleBuyGreatBall = () => {
     if (score >= 75) {
-      axios.post('/api/pokeballs/add', { user_id: userID, great_pokeballs: 1 })
+      axios.post('http://localhost:5000/api/pokeballs/add', { user_id: userID, great_pokeballs: 1 })
         .then(() => {
           setGreatBalls((prevGreatBalls) => prevGreatBalls + 1);
           setScore((prevScore) => prevScore - 75);
