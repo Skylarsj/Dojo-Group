@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuthContext } from '../hooks/useAuthContext';
+import { useScore } from '../hooks/useScore';
 
 const EarnSelect = () => {
   const [bgImage, setBgImage] = useState(null);
   const { state } = useAuthContext();
+  const { score, setScore } = useScore();
 
   useEffect(() => {
     const bgImageOptions = [
@@ -19,6 +21,10 @@ const EarnSelect = () => {
     const selectedImage = bgImageOptions[randomNum];
     setBgImage(selectedImage);
   }, []);
+
+  const handleScoreZero = () => {
+    setScore(0);
+  };  
   
 
   return (
@@ -35,18 +41,21 @@ const EarnSelect = () => {
           <Link
             to="/earnEasy"
             className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded shadow-md"
+            onClick= {handleScoreZero}
           >
             Easy
           </Link>
           <Link
             to="/earnMedium"
             className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded shadow-md"
+            onClick= {handleScoreZero}
           >
             Medium
           </Link>
           <Link
             to="/earnHard"
             className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded shadow-md"
+            onClick= {handleScoreZero}
           >
             Hard
           </Link>

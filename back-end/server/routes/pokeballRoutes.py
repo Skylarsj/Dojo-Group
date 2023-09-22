@@ -53,10 +53,13 @@ def get_pokeballs(user_id):
 def add_pokeballs_route():
     print("Adding Pokeballs")
     data = request.get_json()
-    user = User.get_pokeballs({'id': data['user_id']})
-    if not user:
+    user_id = data.get('user_id')
+    if not user_id:
+        return jsonify({'error': 'User ID not provided'}), 400
+    user_instance = User.get_by_id(user_id)
+    if not user_instance:
         return jsonify({'error': 'User not found'}), 404
-    User.add_pokeballs({'id': user.id, 'normal_pokeballs': data['normal_pokeballs'], 'great_pokeballs': data['great_pokeballs'], 'ultra_pokeballs': data['ultra_pokeballs'], 'master_pokeballs': data['master_pokeballs']})
+    User.add_pokeballs({'id': user_instance.id, 'normal_pokeballs': data['normal_pokeballs'], 'great_pokeballs': data['great_pokeballs'], 'ultra_pokeballs': data['ultra_pokeballs'], 'master_pokeballs': data['master_pokeballs']})
     return jsonify({'message': 'Pokeballs added successfully'}), 200
     
 

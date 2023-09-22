@@ -6,6 +6,8 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import EasyShop from "../components/EasyShop";
 import MediumShop from "../components/MediumShop";
 import HardShop from "../components/HardShop";
+import Shop_bg from "../../public/mainMenu_imgs/shop_bg.png"
+
 
 const Shops = () => {
   const [easyShop, setEasyShop] = useState(true);
@@ -31,7 +33,7 @@ const Shops = () => {
   }, [location.pathname, state.user]);
 
   return (
-    <div className="w-full h-full" style={{ backgroundImage: `url(${backgroundImg})`, backgroundSize: 'cover' }}>
+    <div className="w-full h-full" style={{ backgroundImage: `url(${Shop_bg})`, backgroundSize: 'Cover' }}>
       {easyShop && <EasyShop />}
       {mediumShop && <MediumShop />}
       {hardShop && <HardShop />}

@@ -7,6 +7,8 @@ import ultraBall from '../img/ultraBall.png';
 import pokeBall from '../img/pokeBall.png';
 import { useVolume } from '../hooks/useVolume';
 import battle from '../music/battle.mp3';
+import { useNavigate } from "react-router-dom";
+import { useScore } from '../hooks/useScore';
 
 const EarnEasy = () => {
   const screenHeight = 341; 
@@ -15,11 +17,12 @@ const EarnEasy = () => {
   const [basketPosition, setBasketPosition] = useState(screenWidth / 2 - 8);
   const [position, setPosition] = useState(screenHeight - 275);
   const [fallingSpeed] = useState(4); 
-  const [score, setScore] = useState(0);
+  const {score, setScore} = useScore()
   const [timeLeft, setTimeLeft] = useState(60);
   const [gameOver, setGameOver] = useState(false);
   const basketRef = useRef(null);
   const { volume } = useVolume();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const audio = new Audio(battle);
@@ -83,19 +86,19 @@ const EarnEasy = () => {
       switch (randomNum) {
         case 1:
           ballImage = pokeBall;
-          ballPoints = 0.5;
+          ballPoints = 1;
           break;
         case 2:
           ballImage = greatBall;
-          ballPoints = 1.5;
+          ballPoints = 3;
           break;
         case 3:
           ballImage = ultraBall;
-          ballPoints = 2.5;
+          ballPoints = 5;
           break;
         case 4:
           ballImage = masterBall;
-          ballPoints = 5;
+          ballPoints = 10;
           break;
         default:
           ballImage = pokeBall;
@@ -143,8 +146,8 @@ const EarnEasy = () => {
         const basketRect = {
           x: basketPosition,
           y: position,
-          width: 80,
-          height: 30,
+          width: 100,
+          height: 70,
         }
         console.log("basket", basketRect);
         const pokeballRect = {
@@ -166,6 +169,9 @@ const EarnEasy = () => {
   }, [position, pokeballs]);
 
 
+  const handleShop = () => {
+    navigate("/hardShop");
+  };
 
  
 
@@ -203,9 +209,9 @@ const EarnEasy = () => {
       />
       ))}
       {gameOver && (
-        <a href="/MediumShop" className="bg-green-500 hover:bg-blue-100 text-white font-bold py-2 px-4 rounded block" style={{ position: 'absolute', bottom: 160 , left: 90 }}>
+        <button className="bg-green-500 hover:bg-blue-100 text-white font-bold py-2 px-4 rounded block" style={{ position: 'absolute', bottom: 160 , left: 90 }} onClick={handleShop}>
           Go to Hard Shop
-        </a>
+        </button>
       )}
     </div>
   );

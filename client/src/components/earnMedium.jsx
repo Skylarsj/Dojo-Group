@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useNavigate } from "react-router-dom";
 import basket from "../img/basket.png";
 import greatBall from '../img/greatBall.png';
 import masterBall from '../img/masterBall.png';
@@ -7,6 +8,7 @@ import ultraBall from '../img/ultraBall.png';
 import pokeBall from '../img/pokeBall.png';
 import { useVolume } from '../hooks/useVolume';
 import battle from '../music/battle.mp3';
+import { useScore } from '../hooks/useScore';
 
 const EarnEasy = () => {
   const screenHeight = 341; 
@@ -15,11 +17,12 @@ const EarnEasy = () => {
   const [basketPosition, setBasketPosition] = useState(screenWidth / 2 - 8);
   const [position, setPosition] = useState(screenHeight - 275);
   const [fallingSpeed] = useState(3); 
-  const [score, setScore] = useState(0);
+  const {score, setScore} = useScore()
   const [timeLeft, setTimeLeft] = useState(60);
   const [gameOver, setGameOver] = useState(false);
   const basketRef = useRef(null);
   const { volume } = useVolume();
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const audio = new Audio(battle);
@@ -163,6 +166,9 @@ const EarnEasy = () => {
     });
   }, [position, pokeballs]);
 
+  const handleShop = () => {
+    navigate("/mediumShop");
+  };
 
 
  
@@ -201,9 +207,9 @@ const EarnEasy = () => {
       />
       ))}
       {gameOver && (
-        <a href="/MediumShop" className="bg-green-500 hover:bg-blue-100 text-white font-bold py-2 px-4 rounded block" style={{ position: 'absolute', bottom: 160 , left: 90 }}>
+        <button href="/MediumShop" className="bg-green-500 hover:bg-blue-100 text-white font-bold py-2 px-4 rounded block" style={{ position: 'absolute', bottom: 160 , left: 90 }} onClick={handleShop}>
           Go to Medium Shop
-        </a>
+        </button>
       )}
     </div>
   );

@@ -1,7 +1,7 @@
 import {scoreContext} from '../context/ScoreContext';
 import {useContext} from 'react';
 
-export const useScoreContext = () => {
+export const useScore = () => {
     const context = useContext(scoreContext);
 
     if (!context) {
