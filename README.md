@@ -8,7 +8,6 @@ The app is a user-friendly and intuitive Pokemon management application that all
 - CRUD Functionality that allows you to save the Pokemon you capture, View the Pokemon you have, Update the Pokemon nicknames, and Release(Delete) the Pokemon you have.
 
 ## Plans
-- Add Pokeball functionality to choose and capture Pokemon.
 - Add an ability to Level up Pokemon and/or evolve.
 
 
